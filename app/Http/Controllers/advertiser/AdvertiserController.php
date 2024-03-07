@@ -40,7 +40,7 @@ class AdvertiserController extends Controller
         $user = auth()->user();
         $price=$user->view_price();
         if ($request->isMethod("post")) {
-            // dd($request->all());
+            // dd($request->ssall());
             if($advertise->id){
                 $data['view_count']=  $advertise->view_count;
                 $data['landing_link1']=  $advertise->landing_link1;
