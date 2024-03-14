@@ -229,6 +229,14 @@
                                                         </a>
                                                     </li>
 
+                                                    <li>
+                                                        <a href="{{ route("charge.wallet",$user->id) }}" class="" data-bs-toggle="tooltip" data-bs-placement="top" title="شارژ هدیه">
+                                                            <i class="fas fa-wallet"></i>
+                                                            <span class="ml-right">
+                                                                شارژ هدیه
+                                                            </span>
+                                                        </a>
+                                                    </li>
                                                     @if($user->confirm_bank_account)
                                                     <li>
 
@@ -267,7 +275,7 @@
                 <div class="card-inner">
                     {{ $users->appends(Request::all())->links('admin.section.pagination') }}
                 </div>
-            {{--  <div class="card-inner">
+                {{-- <div class="card-inner">
                 <ul class="pagination justify-content-center justify-content-md-start">
                     <li class="page-item">
                         <a class="page-link" href="#">قبلی</a>
@@ -293,7 +301,7 @@
                 </ul>
                 <!-- .pagination -->
             </div>  --}}
-            <!-- .card-inner -->
+                <!-- .card-inner -->
             </form>
         </div>
         <!-- .card-inner-group -->

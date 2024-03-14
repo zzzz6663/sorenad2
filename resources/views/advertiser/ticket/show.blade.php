@@ -5,6 +5,20 @@
     <div class="nk-chat">
         <div class="nk-chat-body profile-shown">
             <div class="nk-chat-head">
+                @role('admin')
+                @if($userticket->status!="close")
+                <li>
+                    <form action="{{ route("advertiser.close.ticket",$userticket->id) }}" method="post">
+                        @csrf
+                        @method('post')
+                        <span class="form_close btn btn-danger">
+                            <i class="fas fa-window-close"></i>
+                            بستن تیکت
+                        </span>
+                    </form>
+                </li>
+                @endif
+                @endrole
                 <ul class="nk-chat-head-info">
                     <li class="nk-chat-body-close">
                         <a href="#" class="btn btn-icon btn-trigger nk-chat-hide ms-n1"><em class="icon ni ni-arrow-left"></em></a>
@@ -123,6 +137,8 @@
                     <div class="simplebar-scrollbar" style="height: 127px; transform: translate3d(0px, 0px, 0px); display: block;"></div>
                 </div>
             </div>
+            @if($userticket->status!="close")
+
             <div class="nk-chat-editor">
 
                 <form class="nk-chat-editor" style="width: 100%" action="{{ route("advertiser.new.answer",$userticket->id) }}" method="post" enctype="multipart/form-data">
@@ -153,6 +169,17 @@
                 </ul>
                 </form>
             </div>
+            @else
+            <p class="alert alert-warning">
+                این تیکت بسته شده برای طرح موضوع تازه  تیکت جدید بسازید
+                @role('customer')
+                <a href="{{ route("userticket.create") }}" class="btn btn-success">
+                    تیکت جدید
+                </a>
+                @endrole
+            </p>
+            @endif
+
         </div>
     </div>
 </div>

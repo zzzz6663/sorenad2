@@ -149,12 +149,12 @@ class User extends Authenticatable
         //     )
         // );
 
-        // $client = new \SoapClient("http://ippanel.com/class/sms/wsdlservice/server.php?wsdl");
-        // $user = "09210375124";
-        // $pass = "Modir@5124";
-        // $fromNum = "+983000505";
-        // $toNum = array($mobile);
-        // $client->sendPatternSms($fromNum,$toNum,$user,$pass,$pattern_code,$input_data);
+        $client = new \SoapClient("http://ippanel.com/class/sms/wsdlservice/server.php?wsdl");
+        $user = "09210375124";
+        $pass = "Modir@5124";
+        $fromNum = "+983000505";
+        $toNum = array($mobile);
+        $client->sendPatternSms($fromNum,$toNum,$user,$pass,$pattern_code,$input_data);
     }
     public function send_sms($mobile,$text){
 		$url = "https://ippanel.com/services.jspd";

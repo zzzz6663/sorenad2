@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Constraint\Count;
+use Laravel\Socialite\Facades\Socialite;
 
 class HomeController extends Controller
 {
@@ -23,8 +24,8 @@ class HomeController extends Controller
 
         // $now = Carbon::now()->format("H:i:s");
         // // dd($now);
-        // $invitedUser = new User;
-        // ($invitedUser->send_pattern("09373699317", "svr5y3c1ophdnuo",['code'=>123]));
+        $invitedUser = new User;
+        ($invitedUser->send_pattern("09373699317", "svr5y3c1ophdnuo",['code'=>123]));
         // ($invitedUser->send_sms("09373699317", "تست"));
 
         // Auth::loginUsingId(1, 'true');
@@ -41,6 +42,48 @@ class HomeController extends Controller
         // $user->assignRole("admin");
         return 12;
     }
+
+
+
+
+    public function redirect_google(Request  $request)
+    {
+        return Socialite::driver('google')->stateless()->redirect();
+    }
+    public function gcallback()
+    {
+        try {
+            $goo = Socialite::driver('google')->stateless()->user();
+            $user = User::whereEmail($goo->email)->first();
+            if ($user) {
+                Auth::loginUsingId($user->id, true);
+                if ($fclass = session()->get('flink')) {
+                    $fclass = Fclass::find($fclass);
+                    $fclass->update(['student_id' => $user->id]);
+                    $fclass->meets()->update(['student_id' => $user->id]);;
+                    $teacher = User::find($fclass->user->id);
+                    $teacher->create_ski_room($user);
+                    session()->forget('flink');
+                }
+                return redirect()->route('student.dashboard');
+            } else {
+                //                $user=  User::create([
+                //                    'email'=>$goo->email,
+                //                    'name'=>$goo->name,
+                //                    'level'=>'student',
+                //                    'password'=>'123456'
+                //                ]);
+
+                alert()->error('     ابتدا ثبت نام کنید ');
+                return back();
+            }
+        } catch (\Exception $e) {
+            //
+            alert()->error('ارتباط با گوگل برقرار نشد ');
+            return back();
+        }
+    }
+
 
     public function redirect()
     {

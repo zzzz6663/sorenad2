@@ -32,6 +32,15 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
+                            <label for="">{{ __("setting.min_val_charge") }}</label>
+                            <div class="form-control-wrap">
+                                <input type="text" id="min_val_charge" value="{{ old("min_val_charge",$min_val_charge->val) }}" class="number_format form-control" name="min_val_charge">
+                                <div class="amount_total">{{  number_format(old("min_val_charge",$min_val_charge->val)) }} تومان</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
                             <label for="">{{ __("setting.change_pass_admin") }}</label>
                             <div class="form-control-wrap">
                                 <input type="text"  class="form-control" id="change_pass_admin" value="" name="change_pass_admin">
@@ -47,7 +56,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                     
+
                         <div class="form-group">
                             <button type="submit"  class="btn btn-lg btn-primary">ذخیره اطلاعات</button>
                         </div>

@@ -24,9 +24,19 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
-                            <label class="form-label" for="site">نام سایت</label>
+                            <label class="form-label" for="site">آدرس سایت</label>
                             <div class="form-control-wrap">
                                 <input type="text" class="form-control" id="site" name="site" value="{{ old("site") }}">
+                                <span>
+                                    حتما با
+                                    <span class="text text-danger">
+                                        http:
+                                    </span>
+                                    شروع شود . مثل
+                                    <span class="text text-danger">
+                                        https://sorenad.com/
+                                    </span>
+                                </span>
                             </div>
                         </div>
                     </div>

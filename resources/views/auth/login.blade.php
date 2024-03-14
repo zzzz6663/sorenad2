@@ -19,7 +19,7 @@ $sidebar=true;
                     <div class="nk-block-head-content">
                         <h4 class="nk-block-title">ورود</h4>
                         <div class="nk-block-des">
-                            <p>با استفاده از ایمیل و رمز عبور خود به پنل دش‌لایت دسترسی پیدا کنید.</p>
+                            <p>با استفاده از ایمیل و رمز عبور خود به پنل سورن اد دسترسی پیدا کنید.</p>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@ $sidebar=true;
                 </div>
                 <ul class="nav justify-center gx-4">
                     <li class="nav-item"><a class="nav-link" href="#">فیس بوک</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">گوگل</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route("user.redirect.google") }}">گوگل</a></li>
                 </ul>
             </div>
         </div>

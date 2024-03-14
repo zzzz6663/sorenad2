@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/clear', 'HomeController@clear')->name('clear');
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/redirect_google','HomeController@redirect_google')->name('user.redirect.google');
+Route::get('/gcallback','HomeController@gcallback') ->name('google.call.back');
 Route::any('/check_code', 'HomeController@check_code')->name('check.code');
 Route::any('/mobile_login', 'HomeController@mobile_login')->name('mobile.login');
 Route::any('/register', 'HomeController@register')->name('register');
@@ -46,6 +48,7 @@ Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function
     Route::any('/user_bank_info/{user}', 'UserController@user_bank_info')->name('user.bank.info');
     Route::any('/site_confirm/{site}', 'SiteController@site_confirm')->name('site.confirm');
     Route::post('/advertise_confirm/{advertise}', 'AdvertiseController@advertise_confirm')->name('advertise.confirm');
+    Route::any('/charge_wallet/{user}', 'UserController@charge_wallet')->name('charge.wallet');
 
     Route::resource('user', 'UserController')->middleware(['role:admin']);;;
     Route::resource('faq', 'FaqController')->middleware(['role:admin']);;;
@@ -58,11 +61,17 @@ Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function
 });
 
 
+
+
+
+
+
 Route::prefix('customer')->middleware(['auth',"role:customer"])->namespace('customer')->group(function () {
     Route::any('/money_charge', 'CustomerController@money_charge')->name('customer.money.charge');
     Route::any('/transaction_factor', 'CustomerController@transaction_factor')->name('customer.transaction.factor');
 });
 Route::prefix('advertiser')->middleware(['auth'])->namespace('advertiser')->group(function () {
+    Route::post('/add_active/{advertise}', 'AdvertiserController@add_active')->name('advertiser.add.active');
     Route::any('/contact', 'AdvertiserController@contact')->name('advertiser.contact');
     Route::any('/profile', 'AdvertiserController@profile')->name('advertiser.profile');
     Route::any('/change_password', 'AdvertiserController@change_password')->name('advertiser.change.password');

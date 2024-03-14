@@ -71,7 +71,7 @@
                                     <label for="status">وضعیت </label>
                                     <select class="form-control" name="status" id="status">
                                         <option value=""> انتخاب کنید </option>
-                                        @foreach (__("ticket_status") as $key  =>$val)
+                                        @foreach (__("ticket_status") as $key =>$val)
                                         <option {{ request("status")==$key?"selected":"1" }} value="{{ $key }}"> {{ $val }} </option>
                                         @endforeach
                                     </select>
@@ -107,138 +107,126 @@
                     </div>
                     <!-- .card-search -->
                 </div>
-                <!-- .card-inner -->
-                @endrole
-
-                <div class="card-inner p-0">
-                    <div class="nk-tb-list nk-tb-ulist is-compact">
-                        <div class="nk-tb-item nk-tb-head">
-
-                            <div class="nk-tb-col">
-                                <span class="sub-text">شماره تیکت</span>
-                            </div>
-                            @role('admin')
-                            <div class="nk-tb-col ">
-                                <span class="sub-text">ثبت کننده</span>
-                            </div>
-                            @endrole
-                            <div class="nk-tb-col ">
-                                <span class="sub-text">موضوع</span>
-                            </div>
-                            <div class="nk-tb-col ">
-                                <span class="sub-text">وضعیت تیکت</span>
-                            </div>
-                            <div class="nk-tb-col ">
-                                <span class="sub-text">تاریخ</span>
-                            </div>
-                            <div class="nk-tb-col ">
-                                <span class="sub-text">اقدام</span>
-                            </div>
-                        </div>
-
-
-
-
-                        @foreach ($tickets as $ticket )
-                        <div class="nk-tb-item">
-                            <div class="nk-tb-col">
-                                @role('admin')
-                                    @if($ticket->status=="wait_for_admin")
-                                    <span class="red_cirscle"></span>
-                                    @endif
-                                    @endrole
-
-                                    @role('customer')
-
-                                    @if($ticket->status=="wait_for_customer")
-                                    <span class="red_cirscle"></span>
-                                    @endif
-                                    @endrole
-                                    {{ $ticket->number }}
-                            </div>
-
-                            @role('admin')
-
-
-                            <div class="nk-tb-col">
-                                <div class="">
-                                    <div class="user-name">
-                                        <span class="tb-lead">
-                                            {{ $ticket->customer->name}}
-                                            {{ $ticket->customer->family}}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            @endrole
-
-                            <div class="nk-tb-col">
-                                <div class="">
-                                    <div class="user-name">
-                                        <span class="tb-lead">
-                                            {{ $ticket->title }}
-
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="nk-tb-col tb-col-sm">
-                                <span class="ticket_answered">
-                                    {{ __("ticket_status.".$ticket->status) }}
-                                </span>
-                            </div>
-                            <div class="nk-tb-col tb-col-md">
-                                <span>
-                                    {{ jdate($ticket->created_at)->format("Y-m-d") }}
-                                </span>
-                            </div>
-                            <div class="nk-tb-col nk-tb-col-tools">
-                                <ul class="nk-tb-actions gx-2">
-
-                                    <li>
-                                        <div class="drodown">
-                                            <a href="#" class="btn no_link btn-sm btn-icon btn-trigger dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li>
-                                                        <a class="show_ticket" href="{{ route("userticket.show",$ticket->id) }}">
-                                                        {{--  <a href="{{ route("user.edit",$user->id) }}" class="" data-bs-toggle="tooltip" data-bs-placement="top" title="ویرایش کاربر">  --}}
-                                                            <i class="fas fa-edit "></i>
-                                                            <span class="ml-right">
-                                                                مشاهده تیکت
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                    @role('admin')
-                                                    @if($ticket->status!="close")
-                                                    <li>
-                                                        <form action="{{ route("advertiser.close.ticket",$ticket->id) }}" method="post">
-                                                            @csrf
-                                                            @method('post')
-                                                            <span class="form_close">
-                                                                <i class="fas fa-window-close"></i>
-                                                                بستن تیکت
-                                                            </span>
-                                                        </form>
-                                                    </li>
-                                                    @endif
-                                                    @endrole
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        @endforeach
-
-                    </div>
-                    <!-- .nk-tb-list -->
-                </div>
-                <div class="card-inner">
-                    {{ $tickets->appends(Request::all())->links('admin.section.pagination') }}
-                </div>
             </form>
+
+            <!-- .card-inner -->
+            @endrole
+
+            <div class="card-inner p-0">
+                <div class="nk-tb-list nk-tb-ulist is-compact">
+                    <div class="nk-tb-item nk-tb-head">
+
+                        <div class="nk-tb-col">
+                            <span class="sub-text">شماره تیکت</span>
+                        </div>
+                        @role('admin')
+                        <div class="nk-tb-col ">
+                            <span class="sub-text">ثبت کننده</span>
+                        </div>
+                        @endrole
+                        <div class="nk-tb-col ">
+                            <span class="sub-text">موضوع</span>
+                        </div>
+                        <div class="nk-tb-col ">
+                            <span class="sub-text">وضعیت تیکت</span>
+                        </div>
+                        <div class="nk-tb-col ">
+                            <span class="sub-text">تاریخ</span>
+                        </div>
+                        <div class="nk-tb-col ">
+                            <span class="sub-text">اقدام</span>
+                        </div>
+                    </div>
+
+
+
+
+                    @foreach ($tickets as $ticket )
+                    <div class="nk-tb-item">
+                        <div class="nk-tb-col">
+                            @role('admin')
+                            @if($ticket->status=="wait_for_admin")
+                            <span class="red_cirscle"></span>
+                            @endif
+                            @endrole
+
+                            @role('customer')
+
+                            @if($ticket->status=="wait_for_customer")
+                            <span class="red_cirscle"></span>
+                            @endif
+                            @endrole
+                            {{ $ticket->number }}
+                        </div>
+
+                        @role('admin')
+
+
+                        <div class="nk-tb-col">
+                            <div class="">
+                                <div class="user-name">
+                                    <span class="tb-lead">
+                                        {{ $ticket->customer->name}}
+                                        {{ $ticket->customer->family}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        @endrole
+
+                        <div class="nk-tb-col">
+                            <div class="">
+                                <div class="user-name">
+                                    <span class="tb-lead">
+                                        {{ $ticket->title }}
+
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nk-tb-col tb-col-sm">
+                            <span class="ticket_answered">
+                                {{ __("ticket_status.".$ticket->status) }}
+                            </span>
+                        </div>
+                        <div class="nk-tb-col tb-col-md">
+                            <span>
+                                {{ jdate($ticket->created_at)->format("Y-m-d") }}
+                            </span>
+                        </div>
+                        <div class="nk-tb-col nk-tb-col-tools">
+                            <ul class="nk-tb-actions gx-2">
+
+                                <li>
+                                    <div class="drodown">
+                                        <a href="#" class="btn no_link btn-sm btn-icon btn-trigger dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <ul class="link-list-opt no-bdr">
+                                                <li>
+                                                    <a class="show_ticket" href="{{ route("userticket.show",$ticket->id) }}">
+                                                        {{-- <a href="{{ route("user.edit",$user->id) }}" class="" data-bs-toggle="tooltip" data-bs-placement="top" title="ویرایش کاربر"> --}}
+                                                        <i class="fas fa-edit "></i>
+                                                        <span class="ml-right">
+                                                            مشاهده تیکت
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                               
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    @endforeach
+
+                </div>
+                <!-- .nk-tb-list -->
+            </div>
+            <div class="card-inner">
+                {{ $tickets->appends(Request::all())->links('admin.section.pagination') }}
+            </div>
         </div>
         <!-- .card-inner-group -->
     </div>

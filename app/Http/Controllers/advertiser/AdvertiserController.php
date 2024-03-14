@@ -117,7 +117,7 @@ class AdvertiserController extends Controller
                     'landing_link3' => "nullable|url",
                     'landing_title3' => "nullable",
                     'icon' => "required",
-                    'banner1' => "required",
+                    // 'banner1' => "required",
                     'count_type' => "required",
 
                     'click_count' => "required_if:count_type,click",
@@ -128,7 +128,7 @@ class AdvertiserController extends Controller
                     // 'icon' => "required|mimes:jpg,png,jpeg,gif|max:200|dimensions:width=32,height=32",
                     // 'banner1' => "required|mimes:jpg,png,jpeg,gif|max:200|dimensions:width=554,height=276",
                     'icon' => "nullable|mimes:jpg,png,jpeg,gif|max:200",
-                    'banner1' => "nullable|mimes:jpg,png,jpeg,gif|max:200",
+                    // 'banner1' => "nullable|mimes:jpg,png,jpeg,gif|max:200",
                     'cats' => "nullable",
                 ]);
                 $data["type"]="app";
@@ -177,6 +177,7 @@ class AdvertiserController extends Controller
                 $data['info']=  $advertise->info;
                 $data['landing_link1']=  $advertise->landing_link1;
                 $data['banner1']=  $advertise->banner1;
+                $data['banner2']=  $advertise->banner2;
                 $data['limit_daily_view']=  $advertise->limit_daily_view;
 
                 $data['click_count']=  $advertise->click_count;
@@ -196,6 +197,7 @@ class AdvertiserController extends Controller
                     // 'info' => "required|max:1500",
                     'landing_link1' => "required|url",
                     'banner1' => "required",
+                    'banner2' => "nullable",
                     'count_type' => "required",
                     'click_count' => "required_if:count_type,click",
                     'limit_daily_click' => "required_if:count_type,click",
@@ -208,17 +210,23 @@ class AdvertiserController extends Controller
                 $data["status"]="created";
 
                 $advertise=$user->advertises()->create($data);
-                if ($request->hasFile('icon')) {
-                    $icon = $request->file('icon');
-                    $name_img = 'icon_' . $advertise->id . '.' . $icon->getClientOriginalExtension();
-                    $icon->move(public_path('/media/advertises/'), $name_img);
-                    $data['icon'] = $name_img;
-                }
+                // if ($request->hasFile('icon')) {
+                //     $icon = $request->file('icon');
+                //     $name_img = 'icon_' . $advertise->id . '.' . $icon->getClientOriginalExtension();
+                //     $icon->move(public_path('/media/advertises/'), $name_img);
+                //     $data['icon'] = $name_img;
+                // }
                 if ($request->hasFile('banner1')) {
                     $banner1 = $request->file('banner1');
                     $name_img = 'banner1_' . $advertise->id . '.' . $banner1->getClientOriginalExtension();
                     $banner1->move(public_path('/media/advertises/'), $name_img);
                     $data['banner1'] = $name_img;
+                }
+                if ($request->hasFile('banner2')) {
+                    $banner2 = $request->file('banner2');
+                    $name_img = 'banner2_' . $advertise->id . '.' . $banner2->getClientOriginalExtension();
+                    $banner2->move(public_path('/media/advertises/'), $name_img);
+                    $data['banner2'] = $name_img;
                 }
 
                 $advertise->update($data);
@@ -502,6 +510,21 @@ class AdvertiserController extends Controller
 
 
         return view('advertiser.change_password', compact(["user"]));
+    }
+    public function add_active(Request $request,Advertise $advertise)
+    {
+        $active=0;
+        if( $advertise->active==1){
+            $advertise->update(['active'=>0]);
+            $active=0;
+        }else{
+            $advertise->update(['active'=>1]);
+            $active=1;
+        }
+        return response()->json([
+            'status'=>"ok",
+            'active'=>$active,
+        ]);
     }
     public function sites(Request $request)
     {

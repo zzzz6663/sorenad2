@@ -1,4 +1,4 @@
-@extends('master.site')
+@extends('main.manager')
 @section('content')
 
 
@@ -7,7 +7,7 @@
         <div class="card mb-4">
             <h5 class="card-header">
                   اطلاعات حساب بانکی   کاربر
-        <span class="alert  alert-success">
+        <span class="text  text-success">
              {{ $user->name }}
              {{ $user->family }}
         </span>
@@ -15,7 +15,7 @@
             </h5>
             <div class="card-body">
                 <di class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 mb-3">
                         <div class="d-flex justify-content-between">
                             <h5 class="title">
                                 شبا:
@@ -24,7 +24,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 mb-3">
                         <div class="d-flex justify-content-between">
                             <h5 class="title">
                                 کارت:
@@ -33,7 +33,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 mb-3">
                         <div class="d-flex justify-content-between">
                             <h5 class="title">
                                 بانک:
@@ -42,7 +42,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 mb-3">
                         <div class="d-flex justify-content-between">
                             <h5 class="title">
                                 کد ملی:
@@ -52,7 +52,7 @@
                     </div>
 
 
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 mb-3">
                         <div class="d-flex justify-content-between">
                             <h5 class="title">
                                 نام صاحب حساب:

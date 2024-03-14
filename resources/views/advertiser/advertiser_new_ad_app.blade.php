@@ -41,13 +41,13 @@
 
             </div>
 
-            <h6 class="text text-warning">
+            {{--  <h6 class="text text-warning">
                 <span class="">
                     <span>لینک کافه بازار یا مایکت را میتوانید وارد کنید.</span>
                     <span>اما <strong>لینک مستقیم برنامه</strong> میتواند تاثیر بالاتری داشته باشد. چراکه کاربر با کلیک روی ان مستقیما و در کلیک اول برنامه را نصب میکند.</span>
                     <span>در صورتیکه میخواهید برنامه روی سایت ما اپلود شود لینک مایکت یا کافه بازار را وارد کنید سپس برای ما تیکت ارسال کنید.</span>
                 </span>
-            </h6>
+            </h6>  --}}
 
 
             <div class="row mb-4">
@@ -126,7 +126,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                {{--  <div class="col-lg-6">
                     <div class="form-group">
                         <label class="form-label" for="default-06">آپلود فایل بنر</label>
                         <div class="form-control-wrap">
@@ -137,11 +137,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>  --}}
             </div>
 
 
-            <div class="row mb-4">
+            {{--  <div class="row mb-4">
                 <div class="col-lg-12">
                     <h5 class="text text-info">
                         تعیین کنید این تبلیغ در چه سایتهایی نمایش داده شود ؟ اگر محصول یا خدمات شما برای تمام اقشار جامعه مناسب است، هیچ دسته بندی را انتخاب نکنید .
@@ -157,13 +157,14 @@
                         @endforeach
                     </ul>
                 </div>
-            </div>
+            </div>  --}}
 
 
 
 
 
 
+            @include('advertiser.cat_temp')
             @include('advertiser.price_temp')
 
 

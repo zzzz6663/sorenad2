@@ -167,5 +167,25 @@ class UserController extends Controller
         }
         return view('admin.user.user_bank_info', compact(['user']));
     }
+    public function charge_wallet(User $user,Request $request)
+    {
+        if($request->isMethod('post')){
+            $data=$request->validate([
+                'amount'=>"required"
+            ]);
+
+            $transaction = $user->transactions()->create([
+                'amount' => $data['amount'],
+                'transactionId' =>  "999999",
+                'type' => "wallet_gift",
+                'pay_type' => "wallet",
+                'advertise_id' => null,
+                'status' => "payed",
+            ]);
+            alert()->success("کیف   با موفقبت شارژ شد ");
+            return redirect()->route("user.index");
+        }
+        return view('admin.user.charge_wallet', compact(['user']));
+    }
 
 }

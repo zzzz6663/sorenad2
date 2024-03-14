@@ -366,13 +366,29 @@
                                             </a>
                                         </li>
                                         @endrole
+
+
+
+
                                         @role('customer')
-                                        <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.faqs"?"active":"" }}">
-                                            <a href="{{ route("advertiser.faqs") }}" class="nk-menu-link  ">
-                                                <span class="nk-menu-icon"><i class="fas fa-question-circle"></i></span>
-                                                <span class="nk-menu-text">سوالات متداول</span>
-                                            </a>
+                                        <li>
+                                            @if(session()->get("advertiser"))
+                                            {{-- <h1>
+                                                پنل نمایش دهنده
+                                            </h1>
+                                            <div class="bodydeactive"><i class="fa fa-close"></i></div>  --}}
+                                            <a class="btn btn-primary" href="{{ route("change.panel") }}">ورود به پنل تبلیغ دهنده</a>
+                                            @else
+
+                                            {{-- <h1>
+                                                پنل تبلیغ دهنده
+                                            </h1>  --}}
+                                            <a class="btn btn-info" href="{{ route("change.panel") }}">ورود به پنل نمایش دهنده</a>
+                                            @endif
+
                                         </li>
+
+                                        @if(session()->get("advertiser"))
                                         <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.sites"?"active":"" }}">
                                             <a href="{{ route("advertiser.sites") }}" class="nk-menu-link  ">
                                                 <span class="nk-menu-icon"><i class="fas fa-globe"></i></span>
@@ -382,9 +398,112 @@
                                         <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.withdrawal.request"?"active":"" }}">
                                             <a href="{{ route("advertiser.withdrawal.request") }}" class="nk-menu-link  ">
                                                 <span class="nk-menu-icon"><i class="fas fa-search-dollar"></i></span>
-                                                <span class="nk-menu-text">مالی </span>
+                                                <span class="nk-menu-text">تسویه </span>
                                             </a>
                                         </li>
+
+                                        @else
+
+
+                                        <li class="nk-menu-item has-sub {{in_array(Route::currentRouteName(),[
+                                            'advertiser.list',
+                                            'advertiser.new.ad.popup',
+                                            'advertiser.new.ad.app',
+                                            'advertiser.new.ad.banner',
+                                            'advertiser.new.ad.fixpost',
+                                            'advertiser.new.ad.text',
+                                            'advertiser.new.ad.video',
+                                            ])?"active":""}} ">
+                                            <a href="#" class="nk-menu-link nk-menu-toggle no_link ">
+                                                <span class="nk-menu-icon">
+
+                                                    <i class="fas fa-cog"></i>
+                                                </span>
+                                                <span class="nk-menu-text">لیست تبلیغات</span>
+                                            </a>
+                                            <ul class="nk-menu-sub">
+                                                {{-- --}}
+
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.list"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("advertiser.list") }}">
+                                                        <span class="nk-menu-text">
+                                                            لیست تبلیغات
+                                                        </span>
+
+                                                    </a>
+                                                </li>
+
+                                                @if( $app_active_site=App\Models\Setting::whereName("popup_active_site")->first()->val)
+
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.popup"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.ad.popup") }}">
+                                                        <span class="nk-menu-text">
+                                                            تبلیغات پاپ آپ
+                                                        </span>
+
+                                                    </a>
+                                                </li>
+                                                @endif
+
+                                                @if( $app_active_site=App\Models\Setting::whereName("app_active_site")->first()->val)
+
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.app"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.ad.app") }}">
+                                                        <span class="nk-menu-text">
+                                                            تبلیغات نصب اپلیکیشن
+                                                        </span>
+
+                                                    </a>
+                                                </li>
+                                                @endif
+
+
+                                                @if( $banner_active_site=App\Models\Setting::whereName("banner_active_site")->first()->val)
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.banner"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.ad.banner") }}">
+                                                        <span class="nk-menu-text">
+                                                            تبلیغات بنر
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                @endif
+
+                                                @if( $fixpost_active_site=App\Models\Setting::whereName("fixpost_active_site")->first()->val)
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.fixpost"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.ad.fixpost") }}">
+                                                        <span class="nk-menu-text">
+                                                            تبلیغات پست ثابت
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                @endif
+                                                @if( $text_active_site=App\Models\Setting::whereName("text_active_site")->first()->val)
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.text"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.ad.text") }}">
+                                                        <span class="nk-menu-text">
+                                                            تبلیغات متنی
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                @endif
+                                                @if( $video_active_site=App\Models\Setting::whereName("video_active_site")->first()->val)
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.video"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.ad.video") }}">
+                                                        <span class="nk-menu-text">
+                                                            تبلیغات ویدوئی
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                @endif
+                                            </ul>
+                                            <!-- .nk-menu-sub -->
+                                        </li>
+
+
+
+                                        @endif
+
+
 
                                         <li class="nk-menu-item   {{ Route::currentRouteName()=="customer.money.charge"?"active":"" }}">
                                             <a href="{{ route("customer.money.charge") }}" class="nk-menu-link  ">
@@ -401,90 +520,7 @@
                                                 <span class="num_circle">{{ auth()->user()->unread_logs()->count() }}</span>
                                                 @endif
                                             </a>
-
                                         </li>
-
-
-                                        <li class="nk-menu-item has-sub {{in_array(Route::currentRouteName(),[
-                        'advertiser.list',
-                        'advertiser.new.ad.popup',
-                        'advertiser.new.ad.app',
-                        'advertiser.new.ad.banner',
-                        'advertiser.new.ad.fixpost',
-                        'advertiser.new.ad.text',
-                        'advertiser.new.ad.video',
-                        ])?"active":""}} ">
-                                            <a href="#" class="nk-menu-link nk-menu-toggle no_link ">
-                                                <span class="nk-menu-icon">
-
-                                                    <i class="fas fa-cog"></i>
-                                                </span>
-                                                <span class="nk-menu-text">لیست تبلیغات</span>
-                                            </a>
-                                            <ul class="nk-menu-sub">
-                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.list"?"active":"" }}">
-                                                    <a class="nk-menu-link" href="{{ route("advertiser.list") }}">
-                                                        <span class="nk-menu-text">
-                                                            لیست تبلیغات
-                                                        </span>
-
-                                                    </a>
-                                                </li>
-
-
-                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.popup"?"active":"" }}">
-                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.ad.popup") }}">
-                                                        <span class="nk-menu-text">
-                                                            تبلیغات پاپ آپ
-                                                        </span>
-
-                                                    </a>
-                                                </li>
-
-                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.app"?"active":"" }}">
-                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.ad.app") }}">
-                                                        <span class="nk-menu-text">
-                                                            تبلیغات نصب اپلیکیشن
-                                                        </span>
-
-                                                    </a>
-                                                </li>
-
-                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.banner"?"active":"" }}">
-                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.ad.banner") }}">
-                                                        <span class="nk-menu-text">
-                                                            تبلیغات بنر
-                                                        </span>
-
-                                                    </a>
-                                                </li>
-
-
-                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.fixpost"?"active":"" }}">
-                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.ad.fixpost") }}">
-                                                        <span class="nk-menu-text">
-                                                            تبلیغات پست ثابت
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.text"?"active":"" }}">
-                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.ad.text") }}">
-                                                        <span class="nk-menu-text">
-                                                            تبلیغات متنی
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.video"?"active":"" }}">
-                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.ad.video") }}">
-                                                        <span class="nk-menu-text">
-                                                            تبلیغات ویدوئی
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                            <!-- .nk-menu-sub -->
-                                        </li>
-
 
 
                                         <li class="nk-menu-item has-sub {{in_array(Route::currentRouteName(),[
@@ -538,30 +574,36 @@
                                             'userticket.index',
                                             'userticket.show',
                                             ])?"active":""}} ">
-                                        <a href="#" class="nk-menu-link nk-menu-toggle no_link ">
-                                            <span class="nk-menu-icon">
-                                                <i class="fas fa-cog"></i>
-                                            </span>
-                                            <span class="nk-menu-text">پشتیبانی </span>
-                                        </a>
-                                        <ul class="nk-menu-sub">
-                                            <li class="nk-menu-item {{ Route::currentRouteName()=="userticket.index"?"active":"" }}">
-                                                <a class="nk-menu-link" href="{{ route("userticket.index") }}">
-                                                    <span class="nk-menu-text">
-                                                        لیست تیکت ها
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="nk-menu-item {{ Route::currentRouteName()=="userticket.create"?"active":"" }}">
-                                                <a class="nk-menu-link" href="{{ route("userticket.create") }}">
-                                                    <span class="nk-menu-text">
-                                                        تیکت جدید
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <!-- .nk-menu-sub -->
-                                    </li>
+                                            <a href="#" class="nk-menu-link nk-menu-toggle no_link ">
+                                                <span class="nk-menu-icon">
+                                                    <i class="fas fa-cog"></i>
+                                                </span>
+                                                <span class="nk-menu-text">پشتیبانی </span>
+                                            </a>
+                                            <ul class="nk-menu-sub">
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="userticket.index"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("userticket.index") }}">
+                                                        <span class="nk-menu-text">
+                                                            لیست تیکت ها
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="userticket.create"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("userticket.create") }}">
+                                                        <span class="nk-menu-text">
+                                                            تیکت جدید
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <!-- .nk-menu-sub -->
+                                        </li>
+                                        <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.faqs"?"active":"" }}">
+                                            <a href="{{ route("advertiser.faqs") }}" class="nk-menu-link  ">
+                                                <span class="nk-menu-icon"><i class="fas fa-question-circle"></i></span>
+                                                <span class="nk-menu-text">سوالات متداول</span>
+                                            </a>
+                                        </li>
                                         @endrole
 
                                         <li class="nk-menu-item   {{ Route::currentRouteName()=="logout"?"active":"" }}">

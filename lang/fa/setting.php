@@ -77,10 +77,9 @@ return [
     'min_val_checkout' => 'حداقل موجودی تسویه حساب ',
     'change_pass_admin' => 'تغییر رمز عبور مدیریت ',
     'repeat_pass_admin' => 'تکرار رمز عبور ',
+    'min_val_charge' => 'حداقل موجودی شارژ ',
     '' => ' ',
-    '' => ' ',
-
-
+ 
 ];
 
 ?>

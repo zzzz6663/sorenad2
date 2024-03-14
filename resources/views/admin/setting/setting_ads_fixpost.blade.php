@@ -16,7 +16,7 @@
                         <div class="form-group">
                             <div class="custom-control custom-checkbox checked">
                                 <input type="text" name="fixpost_active_site" hidden value="0">
-                                <input type="checkbox" class="custom-control-input" id="fixpost_active_site" {{ old("fixpost_active_site",$fixpost_active_site->val)?"checked":"" }} value="1">
+                                <input type="checkbox" class="custom-control-input" name="fixpost_active_site" id="fixpost_active_site" {{ old("fixpost_active_site",$fixpost_active_site->val)?"checked":"" }} value="1">
                                 <label class="custom-control-label" for="fixpost_active_site">فعال کردن تبلیغ در سایت</label>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
     </div>
 
 </form>
-{{--  
+{{--
 <h2 class="title_right">
     {{ __("setting.fixpost_title") }}
 </h2>

@@ -94,7 +94,7 @@
                             <button type="submit" class="btn btn-lg btn-primary">درخواست برداشت</button>
                             @else
                             <p class="text text-danger">
-                                شما موجودی کافی برایدرخواست وجه ندارید
+                                شما موجودی کافی برای درخواست وجه ندارید
                             </p>
                             @endif
 

@@ -10,7 +10,7 @@
             @method('post')
 
             <div class="row mb-4">
-                <div class="ol-lg-12 mb-4">
+                <div class="col-lg-6 mb-4">
                     {{-- <p class="bg bg-outline-danger">
                         <i class="fa fa-info-circle"></i>
                         این نوع تبلیغ تنها در پشت پنجره کاربر نمایش داده میشود و وارد کردن لینک کانال روبیکا، تلگرام و پیج اینستاگرام ممنوع است.
@@ -20,17 +20,22 @@
                         این نوع تبلیغ فقط در موبایل نمایش داده میشود و برای افزایش نصب اپلیکیشن اندروید مناسب است.
                     </p>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-6 mb-4">
                     <div class="form-control-wrap">
-                        <input type="text" name="title" class="form-control  form-control-outlined" value="{{ old("title") }}" id="title">
                         <label class="form-label-outlined" for="title">عنوان </label>
+
+                        <input type="text" name="title" class="form-control  form-control-outlined" value="{{ old("title") }}" id="title">
                         {{-- <span class="info_txt">در حد سه کلمه (مثال : نصب اپ اسنپ)</span>  --}}
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-12 mb-4">
                     <div class="form-control-wrap">
-                        <input type="text" name="info" class="form-control  form-control-outlined" value="{{ old("info") }}" id="info">
+                        <h54>
+                            متن کوتاه توضیحات
+                        </h54>
                         <label class="form-label-outlined" for="info">متن کوتاه توضیحات</label>
+
+                        <input type="text" name="info" id="tiny" class="form-control  form-control-outlined" value="{{ old("info") }}" id="info">
                     </div>
                 </div>
             </div>
@@ -46,7 +51,7 @@
                         </label>
                         <div class="form-control-wrap">
                             <div class="form-control-select">
-                                <select class="form-control" id="device">
+                                <select class="form-control" name="device" id="device">
                                     <option value="">انتخاب کنید </option>
                                     <option {{ old("device")=="mobile"?"selected":"" }} value="mobile">موبایل</option>
                                     <option {{ old("device")=="computer"?"selected":"" }} value="computer">کامپیوتر</option>
@@ -94,28 +99,12 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <h5 class="text text-info">
-                        تعیین کنید این تبلیغ در چه سایتهایی نمایش داده شود ؟ اگر محصول یا خدمات شما برای تمام اقشار جامعه مناسب است، هیچ دسته بندی را انتخاب نکنید .
-                    </h5>
-                    <ul class="custom-control-group">
-                        @foreach (App\Models\Cat::all() as $cat )
-                        <li>
-                            <div class="custom-control custom-checkbox custom-control-pro no-control checked">
-                                <input type="checkbox" class="custom-control-input" value="{{ $cat->id }}" {{ in_array($cat->id,old("cats",[]))?"checked":"" }} name="cats[]" name="btnCheck" id="btnCheck{{ $cat->id }}">
-                                <label class="custom-control-label" for="btnCheck{{ $cat->id }}">{{ $cat->name }}</label>
-                            </div>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
+            @include('advertiser.cat_temp')
             <br>
             <br>
             @include('advertiser.price_temp')
 
-{{--  
+{{--
             <div class="dashboard_site_form">
                 <div class="flex_tworow">
                     <p><label for="title">عنوان برنامه</label>

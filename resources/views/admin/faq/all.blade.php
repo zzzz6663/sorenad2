@@ -131,7 +131,7 @@
 
                         </div>
                         @foreach ($faqs as $faq )
-                        <div class="nk-tb-item">
+                        <div class="nk-tb-item par">
                             <div class="nk-tb-col">
                                 {{ $loop->iteration }}
                             </div>
@@ -173,6 +173,14 @@
                                                             <i class="fas fa-edit "></i>
                                                             <span class="ml-right">
                                                                 ویرایش
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="no_link remove_faq" data-id="{{ $faq->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="حذف  ">
+                                                        <i class="fas fa-trash"></i>
+                                                            <span class="ml-right">
+                                                                حذف
                                                             </span>
                                                         </a>
                                                     </li>

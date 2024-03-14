@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Serial;
+use App\Models\Setting;
+use App\Models\Advertise;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Shetabit\Multipay\Invoice;
 use App\Http\Controllers\Controller;
-use App\Models\Advertise;
 use Shetabit\Payment\Facade\Payment;
 use Shetabit\Multipay\Exceptions\InvalidPaymentException;
 
@@ -25,10 +26,10 @@ class PayController extends Controller
         $advertise_id = null;
         // dd($request->all());
 
-
+        $min_val_charge=Setting::whereName("min_val_charge")->first();
         switch ($type) {
             case "charge":
-                if ($amount < 100000) {
+                if ($amount < $min_val_charge->val) {
                     alert()->warning(' حداقل مبلغ صد هزار  تومان میباشد  ');
                     return back();
                 }
@@ -58,8 +59,9 @@ class PayController extends Controller
                             'pay_type' => $pay_type,
                             'advertise_id' => $advertise_id,
                             'status' => "payed",
+
                         ]);
-                        $advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                        $advertise->update(['payed' => 1, "status" => "ready_to_confirm",     'active' => "1",]);
                         alert()->success("پرداخت با موفیت از کیف پول انجام شد  ");
                         return redirect()->route("advertiser.list");
                     } else {
@@ -102,7 +104,7 @@ class PayController extends Controller
                             'advertise_id' => $advertise_id,
                             'status' => "payed",
                         ]);
-                        $advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                        $advertise->update(['payed' => 1, "status" => "ready_to_confirm",   'active' => "1"]);
                         alert()->success("پرداخت با موفیت از کیف پول انجام شد  ");
                         return redirect()->route("advertiser.list");
                     } else {

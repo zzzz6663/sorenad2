@@ -115,8 +115,20 @@ window.onload = function () {
         }
     });
 
-    if ($('.tooltipster').length) {
-        $('.tooltipster').tooltipster();
+    if ($('#tiny').length) {
+        tinymce.init({
+            selector: '#tiny',
+            height: 500,
+            menubar: false,
+            plugins: [
+                    "advlist directionality autolink autosave link image lists charmap print preview hr anchor pagebreak",
+                    "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                    "table contextmenu textcolor paste textcolor"
+            ],
+            toolbar: 'undo redo | blocks | bold italic backcolor | ' +
+              'alignleft aligncenter alignright alignjustify | ' +
+              'bullist numlist outdent indent | removeformat | help'
+          });
     }
 
     $('#send_pay').on("click", function (e) {
@@ -166,6 +178,30 @@ window.onload = function () {
          tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
          $('.totoal_price').text(num + " تومان")
         $('.after_tax_price').text(tax + " تومان")
+    })
+    $('.remove_faq').on("click", function (e) {
+        let el = $(this);
+        let id = (el.data("id"));
+
+        $.ajax('/admin/faq/'+id, {
+            headers: {
+                'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+            },
+            type: 'post',
+            data:{_method:"delete"},
+            datatype: 'json',
+            success: function (data) {
+                console.log(data)
+                el.closest(".par").slideUp(400)
+
+            },
+            error: function (request, status, error) {
+                console.log(request);
+                stop_animation()
+            }
+        })
+
+
     })
 
 
@@ -229,6 +265,30 @@ window.onload = function () {
         $('.totoal_price').text(num + " تومان")
         $('.after_tax_price').text(tax + " تومان")
     })
+
+    $('.add_active').change(function(){
+    // $('.add_active').on("change", function (e) {
+        let el = $(this);
+        let id = el.data("id");
+        load_animation()
+        $.ajax('/advertiser/add_active/'+id, {
+            headers: {
+                'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+            },
+            type: 'post',
+            datatype: 'json',
+            success: function (data) {
+                console.log(data)
+                stop_animation()
+                $('label[for="add_active' + id + '"]').text(data.active?"فعال ":"غیر فعال");
+
+            },
+            error: function (request, status, error) {
+                console.log(request);
+                stop_animation()
+            }
+        })
+   })
     $('.number_format').on("keyup change", function (e) {
         let el = $(this);
         let val = el.val();

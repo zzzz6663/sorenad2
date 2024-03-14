@@ -226,10 +226,12 @@ class SettingController extends Controller
 
         $tax_percent_page_ad=Setting::whereName("tax_percent_page_ad")->first();
         $min_val_checkout=Setting::whereName("min_val_checkout")->first();
+        $min_val_charge=Setting::whereName("min_val_charge")->first();
         if($request->isMethod("post")){
             $data=$request->validate([
-                'tax_percent_page_ad'=>"required|integer|max:15",
-                'min_val_checkout'=>"required|integer|min:1000000",
+                'tax_percent_page_ad'=>"required|max:15",
+                'min_val_checkout'=>"required|integer",
+                'min_val_charge'=>"required|integer",
                 'change_pass_admin'=>"nullable",
                 'repeat_pass_admin'=>"nullable",
             ]);
@@ -256,6 +258,7 @@ class SettingController extends Controller
         return view('admin.setting.site_setting', compact([
             "tax_percent_page_ad",
             "min_val_checkout",
+            "min_val_charge",
         ]));
 
        }
@@ -279,7 +282,7 @@ class SettingController extends Controller
 
             }
             alert()->success("اطلاعات با موفقیت ذخیره شد ");
-            return redirect()->route("setting.ads.tثxt");
+            return redirect()->route("setting.ads.text");
         }
 
         // $setting_ads_text=Setting::whereType("setting_ads_text")->get();

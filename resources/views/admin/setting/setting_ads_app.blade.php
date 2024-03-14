@@ -16,7 +16,7 @@
                         <div class="form-group">
                             <div class="custom-control custom-checkbox checked">
                                 <input type="text" name="app_active_site" hidden value="0">
-                                <input type="checkbox" class="custom-control-input" id="app_active_site" {{ old("app_active_site",$app_active_site->val)?"checked":"" }} value="1">
+                                <input type="checkbox" class="custom-control-input"  name="app_active_site" id="app_active_site" {{ old("app_active_site",$app_active_site->val)?"checked":"" }} value="1">
                                 <label class="custom-control-label" for="app_active_site">فعال کردن تبلیغ در سایت</label>
                             </div>
                         </div>

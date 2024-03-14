@@ -8,9 +8,14 @@
                 <div class="card-title-group">
                     <div class="card-title">
                         <h6 class="title">لیست تبلیغات</h6>
+                        <p class="alert alert-warning">
+                            برای ویرایش به مدیریت تیکت ارسال کنید
+                            <a class="btn btn-primary" href="{{ route("userticket.create") }}">ارسال تیکت </a>
+                        </p>
                     </div>
                 </div>
             </div>
+
 
             <div class="nk-tb-list mt-n2">
                 <div class="nk-tb-item nk-tb-head">
@@ -29,9 +34,11 @@
                     </div>
 
                     <div class="nk-tb-col  ">
-                        <span>تعداد سفارش</span>
+                        <span>تعداد بازدید</span>
                     </div>
-
+                    <div class="nk-tb-col  ">
+                        <span>تعداد کلیک</span>
+                    </div>
 
                     <div class="nk-tb-col  ">
                         <span>محدودیت روزانه</span>
@@ -72,7 +79,10 @@
                         <span class="tb-sub">{{(__("a_status.". $advertise->status)) }} </span>
                     </div>
                     <div class="nk-tb-col">
-                        <span class="tb-sub">{{ $advertise->order_count }} </span>
+                        <span class="tb-sub">{{ $advertise->view_count }} </span>
+                    </div>
+                    <div class="nk-tb-col">
+                        <span class="tb-sub">{{ $advertise->click_count }} </span>
                     </div>
                     <div class="nk-tb-col">
                         <span class="tb-sub">{{ $advertise->limit_daily_view }} </span>
@@ -81,7 +91,7 @@
                         <span class="tb-sub">{{(__("arr.". $advertise->device)) }} </span>
                     </div>
                     <div class="nk-tb-col">
-                        <a target="__blank" class="tooltipster no_tdnk" title="{{ $advertise->login_tdnk_page }}" href="{{ $advertise->login_tdnk_page }}">مشاهده</a>
+                        <a target="__blank" class="tooltipster no_link" title="{{ $advertise->login_tdnk_page }}" href="{{ $advertise->login_tdnk_page }}">مشاهده</a>
                     </div>
 
                     <div class="nk-tb-col">
@@ -105,7 +115,17 @@
 
                             <input type="submit" class="btn btn-primary" value="پرداخت مجدد">
                         </form>
+                        @else
+
+                        <div class="custom-control custom-control-lg custom-switch">
+                            <input type="checkbox" {{ $advertise->active?"checked":" " }} class="custom-control-input add_active" data-id="{{ $advertise->id }}" id="add_active{{ $advertise->id }}" value="1">
+                            <label class="custom-control-label " for="add_active{{ $advertise->id }}">
+                                {{ $advertise->active?"فعال":"غیر فعال" }}
+                            </label>
+                        </div>
                         @endif
+
+
                     </div>
                 </div>
                 @endforeach

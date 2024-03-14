@@ -105,11 +105,13 @@ class FaqController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(faq $faq)
+    public function destroy(Faq $faq)
     {
+
         $faq->delete();
-        alert()->success('سوال با موفقیت حذف شد ');
-        return redirect()->route('faq.index');
+        return response()->json([
+            'status'=>"ok"
+        ]);
     }
   public function active_faq(faq $faq)
     {

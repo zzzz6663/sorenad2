@@ -207,7 +207,7 @@
                             </div>
 
                             <div class="nk-tb-col nk-tb-col-tools">
-                                <ul class="nk-tb-actions gx-2">
+                                {{--  <ul class="nk-tb-actions gx-2">
 
                                     <li>
                                         <div class="drodown">
@@ -228,7 +228,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                </ul>
+                                </ul>  --}}
                             </div>
                         </div>
                         @endforeach

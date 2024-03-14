@@ -16,7 +16,7 @@
                         <div class="form-group">
                             <div class="custom-control custom-checkbox checked">
                                 <input type="text" name="video_active_site" hidden value="0">
-                                <input type="checkbox" class="custom-control-input" id="video_active_site" {{ old("video_active_site",$video_active_site->val)?"checked":"" }} value="1">
+                                <input type="checkbox" class="custom-control-input" name="video_active_site" id="video_active_site" {{ old("video_active_site",$video_active_site->val)?"checked":"" }} value="1">
                                 <label class="custom-control-label" for="video_active_site">فعال کردن تبلیغ در سایت</label>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
 </form>
 
 
-{{--  
+{{--
 <h2 class="title_right">
     {{ __("setting.video_title") }}
 </h2>

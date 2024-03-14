@@ -1,7 +1,7 @@
 @extends('main.manager')
 @section('content')
 
-<form action="{{ route("setting.ads.video") }}" method="post">
+<form action="{{ route("setting.ads.text") }}" method="post">
     @csrf
     @method('post')
     <div class="components-preview wide-md mx-auto">
@@ -16,7 +16,7 @@
                         <div class="form-group">
                             <div class="custom-control custom-checkbox checked">
                                 <input type="text" name="text_active_site" hidden value="0">
-                                <input type="checkbox" class="custom-control-input" id="text_active_site" {{ old("text_active_site",$text_active_site->val)?"checked":"" }} value="1">
+                                <input type="checkbox" class="custom-control-input" name="text_active_site" id="text_active_site" {{ old("text_active_site",$text_active_site->val)? "checked":"" }} value="1">
                                 <label class="custom-control-label" for="text_active_site">فعال کردن تبلیغ در سایت</label>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
 
 
 
-{{--  
+{{--
 <h2 class="title_right">
     {{ __("setting.txt_title") }}
 </h2>

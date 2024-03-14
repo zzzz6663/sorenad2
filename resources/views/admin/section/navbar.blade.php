@@ -59,6 +59,19 @@
                     </li>  --}}
                     <!-- .dropdown -->
                     <li class="dropdown chats-dropdown hide-mb-xs">
+                        <a href="{{ route("customer.money.charge") }}" class="no_link dropdown-toggle nk-quick-nav-icon" >
+                            <div class="icon-status icon-status-na">
+                                <i class="far fa-usd-square"></i>
+                                <i class="fas fa-plus-square"></i>
+                            </div>
+                        اعتبار:
+                        {{ number_format(auth()->user()->balance()) }}
+                        تومان
+
+
+                        </a>
+                    </li>
+                    <li class="dropdown chats-dropdown hide-mb-xs">
                         <a href="#" class="no_link dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
                             <div class="icon-status icon-status-na">
                                 <em class="icon ni ni-comments"></em>
@@ -118,7 +131,7 @@
                             <div class="dropdown-body">
                                 <div class="nk-notification">
                                     <ul>
-                                        @foreach (auth()->user()->logs()->latest()->take(5) as $log)
+                                        @foreach (auth()->user()->logs()->latest()->take(5)->get() as $log)
                                         @include('advertiser.log_temp')
                                         @endforeach
                                     </ul>
@@ -167,18 +180,33 @@
                             </div>
                             <div class="dropdown-inner">
                                 <ul class="link-list">
+
                                     <li>
-                                        <a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>مشاهده پروفایل</span></a>
+
+                                        <a class="dark-switch no_link" href="#"><em class="icon ni ni-moon"></em><span>حالت تاریک</span></a>
+                                    </li>
+                                    @role('customer')
+                                    <li>
+                                        <a href="{{ route("logs") }}"><em class="icon ni ni-activity-alt"></em><span>فعالیت ها</span></a>
                                     </li>
                                     <li>
-                                        <a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>تنظیمات حساب</span></a>
+                                        <a href="{{ route("advertiser.profile") }}"><em class="icon ni ni-user-alt"></em><span>مشاهده پروفایل</span></a>
                                     </li>
+{{--
                                     <li>
-                                        <a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>فعالیت ورود</span></a>
-                                    </li>
+                                        <a href="{{ route("advertiser.profile") }}"><em class="icon ni ni-setting-alt"></em><span>تنظیمات حساب</span></a>
+                                    </li>  --}}
                                     <li>
-                                        <a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>حالت تاریک</span></a>
+                                        @if(auth()->user()->vip)
+                                        <div class="user_type vip_user alert alert-secondary"> < class="fas fa-user-check"></i>کاربر اختصاصی</div>
+
+                                        @else
+                                        <div class="user_type normal_user alert alert-secondary"> <i class="far fa-user"></i>کاربر  معمولی</div>
+
+                                        @endif
                                     </li>
+                                    @endrole
+
                                 </ul>
                             </div>
                             <div class="dropdown-inner">

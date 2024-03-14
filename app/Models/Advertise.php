@@ -39,6 +39,7 @@ class Advertise extends Model
         'call_to_action',//اقدام به دعوت
         'text',//متن تبلیغ
         'video1',//ویدئو
+        'active',//ویدئو
     ];
     public function user(){
         return $this->belongsTo(User::class);

@@ -8,7 +8,7 @@
         <form action="{{ route("advertiser.new.ad.popup") }}" method="post">
             @csrf
             @method('post')
-            
+
             <div class="row mb-4">
                 <div class="ol-lg-12 mb-4">
                     <p class="bg bg-outline-danger">
@@ -29,8 +29,8 @@
 
                 <div class="col-lg-6">
                     <div class="form-control-wrap">
-                        <input type="text" name="login_link_page" class="form-control  form-control-outlined"  value="{{ old("login_link_page") }}" id="login_link_page">
-                        <label class="form-label-outlined" for="login_link_page">لینک صفحه فرود</label>
+                        <input type="text" name="landing_link1" class="form-control  form-control-outlined"  value="{{ old("landing_link1") }}" id="landing_link1">
+                        <label class="form-label-outlined" for="landing_link1">لینک صفحه فرود</label>
                     </div>
                 </div>
 
@@ -70,7 +70,7 @@
                         </label>
                         <div class="form-control-wrap">
                             <div class="form-control-select">
-                                <select class="form-control" id="device">
+                                <select class="form-control" name="device" id="device">
                                     <option value="">انتخاب کنید </option>
                                     <option {{ old("device")=="mobile"?"selected":"" }} value="mobile">موبایل</option>
                                     <option {{ old("device")=="computer"?"selected":"" }} value="computer">کامپیوتر</option>
