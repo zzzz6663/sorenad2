@@ -34,7 +34,7 @@ let WebXmlHttpRequest=(method,url,data)=>{
 
 }
 function post(){
-    WebXmlHttpRequest("post","http://127.0.0.1:8000/api/test",data).then(function(res){
+    WebXmlHttpRequest("post","http://sorenad.runflare.run/api/test",data).then(function(res){
         console.log(res)
         let css = res.css
         if(device=="mobile" ){
