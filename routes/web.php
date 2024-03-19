@@ -12,7 +12,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::prefix('ads')->group(function () {
+    Route::get('/redirect_add', 'HomeController@redirect_add')->middleware('signed')->name('redirect.add');
 
+});
+Route::get('/css_add', 'HomeController@css_add')->name('css_add');
 Route::get('/clear', 'HomeController@clear')->name('clear');
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/redirect_google','HomeController@redirect_google')->name('user.redirect.google');
@@ -28,11 +32,12 @@ Route::get('/redirect', 'HomeController@redirect')->name('redirect');
 Route::post('/check_login', 'HomeController@check_login')->name('check.login');
 
 Route::middleware(['auth'])->group(function () {
-
     Route::get('/download', 'HomeController@download')->name('download');
     Route::get('/change_panel', 'HomeController@change_panel')->name('change.panel');
-
 });
+
+
+
 Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function () {
     Route::get('/login', 'AdminController@login')->name('admin.login');
     Route::get('/admin_dashoard', 'AdminController@admin_dashoard')->name('admin.dashoard');
@@ -78,6 +83,7 @@ Route::prefix('advertiser')->middleware(['auth'])->namespace('advertiser')->grou
     Route::any('/bank_info', 'AdvertiserController@bank_info')->name('advertiser.bank.info');
     Route::get('/faqs', 'AdvertiserController@faqs')->name('advertiser.faqs');
     Route::any('/sites', 'AdvertiserController@sites')->name('advertiser.sites');
+    Route::any('/site_script', 'AdvertiserController@site_script')->name('advertiser.site.script');
     Route::any('/update_site/{site}', 'AdvertiserController@update_site')->name('advertiser.update.site');
     Route::any('/withdrawal_request', 'AdvertiserController@withdrawal_request')->name('advertiser.withdrawal.request');
     Route::any('/advertiser_new_ad_popup/{advertise?}', 'AdvertiserController@advertiser_new_ad_popup')->name('advertiser.new.ad.popup');

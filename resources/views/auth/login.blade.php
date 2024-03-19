@@ -7,7 +7,7 @@ $sidebar=true;
 <div class="nk-block nk-block-middle nk-auth-body wide-xs">
     <div class="brand-logo pb-4 text-center">
         <a href="{{ route("login") }}" class="logo-link">
-            <img class=" logo-img logo-img-lg"  src="/site/images/logo.png">
+            <img class=" logo-img logo-img-lg"  src="/site/images/plogo.png">
         </a>
     </div>
     <form action="{{ route("check.login") }}" method="post">
@@ -51,10 +51,10 @@ $sidebar=true;
                 <div class="text-center pt-4 pb-3">
                     {{-- <h6 class="overline-title overline-title-sap"><span>یا</span></h6>  --}}
                 </div>
-                <ul class="nav justify-center gx-4">
+                {{--  <ul class="nav justify-center gx-4">
                     <li class="nav-item"><a class="nav-link" href="#">فیس بوک</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route("user.redirect.google") }}">گوگل</a></li>
-                </ul>
+                </ul>  --}}
             </div>
         </div>
     </form>
@@ -66,7 +66,7 @@ $sidebar=true;
 @method('post')
 <div class="login_forms_box box_shdow">
     <div class="logo_box">
-        <figure><img src="/site/images/logo.png"></figure>
+        <figure><img src="/site/images/plogo.png"></figure>
     </div>
     <p>حساب کاربری ندارید ؟ <a class="register_url" href="{{ route("register") }}">ثبت نام </a></p>
     <input type="text" name="mobile" placeholder="تلفن همراه">

@@ -33,6 +33,9 @@ return new class extends Migration
             $table->string('vip',5)->default(0)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->string('back_popup',5)->nullable();
+            $table->string('float_app',5)->nullable();
+            $table->string('show_display_times',5)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

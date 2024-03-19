@@ -1,0 +1,54 @@
+.soren_ad_mobile{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 999999;
+    background: #fff;
+    padding: 20px 30px;
+
+}
+.soren_ad_mobile *{
+    font-family: arial;
+    direction: rtl!important;
+    text-align: right;
+}
+.sorenad_close{
+    position: absolute;
+    left: 10px;
+    top: 0;
+}
+.sorenad_btn{
+    display: inline-block;
+    padding: 10px 10px;
+    margin: 0 5px;
+    background: #6dd3a4;
+    color: #fff;
+    text-align: center;
+    border-radius: 15px;
+}
+
+
+.sorenad p {
+    font-family: fon
+
+}
+.sorenad_logo{
+ text-align: center;
+}
+.sorenad_logo img{
+    display: inline-block;
+    height: 54px;
+    margin-bottom: 10px;
+    position: relative;
+    /* bottom: 50px; */
+   }
+
+
+   .soren_ad_mobile  h6{
+    margin-bottom: 5px;
+   }
+
+
+   .soren_ad_mobile  p{
+    margin-bottom: 5px;
+   }

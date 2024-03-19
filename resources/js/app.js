@@ -167,6 +167,25 @@ window.onload = function () {
     }
 
 
+    $('.copy').on("click", function (e) {
+        let el = $(this);
+        let url = (el.data("url"));
+        url=`<script  src="${url}"></script>`
+        navigator.clipboard.writeText(url).then(
+            function() {
+                Swal.fire({
+                    toast: true,
+                    position: "top-center",
+                    text: "متن  کپی شد !",
+                    showConfirmButton: false,
+                    timer: 2500,
+                    timerProgressBar: true,
+                  });
+            },
+            function() {
+            }
+          )
+       })
     $('#click_count').on("change keyup", function (e) {
         let el = $(this);
         let price = Number(el.data("price"));

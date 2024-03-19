@@ -7,7 +7,7 @@ $sidebar=true;
 <div class="login_box">
     <div class="login_forms_box box_shdow">
         <div class="logo_box">
-            <figure><img src="images/logo.png"></figure>
+            <figure><img src="images/plogo.png"></figure>
         </div>
         <p>حساب کاربری ندارید ؟ <a class="register_url" href="">ثبت نام </a></p>
         <input type="text" name="" placeholder="تلفن همراه">

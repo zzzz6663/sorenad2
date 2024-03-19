@@ -12,16 +12,18 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Constraint\Count;
 use Laravel\Socialite\Facades\Socialite;
+use App\Models\Advertise;
 
 class HomeController extends Controller
 {
     public function clear()
     {
+        $advertis=Advertise::where('active', 1)->whereType("app")->where("confirm","!=","null")->whereStatus("ready_to_show")->first();
+        dd( $advertis);
         // dump(bcrypt(1212));
-
-
-
-
+        return response()->json([
+            'status'=>"ok"
+        ]);
         // $now = Carbon::now()->format("H:i:s");
         // // dd($now);
         $invitedUser = new User;
@@ -46,6 +48,25 @@ class HomeController extends Controller
 
 
 
+    public function redirect_add(Request  $request)
+    {
+        $advertise=Advertise::find($request->advertis_id);
+
+        switch($advertise->type){
+            case"app":
+        $link=$advertise["landing_link".$request->link_number];
+                break;
+        }
+         return view('advertiser.redirect_add', compact(['link']));
+    }
+    public function css_add(Request  $request)
+    {
+
+        $response = response()->make(asset('/css/css_add.css'));
+        $response->header('Content-Type', 'text/css');
+        return $response;
+        return asset('/css/css_add.css');
+    }
     public function redirect_google(Request  $request)
     {
         return Socialite::driver('google')->stateless()->redirect();

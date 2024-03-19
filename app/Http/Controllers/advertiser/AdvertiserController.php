@@ -526,6 +526,21 @@ class AdvertiserController extends Controller
             'active'=>$active,
         ]);
     }
+    public function site_script(Request $request)
+    {
+        $user = auth()->user();
+        if ($request->isMethod("post")) {
+            $data = $request->validate([
+                'back_popup' => "nullable",
+                'float_app' => "nullable",
+                'show_display_times' => "required",
+            ]);
+            $user->update( $data);
+            alert()->success("اطلاعات باموفقیت ذخیره شد ");
+            return redirect()->route("advertiser.site.script");
+        }
+        return view('advertiser.site_script', compact(["user"]));
+    }
     public function sites(Request $request)
     {
         $user = auth()->user();

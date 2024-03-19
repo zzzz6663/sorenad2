@@ -42,7 +42,6 @@
 <body class=" has-rtl nk-body bg-lighter npc-default has-sidebar no-touch nk-nio-theme">
 @endguest
     <div class="nk-app-root">
-        result_pay
         <div class="nk-main">
             @if (Request::is('admin/*') || Request::is('advertiser/*')|| Request::is('adviser/*')|| Request::is('customer/*'))
                 @includeWhen(empty($sidebar), 'admin.section.sidebar')

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-xxl-8">
+    <div class="col-xxl-12">
         <div class="card card-full">
             <div class="card-inner">
                 <div class="card-title-group">

@@ -175,7 +175,7 @@
                 {{-- <img class="logo-light logo-img" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="لوگو">
                 <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="لوگوی تاریک">
                 <img class="logo-small logo-img logo-img-small" src="./images/logo-small.png" srcset="./images/logo-small2x.png 2x" alt="لوگوی کوچک">  --}}
-                <img class=" logo-small logo-img logo_side" src="/site/images/logo.png">
+                <img class=" logo-small logo-img logo_side" src="/site/images/plogo.png">
             </a>
         </div>
         <div class="nk-menu-trigger me-n2">
@@ -354,6 +354,8 @@
                                                 @endif
                                             </a>
                                         </li>
+
+
                                         <li class="nk-menu-item   {{ Route::currentRouteName()=="ticket.index"?"active":"" }}">
                                             <a href="{{ route("ticket.index") }}" class="nk-menu-link  ">
                                                 <span class="nk-menu-icon">
@@ -401,7 +403,14 @@
                                                 <span class="nk-menu-text">تسویه </span>
                                             </a>
                                         </li>
-
+                                        <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.site.script"?"active":"" }}">
+                                            <a href="{{ route("advertiser.site.script") }}" class="nk-menu-link  ">
+                                                <span class="nk-menu-icon">
+                                                    <i class="fas fa-code"></i>
+                                                </span>
+                                                <span class="nk-menu-text">دریافت کد تبلیغ </span>
+                                            </a>
+                                        </li>
                                         @else
 
 
@@ -505,6 +514,7 @@
 
 
 
+
                                         <li class="nk-menu-item   {{ Route::currentRouteName()=="customer.money.charge"?"active":"" }}">
                                             <a href="{{ route("customer.money.charge") }}" class="nk-menu-link  ">
                                                 <span class="nk-menu-icon"><i class="fas fa-wallet"></i></span>
@@ -604,6 +614,7 @@
                                                 <span class="nk-menu-text">سوالات متداول</span>
                                             </a>
                                         </li>
+
                                         @endrole
 
                                         <li class="nk-menu-item   {{ Route::currentRouteName()=="logout"?"active":"" }}">

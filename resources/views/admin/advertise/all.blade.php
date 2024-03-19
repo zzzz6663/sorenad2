@@ -258,7 +258,7 @@
                                                         <form action="{{ route('advertise.confirm',$advertise->id) }}" method="post">
                                                             @csrf
                                                             @method('post')
-                                                        <span  class="form_close">تایید </span>
+                                                        <a href="#" class="form_close">تایید </a>
                                                         </form>
                                                         @endif
                                                     </li>

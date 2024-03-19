@@ -178,7 +178,7 @@ class AdvertiseController extends Controller
     public function advertise_confirm(Advertise $advertise,Request $request)
     {
         if($advertise->status=="ready_to_confirm"){
-            $advertise->update(['status'=>"ready_to_show"]);
+            $advertise->update(['status'=>"ready_to_show","confirm"=>Carbon::now()]);
             alert()->success("تبیغ با موفقیت تایید شد ");
         }else{
             alert()->warning("این تبلیغ قابل تایید نیست  ");
