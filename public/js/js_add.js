@@ -33,6 +33,7 @@ let WebXmlHttpRequest=(method,url,data)=>{
     })
 
 }
+console.log(1212)
 function post(){
     WebXmlHttpRequest("post","http://sorenad.runflare.run/api/test",data).then(function(res){
         console.log(res)
