@@ -1,4 +1,4 @@
-{{--  
+{{--
 <div class="row mb-4">
     <div class="col-lg-12">
         <h5 class="text text-secondary">
@@ -17,7 +17,7 @@
                         </div>
                         <br>
                         <span>هزینه هر کلیک
-                            {{ $user->click_price() }}
+                            {{ $user->click_price($type) }}
                             تومان</span>
                     </label>
                 </div>
@@ -101,6 +101,9 @@
         </div>
     </div>
 </div>  --}}
+@php
+$tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first()->val;
+@endphp
 
 <div class="row mb-4">
     <div class="col-lg-12">
@@ -120,7 +123,7 @@
                         </div>
                         <br>
                         <span>هزینه هر کلیک
-                            {{ $user->click_price() }}
+                            {{ $user->click_price($type) }}
                             تومان</span>
                     </label>
                 </div>
@@ -129,7 +132,7 @@
             <div class="col-lg-4">
                 <div class="form-control-wrap">
                     <input type="number" name="click_count" id="click_count" class="form-control  form-control-outlined cal_p" value="{{ old("click_count") }}" data-price="{{ $click }}" id="click_count">
-                    <label class="form-label-outlined" for="landing_link3">
+                    <label class="form-label-outlined" for="click_count">
                         تعداد کلیک
                     </label>
                     <span class="input-group-text totoal_price_click ">
@@ -168,7 +171,7 @@
                         </div>
                         <br>
                         <span>هزینه هر نمایش
-                            {{ $user->view_price() }}
+                            {{ $user->view_price($type) }}
                             تومان</span>
                     </label>
                 </div>
@@ -177,7 +180,7 @@
             <div class="col-lg-4">
                 <div class="form-control-wrap">
                     <input type="number" name="view_count" id="view_count" class="form-control  form-control-outlined cal_p" value="{{ old("view_count") }}" data-price="{{ $view }}" id="view_count">
-                    <label class="form-label-outlined" for="landing_link3">
+                    <label class="form-label-outlined" for="view_count">
                         تعداد نمایش
                     </label>
                     <span class="input-group-text totoal_price_view ">
@@ -215,16 +218,21 @@
                 @endif
 
             </span></h4>
-        <p>4.5 درصد مالیات بر ارزش افزوده</p>
+        <p>
+            مالیات بر ارزش افزوده
+            {{ $tax_percent_page_ad }}
+            درصد
+
+            </p>
         @if( old("count_type"))
         <h4 class="text text text-primary ">
             قیمت نهایی:
             <span class="after_tax_price">
                 @if(old("count_type")=="click")
-                {{(number_format( (old("click_count")*$click)+ (( old("click_count")*$click*4.5)/100)))." تومان" }}
+                {{(number_format( (old("click_count")*$click)+ (( old("click_count")*$click*$tax_percent_page_ad)/100)))." تومان" }}
                 @endif
                 @if(old("count_type")=="view")
-                {{(number_format( (old("view_count")*$view)+ (( old("view_count")*$view*4.5)/100)))." تومان" }}
+                {{(number_format( (old("view_count")*$view)+ (( old("view_count")*$view*$tax_percent_page_ad)/100)))." تومان" }}
                 @endif
             </span> </h4>
         @else

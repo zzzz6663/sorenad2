@@ -1,6 +1,6 @@
 @extends('main.manager')
 @section('content')
-
+@include('main.error')
 <form action="{{ route("setting.ads.app") }}" method="post">
     @csrf
     @method('post')

@@ -18,15 +18,15 @@ class SettingController extends Controller
                 'app_advertiser_show'=>"required",
                 'app_limit_order'=>"required",
                 'app_active_site'=>"required",
-                'app_user_vip_click'=>"required",
-                'app_user_vip_show'=>"required",
-                'app_user_normal_click'=>"required",
-                'app_user_normal_show'=>"required",
+                'app_user_vip_click'=>"required|integer|lt:app_advertiser_click",
+                'app_user_vip_show'=>"required|integer|lt:app_advertiser_show",
+                'app_user_normal_click'=>"required|integer|lt:app_advertiser_click",
+                'app_user_normal_show'=>"required|integer|lt:app_advertiser_show",
             ]);
             foreach($data as $key=>$val){
                 $setting=Setting::whereName( $key)->first();
                 $setting->update(['val'=>$val]);
-
+                cache()->put($key, $val);
             }
             alert()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("setting.ads.app");
@@ -41,6 +41,8 @@ class SettingController extends Controller
         $app_user_vip_show=Setting::whereName("app_user_vip_show")->first();
         $app_user_normal_click=Setting::whereName("app_user_normal_click")->first();
         $app_user_normal_show=Setting::whereName("app_user_normal_show")->first();
+
+
         return view('admin.setting.setting_ads_app', compact([
             "app_advertiser_click",
             "app_advertiser_show",
@@ -67,6 +69,7 @@ class SettingController extends Controller
             foreach($data as $key=>$val){
                 $setting=Setting::whereName( $key)->first();
                 $setting->update(['val'=>$val]);
+                cache()->put($key, $val);
 
             }
             alert()->success("اطلاعات با موفقیت ذخیره شد ");
@@ -109,6 +112,7 @@ class SettingController extends Controller
             foreach($data as $key=>$val){
                 $setting=Setting::whereName( $key)->first();
                 $setting->update(['val'=>$val]);
+                cache()->put($key, $val);
 
             }
             alert()->success("اطلاعات با موفقیت ذخیره شد ");
@@ -151,6 +155,7 @@ class SettingController extends Controller
             foreach($data as $key=>$val){
                 $setting=Setting::whereName( $key)->first();
                 $setting->update(['val'=>$val]);
+                cache()->put($key, $val);
 
             }
             alert()->success("اطلاعات با موفقیت ذخیره شد ");
@@ -193,6 +198,7 @@ class SettingController extends Controller
             foreach($data as $key=>$val){
                 $setting=Setting::whereName( $key)->first();
                 $setting->update(['val'=>$val]);
+                cache()->put($key, $val);
 
             }
             alert()->success("اطلاعات با موفقیت ذخیره شد ");

@@ -39,7 +39,7 @@ class PayController extends Controller
                 }
                 break;
             case "popup":
-                $price = $user->view_price() * $data['view_count'];
+                $price = $user->view_price($type) * $data['view_count'];
                 $amount = floor($price + (($price * $user->tax_percent()) / 100));
 
                 $pay_type = $data["pay_type"];
@@ -48,7 +48,7 @@ class PayController extends Controller
                 // $data['remian'] = $amount;
                 // $data['payed'] = 0;
                 $advertise = Advertise::find($data['advertise_id']);
-                $advertise->update(['price'=>$amount]);
+                $advertise->update(['tax'=>$amount,'price'=>$price]);
                 $advertise_id = $advertise->id;
                 if ($data['pay_type'] == "acc_money") {
                     if ($user->balance() > $amount) {
@@ -77,12 +77,12 @@ class PayController extends Controller
             case "video":
                 $advertise = Advertise::find($data['advertise_id']);
                 if ($advertise->count_type == "click") {
-                    $price = $user->click_price() * $data['click_count'];
+                    $price = $user->click_price($type) * $data['click_count'];
                     $amount = floor($price + (($price * $user->tax_percent()) / 100));
                 }
 
                 if ($advertise->count_type == "view") {
-                    $price = $user->view_price() * $data['view_count'];
+                    $price = $user->view_price($type) * $data['view_count'];
                     $amount = floor($price + (($price * $user->tax_percent()) / 100));
                 }
 

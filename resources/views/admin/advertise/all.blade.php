@@ -146,13 +146,14 @@
                                 id
                             </div>
                             <div class="nk-tb-col">
-                                <span class="sub-text">نام</span>
+                                <span class="sub-text">تبلیغ دهنده</span>
                             </div>
-                            <div class="nk-tb-col tb-col-md">
-                                <span class="sub-text">نام خانوادگی</span>
+
+                            <div class="nk-tb-col">
+                                <span class="sub-text">عنوان</span>
                             </div>
                             <div class="nk-tb-col tb-col-sm">
-                                <span class="sub-text">همراه</span>
+                                <span class="sub-text">بودجه</span>
                             </div>
                             <div class="nk-tb-col tb-col-md">
                                 <span class="sub-text">موجودی</span>

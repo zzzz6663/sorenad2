@@ -21,7 +21,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="name">نام</label>
                                 <div class="form-control-wrap">
-                                    <input type="number" class=" form-control" id="name" name="name" value="{{ old("name",$user->name) }}">
+                                    <input type="text" class=" form-control" id="name" name="name" value="{{ old("name",$user->name) }}">
 
                                 </div>
                             </div>
@@ -30,11 +30,11 @@
                             <div class="form-group">
                                 <label class="form-label" for="family">نام خانوادگی</label>
                                 <div class="form-control-wrap">
-                                    <input type="number" value="{{ old("family",$user->family) }}" id="family" name="family" class=" form-control" placeholder="">
+                                    <input type="text" value="{{ old("family",$user->family) }}" id="family" name="family" class=" form-control" placeholder="">
                                 </div>
                             </div>
                         </div>
-                    
+
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
                                 <label class="form-label" for="site">کد ملی</label>

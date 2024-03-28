@@ -6,6 +6,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use NumberFormatter;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -119,16 +120,23 @@ class User extends Authenticatable
            })->whereStatus("wait_for_customer")->count();
         }
     }
-    public function view_price(){
-        return 25;
+    public function view_price($type){
+
+        return $this->setting_cache($type."_advertiser_show");
     }
-    public function click_price(){
-        return 500;
+    public function click_price($type){
+        return $this->setting_cache($type."_advertiser_click");
     }
     public function tax_percent(){
 
         $tax_percent_page_ad=Setting::whereName("tax_percent_page_ad")->first();
         return $tax_percent_page_ad->val;
+    }
+    public function setting_cache($name){
+        $setting=Cache::get($name, function() use($name) {
+            return Setting::whereName($name)->first()->val;
+        });
+        return $setting;
     }
     public function unread_withdrawal(){
         if($this->role=="admin"){
@@ -139,6 +147,28 @@ class User extends Authenticatable
         //     return Withdrawal::whereStatus("wait_for_admin_confirm")->count();
         // }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function send_pattern($mobile,$pattern_code,$input_data){
         // $soapClient = new \SoapClient(

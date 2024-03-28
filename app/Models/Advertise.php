@@ -34,15 +34,25 @@ class Advertise extends Model
         'payed',//وضعیت پرداخت
         'status',//وضعیت
         'price',//قیمت
+        'tax',//مالیات
         'remain',//بقیمانده
         'confirm',//تایید
         'call_to_action',//اقدام به دعوت
         'text',//متن تبلیغ
         'video1',//ویدئو
         'active',//ویدئو
+        'unit_show',//قیمت در  لحظه ثبت
+        'unit_click',//قیمت در  لحظه ثبت
+        'unit_normal_click',//قیمت در  لحظه ثبت
+        'unit_normal_show',//قیمت در  لحظه ثبت
+        'unit_vip_show',//قیمت در  لحظه ثبت
+        'unit_vip_click',//قیمت در  لحظه ثبت
     ];
     public function user(){
         return $this->belongsTo(User::class);
+    }
+    public function actions(){
+        return $this->hasMany(Action::class);
     }
 
 

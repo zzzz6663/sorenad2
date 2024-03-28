@@ -74,7 +74,7 @@
 
                 <div class="col-md-12 mt-5">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-lg btn-primary">درخواست برداشت</button>
+                        <button type="submit" class="btn btn-lg btn-primary">افزایش موجودی</button>
 
                     </div>
                 </div>

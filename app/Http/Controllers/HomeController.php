@@ -3,31 +3,65 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Site;
 use App\Models\User;
+use App\Models\Action;
 use App\Models\Course;
 use App\Models\Section;
+use App\Models\Advertise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Constraint\Count;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\Advertise;
 
 class HomeController extends Controller
 {
     public function clear()
     {
-        $advertis=Advertise::where('active', 1)->whereType("app")->where("confirm","!=","null")->whereStatus("ready_to_show")->first();
-        dd( $advertis);
-        // dump(bcrypt(1212));
-        return response()->json([
-            'status'=>"ok"
+
+
+        // $sum=Action::where('active', 1)->update(['active'=>0]);
+
+        // $all_action=Action::where('active', 1)->get();;
+
+        $all=Action::where('active', 1);
+        $arr= $all->pluck("id")->toArray();
+        $all_action=$all->distinct()->pluck('site_id');
+        $admin=User::find(1);
+
+        $transaction = $admin->transactions()->create([
+            'amount' => $all->get()->sum("admin_share"),
+            'transactionId' => "7171",
+            'type' => "clear",
+            'pay_type' => "",
+            'advertise_id' => null,
+            'status' => "payed",
         ]);
+        foreach(   $all_action as $action){
+            $site_actions=Action::where("site_id",$action)->whereIn('id', $arr)->get()->sum("site_share");
+            dump($site_actions);
+          $site_owner=User::find($action);
+          $transaction = $site_owner->transactions()->create([
+            'amount' =>  $site_actions,
+            'transactionId' => "7171",
+            'type' => "clear",
+            'pay_type' => "",
+            'advertise_id' =>null,
+            'status' => "payed",
+        ]);
+        }
+
+        Action::whereIn('id', $arr)->update(['active'=>0]);
+
+
+
+        
         // $now = Carbon::now()->format("H:i:s");
         // // dd($now);
-        $invitedUser = new User;
-        ($invitedUser->send_pattern("09373699317", "svr5y3c1ophdnuo",['code'=>123]));
+        // $invitedUser = new User;
+        // ($invitedUser->send_pattern("09373699317", "svr5y3c1ophdnuo",['code'=>123]));
         // ($invitedUser->send_sms("09373699317", "تست"));
 
         // Auth::loginUsingId(1, 'true');
@@ -38,9 +72,9 @@ class HomeController extends Controller
         Artisan::call('optimize:clear');
         Artisan::call('config:clear');
 
-        $user=User::find(1);
+        // $user=User::find(1);
         // $user->assignRole("admin");
-        Auth::loginUsingId($user->id,true);
+        // Auth::loginUsingId($user->id,true);
         // $user->assignRole("admin");
         return 12;
     }
@@ -51,6 +85,50 @@ class HomeController extends Controller
     public function redirect_add(Request  $request)
     {
         $advertise=Advertise::find($request->advertis_id);
+        $site=Site::find($request->site_id);
+
+        if($advertise->count_type=="click"){
+            $action['count_type']=$advertise->count_type;
+            $action['advertiser_id']=$advertise->user->id;
+            $action['advertise_id']=$advertise->id;
+            $action['site_id']=$site->user->id;
+            $action['type']=$advertise->type;
+            $action['site']=$site->site;
+            $action['signature']=$request->signature;
+            $action['ip']=$request->getClientIp();
+            if ($site->user->vip) {
+                if ($advertise->count_type == "view") {
+                    $action['admin_share'] =$advertise->unit_show- $advertise->unit_vip_show;
+                    $action['site_share'] = $advertise->unit_vip_show;
+                    $action['adveriser_share'] = $advertise->unit_vip_show*-1;
+                }
+                if ($advertise->count_type == "click") {
+                    $action['admin_share'] =$advertise->unit_click- $advertise->unit_vip_click;
+                    $action['site_share'] = $advertise->unit_vip_click;
+                    $action['adveriser_share'] = $advertise->unit_vip_click*-1;
+                }
+            }else{
+                if ($advertise->count_type == "view") {
+                    $action['admin_share'] =$advertise->unit_show- $advertise->unit_normal_show;
+                    $action['site_share'] = $advertise->unit_normal_show;
+                    $action['adveriser_share'] = $advertise->unit_normal_show*-1;
+                }
+                if ($advertise->count_type == "click") {
+                    $action['admin_share'] =$advertise->unit_click- $advertise->unit_normal_click;
+                    $action['site_share'] = $advertise->unit_normal_click;
+                    $action['adveriser_share'] = $advertise->unit_normal_click*-1;
+                }
+            }
+
+            if($advertise->count_type=="click" ){
+                // && !Action::whereActive(1)->where("signature",$request->signature)->first()
+                Action::create($action);
+                if($advertise->actions->count()>=$advertise->click_count){
+                    $advertise->update(['status'=>"down"]);
+                }
+            }
+
+        }
 
         switch($advertise->type){
             case"app":

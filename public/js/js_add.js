@@ -4,14 +4,21 @@ function check_device() {
     return check;
 }
 
+var touchDevice = ('ontouchstart' in document.documentElement);
+
+
+console.log(touchDevice)
 console.log(document.location.origin)
 let domin = window.location.hostname
-let device = check_device() ? "mobile" : "desktop"
+// let device = check_device() ? "mobile" : "desktop"
+let device = touchDevice ? "mobile" : "desktop"
+// let device = "mobile"
 let data = {
 
     domin: domin,
     device: device,
 }
+console.log(device)
 let WebXmlHttpRequest=(method,url,data)=>{
     return new Promise((resolve,reject)=>{
         let xHttp=new XMLHttpRequest()
@@ -33,9 +40,8 @@ let WebXmlHttpRequest=(method,url,data)=>{
     })
 
 }
-console.log(1212)
 function post(){
-    WebXmlHttpRequest("post","http://sorenad.runflare.run/api/test",data).then(function(res){
+    WebXmlHttpRequest("post","http://127.0.0.1:8000/api/test",data).then(function(res){
         console.log(res)
         let css = res.css
         if(device=="mobile" ){
@@ -45,37 +51,32 @@ function post(){
                 this.closest(".sorenad_par").remove()
             })
         }
-
-
-
-    }).catch(function(err,ff,ffss){
+    }).catch(function(err){
         console.log(err)
-        console.log(ff)
-        console.log(ffss)
     })
 }
-
 post()
-
 // $.ajax('http://127.0.0.1:8000/api/test', {
 //     headers: {
 //         // 'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
 //     },
-//     type: 'get',
+//     type: 'post',
 //     data: data,
 //     datatype: 'json',
 //     success: function (data) {
 //         console.log(data)
-//         let css = data.css
-//         document.head.innerHTML += `<link rel="stylesheet" href="${data.css}" type="text/css"/>`;
-//         document.body.innerHTML += data.body;
-//         document.querySelector(".sorenad_close").addEventListener('click', function (e) {
-//             this.closest(".sorenad_par").remove()
-//         })
+//         // let css = data.css
+//         // document.head.innerHTML += `<link rel="stylesheet" href="${data.css}" type="text/css"/>`;
+//         // document.body.innerHTML += data.body;
+//         // document.querySelector(".sorenad_close").addEventListener('click', function (e) {
+//         //     this.closest(".sorenad_par").remove()
+//         // })
 
 //     },
 //     error: function (request, status, error) {
 //         console.log(request);
+//         console.log(status);
+//         console.log(error);
 //     }
 // })
 

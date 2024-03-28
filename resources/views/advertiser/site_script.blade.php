@@ -50,7 +50,7 @@
                             </span>
                             <div class="custom-control custom-switch checked">
                                 <input type="text" hidden name="float_app" value="0">
-                                <input type="checkbox" class="custom-control-input"    name="float_app" {{ $user->float_app?"checked":"" }}  id="float_app">
+                                <input type="checkbox" class="custom-control-input"    name="float_app" {{ $user->float_app?"checked":"" }}  id="float_app" value="1">
                                 <label class="custom-control-label" for="float_app">تبلیغات شناور نصب اپلیکیشن</label>
                             </div>
                         </div>

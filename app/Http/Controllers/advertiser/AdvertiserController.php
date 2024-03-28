@@ -35,22 +35,22 @@ class AdvertiserController extends Controller
         return view('advertiser.advertiser_list', compact(["user", "advertises"]));
     }
 
-    public function advertiser_new_ad_popup(Request $request,Advertise $advertise)
+    public function advertiser_new_ad_popup(Request $request, Advertise $advertise)
     {
         $user = auth()->user();
-        $price=$user->view_price();
+        $price = $user->view_price("popup");
+        $type="popup";
         if ($request->isMethod("post")) {
             // dd($request->ssall());
-            if($advertise->id){
-                $data['view_count']=  $advertise->view_count;
-                $data['landing_link1']=  $advertise->landing_link1;
-                $data['limit_daily_view']=  $advertise->limit_daily_view;
-                $data['title']=  $advertise->title;
-                $data['device']=  $advertise->device;
-                $data['pay_type']=  $request->pay_type;
-                $data["type"]="popup";
-            }
-            else{
+            if ($advertise->id) {
+                $data['view_count'] =  $advertise->view_count;
+                $data['landing_link1'] =  $advertise->landing_link1;
+                $data['limit_daily_view'] =  $advertise->limit_daily_view;
+                $data['title'] =  $advertise->title;
+                $data['device'] =  $advertise->device;
+                $data['pay_type'] =  $request->pay_type;
+                $data["type"] = "popup";
+            } else {
                 $data = $request->validate([
                     'view_count' => "required|integer|min:1000",
                     'landing_link1' => "required|url",
@@ -59,53 +59,56 @@ class AdvertiserController extends Controller
                     'device' => "required",
                     'pay_type' => "required",
                 ]);
-                $data["type"]="popup";
-                $data["status"]="created";
-                $advertise=$user->advertises()->create($data);
+                $data["type"] = "popup";
+                $data["status"] = "created";
+
+                $data["unit_show"] = $user->setting_cache( $type."_advertiser_show");
+                $data["unit_click"] = $user->setting_cache($type."_advertiser_click");
+                $data["unit_vip_click"] = $user->setting_cache($type."_user_vip_click");
+                $data["unit_vip_show"] = $user->setting_cache($type."_user_vip_show");
+                $data["unit_normal_click"] = $user->setting_cache($type."_user_normal_click");
+                $data["unit_normal_show"] = $user->setting_cache($type."_user_normal_show");
+
+                $advertise = $user->advertises()->create($data);
             }
 
-            $data['advertise_id']=  $advertise->id;
+            $data['advertise_id'] =  $advertise->id;
 
-            return redirect()->route("send.pay",['type'=>"popup","data"=>$data]);
-
+            return redirect()->route("send.pay", ['type' => "popup", "data" => $data]);
         }
 
-        return view('advertiser.advertiser_new_ad_popup', compact(["user","price"]));
+        return view('advertiser.advertiser_new_ad_popup', compact(["user", "price","type"]));
     }
-    public function advertiser_new_ad_app(Request $request,Advertise $advertise)
+    public function advertiser_new_ad_app(Request $request, Advertise $advertise)
     {
         $user = auth()->user();
-        $click=$user->click_price();
-        $view=$user->view_price();
+        $click = $user->click_price('app');
+        $view = $user->view_price('app');
+        $type="app";
         if ($request->isMethod("post")) {
 
 
 
-            if($advertise->id){
-                $data['title']=  $advertise->title;
-                $data['info']=  $advertise->info;
-                $data['landing_link1']=  $advertise->landing_link1;
-                $data['landing_title1']=  $advertise->landing_title1;
-                $data['landing_link2']=  $advertise->landing_link2;
-                $data['landing_title2']=  $advertise->landing_title2;
-                $data['landing_link3']=  $advertise->landing_link3;
-                $data['landing_title3']=  $advertise->landing_title3;
-                $data['icon']=  $advertise->icon;
-                $data['count_type']=  $advertise->count_type;
-                $data['banner1']=  $advertise->banner1;
-                $data['limit_daily_view']=  $advertise->limit_daily_view;
-
-                $data['click_count']=  $advertise->click_count;
-                $data['limit_daily_click']=  $advertise->limit_daily_click;
-
-                $data['view_count']=  $advertise->view_count;
-                $data['limit_daily_view']=  $advertise->limit_daily_view;
-
-
-                $data['pay_type']=  $request->pay_type;
-                $data["type"]="app";
-            }
-            else{
+            if ($advertise->id) {
+                $data['title'] =  $advertise->title;
+                $data['info'] =  $advertise->info;
+                $data['landing_link1'] =  $advertise->landing_link1;
+                $data['landing_title1'] =  $advertise->landing_title1;
+                $data['landing_link2'] =  $advertise->landing_link2;
+                $data['landing_title2'] =  $advertise->landing_title2;
+                $data['landing_link3'] =  $advertise->landing_link3;
+                $data['landing_title3'] =  $advertise->landing_title3;
+                $data['icon'] =  $advertise->icon;
+                $data['count_type'] =  $advertise->count_type;
+                $data['banner1'] =  $advertise->banner1;
+                $data['limit_daily_view'] =  $advertise->limit_daily_view;
+                $data['click_count'] =  $advertise->click_count;
+                $data['limit_daily_click'] =  $advertise->limit_daily_click;
+                $data['view_count'] =  $advertise->view_count;
+                $data['limit_daily_view'] =  $advertise->limit_daily_view;
+                $data['pay_type'] =  $request->pay_type;
+                $data["type"] = "app";
+            } else {
                 // dd($request->all());
                 $data = $request->validate([
                     'title' => "required|max:256",
@@ -116,7 +119,7 @@ class AdvertiserController extends Controller
                     'landing_title2' => "nullable",
                     'landing_link3' => "nullable|url",
                     'landing_title3' => "nullable",
-                    'icon' => "required",
+                    // 'icon' => "required",
                     // 'banner1' => "required",
                     'count_type' => "required",
 
@@ -131,10 +134,17 @@ class AdvertiserController extends Controller
                     // 'banner1' => "nullable|mimes:jpg,png,jpeg,gif|max:200",
                     'cats' => "nullable",
                 ]);
-                $data["type"]="app";
-                $data["status"]="created";
+                $data["type"] = "app";
+                $data["status"] = "created";
 
-                $advertise=$user->advertises()->create($data);
+                $data["unit_show"] = $user->setting_cache( $type."_advertiser_show");
+                $data["unit_click"] = $user->setting_cache($type."_advertiser_click");
+                $data["unit_vip_click"] = $user->setting_cache($type."_user_vip_click");
+                $data["unit_vip_show"] = $user->setting_cache($type."_user_vip_show");
+                $data["unit_normal_click"] = $user->setting_cache($type."_user_normal_click");
+                $data["unit_normal_show"] = $user->setting_cache($type."_user_normal_show");
+
+                $advertise = $user->advertises()->create($data);
                 if ($request->hasFile('icon')) {
                     $icon = $request->file('icon');
                     $name_img = 'icon_' . $advertise->id . '.' . $icon->getClientOriginalExtension();
@@ -149,48 +159,46 @@ class AdvertiserController extends Controller
                 }
 
                 $advertise->update($data);
-                if($request->cats){
+                if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
                 }
-
             }
 
-            $data['advertise_id']=  $advertise->id;
+            $data['advertise_id'] =  $advertise->id;
 
-            return redirect()->route("send.pay",['type'=>"app","data"=>$data]);
-
+            return redirect()->route("send.pay", ['type' => "app", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_app', compact(["user","click" ,"view"]));
+        return view('advertiser.advertiser_new_ad_app', compact(["user", "click", "view","type"]));
     }
-    public function advertiser_new_ad_banner(Request $request,Advertise $advertise)
+    public function advertiser_new_ad_banner(Request $request, Advertise $advertise)
     {
         $user = auth()->user();
-        $click=$user->click_price();
-        $view=$user->view_price();
+        $click = $user->click_price("banner");
+        $view = $user->view_price("banner");
+        $type="banner";
         if ($request->isMethod("post")) {
             // dd($request->all());
 
 
 
-            if($advertise->id){
-                $data['title']=  $advertise->title;
-                $data['info']=  $advertise->info;
-                $data['landing_link1']=  $advertise->landing_link1;
-                $data['banner1']=  $advertise->banner1;
-                $data['banner2']=  $advertise->banner2;
-                $data['limit_daily_view']=  $advertise->limit_daily_view;
+            if ($advertise->id) {
+                $data['title'] =  $advertise->title;
+                $data['info'] =  $advertise->info;
+                $data['landing_link1'] =  $advertise->landing_link1;
+                $data['banner1'] =  $advertise->banner1;
+                $data['banner2'] =  $advertise->banner2;
+                $data['limit_daily_view'] =  $advertise->limit_daily_view;
 
-                $data['click_count']=  $advertise->click_count;
-                $data['limit_daily_click']=  $advertise->limit_daily_click;
+                $data['click_count'] =  $advertise->click_count;
+                $data['limit_daily_click'] =  $advertise->limit_daily_click;
 
-                $data['view_count']=  $advertise->view_count;
-                $data['limit_daily_view']=  $advertise->limit_daily_view;
+                $data['view_count'] =  $advertise->view_count;
+                $data['limit_daily_view'] =  $advertise->limit_daily_view;
 
 
-                $data['pay_type']=  $request->pay_type;
-                $data["type"]="banner";
-            }
-            else{
+                $data['pay_type'] =  $request->pay_type;
+                $data["type"] = "banner";
+            } else {
                 // dd($request->all());
                 $data = $request->validate([
                     'title' => "required|max:256",
@@ -206,10 +214,16 @@ class AdvertiserController extends Controller
                     'pay_type' => "required",
                     'cats' => "nullable",
                 ]);
-                $data["type"]="banner";
-                $data["status"]="created";
+                $data["type"] = "banner";
+                $data["status"] = "created";
 
-                $advertise=$user->advertises()->create($data);
+                $data["unit_show"] = $user->setting_cache( $type."_advertiser_show");
+                $data["unit_click"] = $user->setting_cache($type."_advertiser_click");
+                $data["unit_vip_click"] = $user->setting_cache($type."_user_vip_click");
+                $data["unit_vip_show"] = $user->setting_cache($type."_user_vip_show");
+                $data["unit_normal_click"] = $user->setting_cache($type."_user_normal_click");
+                $data["unit_normal_show"] = $user->setting_cache($type."_user_normal_show");
+                $advertise = $user->advertises()->create($data);
                 // if ($request->hasFile('icon')) {
                 //     $icon = $request->file('icon');
                 //     $name_img = 'icon_' . $advertise->id . '.' . $icon->getClientOriginalExtension();
@@ -230,47 +244,45 @@ class AdvertiserController extends Controller
                 }
 
                 $advertise->update($data);
-                if($request->cats){
+                if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
                 }
-
             }
 
-            $data['advertise_id']=  $advertise->id;
+            $data['advertise_id'] =  $advertise->id;
 
-            return redirect()->route("send.pay",['type'=>"banner","data"=>$data]);
-
+            return redirect()->route("send.pay", ['type' => "banner", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_banner', compact(["user","click" ,"view"]));
+        return view('advertiser.advertiser_new_ad_banner', compact(["user", "click", "view","type"]));
     }
-    public function advertiser_new_ad_fixpost(Request $request,Advertise $advertise)
+    public function advertiser_new_ad_fixpost(Request $request, Advertise $advertise)
     {
         $user = auth()->user();
-        $click=$user->click_price();
-        $view=$user->view_price();
+        $click = $user->click_price("fixpost");
+        $view = $user->view_price("fixpost");
+        $type="fixpost";
         if ($request->isMethod("post")) {
             // dd($request->all());
 
 
 
-            if($advertise->id){
-                $data['title']=  $advertise->title;
-                $data['info']=  $advertise->info;
-                $data['landing_link1']=  $advertise->landing_link1;
-                $data['landing_title1']=  $advertise->landing_title1;
-                $data['call_to_action']=  $advertise->call_to_action;
-                $data['count_type']=  $advertise->count_type;
-                $data['banner1']=  $advertise->banner1;
-                $data['limit_daily_view']=  $advertise->limit_daily_view;
-                $data['click_count']=  $advertise->click_count;
-                $data['limit_daily_click']=  $advertise->limit_daily_click;
-                $data['view_count']=  $advertise->view_count;
-                $data['limit_daily_view']=  $advertise->limit_daily_view;
-                $data['device']=  $advertise->device;
-                $data['pay_type']=  $request->pay_type;
-                $data["type"]="fixpost";
-            }
-            else{
+            if ($advertise->id) {
+                $data['title'] =  $advertise->title;
+                $data['info'] =  $advertise->info;
+                $data['landing_link1'] =  $advertise->landing_link1;
+                $data['landing_title1'] =  $advertise->landing_title1;
+                $data['call_to_action'] =  $advertise->call_to_action;
+                $data['count_type'] =  $advertise->count_type;
+                $data['banner1'] =  $advertise->banner1;
+                $data['limit_daily_view'] =  $advertise->limit_daily_view;
+                $data['click_count'] =  $advertise->click_count;
+                $data['limit_daily_click'] =  $advertise->limit_daily_click;
+                $data['view_count'] =  $advertise->view_count;
+                $data['limit_daily_view'] =  $advertise->limit_daily_view;
+                $data['device'] =  $advertise->device;
+                $data['pay_type'] =  $request->pay_type;
+                $data["type"] = "fixpost";
+            } else {
                 // dd($request->all());
                 $data = $request->validate([
                     'title' => "required|max:256",
@@ -288,9 +300,16 @@ class AdvertiserController extends Controller
                     'device' => "required",
                     'cats' => "nullable",
                 ]);
-                $data["type"]="fixpost";
-                $data["status"]="created";
-                $advertise=$user->advertises()->create($data);
+                $data["type"] = "fixpost";
+                $data["status"] = "created";
+
+                $data["unit_show"] = $user->setting_cache( $type."_advertiser_show");
+                $data["unit_click"] = $user->setting_cache($type."_advertiser_click");
+                $data["unit_vip_click"] = $user->setting_cache($type."_user_vip_click");
+                $data["unit_vip_show"] = $user->setting_cache($type."_user_vip_show");
+                $data["unit_normal_click"] = $user->setting_cache($type."_user_normal_click");
+                $data["unit_normal_show"] = $user->setting_cache($type."_user_normal_show");
+                $advertise = $user->advertises()->create($data);
                 if ($request->hasFile('icon')) {
                     $icon = $request->file('icon');
                     $name_img = 'icon_' . $advertise->id . '.' . $icon->getClientOriginalExtension();
@@ -304,38 +323,38 @@ class AdvertiserController extends Controller
                     $data['banner1'] = $name_img;
                 }
                 $advertise->update($data);
-                if($request->cats){
+                if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
                 }
             }
-            $data['advertise_id']=  $advertise->id;
-            return redirect()->route("send.pay",['type'=>"banner","data"=>$data]);
+            $data['advertise_id'] =  $advertise->id;
+            return redirect()->route("send.pay", ['type' => "banner", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_fixpost', compact(["user","click" ,"view"]));
+        return view('advertiser.advertiser_new_ad_fixpost', compact(["user", "click", "view","type"]));
     }
-    public function advertiser_new_ad_text(Request $request,Advertise $advertise)
+    public function advertiser_new_ad_text(Request $request, Advertise $advertise)
     {
         $user = auth()->user();
-        $click=$user->click_price();
-        $view=$user->view_price();
+        $click = $user->click_price("text");
+        $view = $user->view_price("text");
+        $type="text";
         if ($request->isMethod("post")) {
             // dd($request->all());
 
 
 
-            if($advertise->id){
-                $data['title']=  $advertise->title;
-                $data['text']=  $advertise->text;
-                $data['landing_link1']=  $advertise->landing_link1;
-                $data['click_count']=  $advertise->click_count;
-                $data['limit_daily_click']=  $advertise->limit_daily_click;
-                $data['view_count']=  $advertise->view_count;
-                $data['limit_daily_view']=  $advertise->limit_daily_view;
-                $data['device']=  $advertise->device;
-                $data['pay_type']=  $request->pay_type;
-                $data["type"]="text";
-            }
-            else{
+            if ($advertise->id) {
+                $data['title'] =  $advertise->title;
+                $data['text'] =  $advertise->text;
+                $data['landing_link1'] =  $advertise->landing_link1;
+                $data['click_count'] =  $advertise->click_count;
+                $data['limit_daily_click'] =  $advertise->limit_daily_click;
+                $data['view_count'] =  $advertise->view_count;
+                $data['limit_daily_view'] =  $advertise->limit_daily_view;
+                $data['device'] =  $advertise->device;
+                $data['pay_type'] =  $request->pay_type;
+                $data["type"] = "text";
+            } else {
                 // dd($request->all());
                 $data = $request->validate([
                     'title' => "required|max:256",
@@ -352,9 +371,16 @@ class AdvertiserController extends Controller
                     'device' => "required",
                     'cats' => "nullable",
                 ]);
-                $data["type"]="text";
-                $data["status"]="created";
-                $advertise=$user->advertises()->create($data);
+                $data["type"] = "text";
+                $data["status"] = "created";
+
+                $data["unit_show"] = $user->setting_cache( $type."_advertiser_show");
+                $data["unit_click"] = $user->setting_cache($type."_advertiser_click");
+                $data["unit_vip_click"] = $user->setting_cache($type."_user_vip_click");
+                $data["unit_vip_show"] = $user->setting_cache($type."_user_vip_show");
+                $data["unit_normal_click"] = $user->setting_cache($type."_user_normal_click");
+                $data["unit_normal_show"] = $user->setting_cache($type."_user_normal_show");
+                $advertise = $user->advertises()->create($data);
                 if ($request->hasFile('icon')) {
                     $icon = $request->file('icon');
                     $name_img = 'icon_' . $advertise->id . '.' . $icon->getClientOriginalExtension();
@@ -368,38 +394,38 @@ class AdvertiserController extends Controller
                     $data['banner1'] = $name_img;
                 }
                 $advertise->update($data);
-                if($request->cats){
+                if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
                 }
             }
-            $data['advertise_id']=  $advertise->id;
-            return redirect()->route("send.pay",['type'=>"banner","data"=>$data]);
+            $data['advertise_id'] =  $advertise->id;
+            return redirect()->route("send.pay", ['type' => "banner", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_text', compact(["user","click" ,"view"]));
+        return view('advertiser.advertiser_new_ad_text', compact(["user", "click", "view","type"]));
     }
-    public function advertiser_new_ad_video(Request $request,Advertise $advertise)
+    public function advertiser_new_ad_video(Request $request, Advertise $advertise)
     {
         $user = auth()->user();
-        $click=$user->click_price();
-        $view=$user->view_price();
+        $click = $user->click_price("video");
+        $view = $user->view_price("video");
+        $type="video";
         if ($request->isMethod("post")) {
             // dd($request->all());
 
 
 
-            if($advertise->id){
-                $data['title']=  $advertise->title;
-                $data['landing_link1']=  $advertise->landing_link1;
-                $data['click_count']=  $advertise->click_count;
-                $data['limit_daily_click']=  $advertise->limit_daily_click;
-                $data['view_count']=  $advertise->view_count;
-                $data['limit_daily_view']=  $advertise->limit_daily_view;
-                $data['count_type']=  $advertise->count_type;
-                $data['device']=  $advertise->device;
-                $data['pay_type']=  $request->pay_type;
-                $data["type"]="video";
-            }
-            else{
+            if ($advertise->id) {
+                $data['title'] =  $advertise->title;
+                $data['landing_link1'] =  $advertise->landing_link1;
+                $data['click_count'] =  $advertise->click_count;
+                $data['limit_daily_click'] =  $advertise->limit_daily_click;
+                $data['view_count'] =  $advertise->view_count;
+                $data['limit_daily_view'] =  $advertise->limit_daily_view;
+                $data['count_type'] =  $advertise->count_type;
+                $data['device'] =  $advertise->device;
+                $data['pay_type'] =  $request->pay_type;
+                $data["type"] = "video";
+            } else {
                 // dd($request->all());
                 $data = $request->validate([
                     'title' => "required|max:256",
@@ -414,9 +440,16 @@ class AdvertiserController extends Controller
                     'video1' => "required",
                     'cats' => "nullable",
                 ]);
-                $data["type"]="video";
-                $data["status"]="created";
-                $advertise=$user->advertises()->create($data);
+                $data["type"] = "video";
+                $data["status"] = "created";
+
+                $data["unit_show"] = $user->setting_cache( $type."_advertiser_show");
+                $data["unit_click"] = $user->setting_cache($type."_advertiser_click");
+                $data["unit_vip_click"] = $user->setting_cache($type."_user_vip_click");
+                $data["unit_vip_show"] = $user->setting_cache($type."_user_vip_show");
+                $data["unit_normal_click"] = $user->setting_cache($type."_user_normal_click");
+                $data["unit_normal_show"] = $user->setting_cache($type."_user_normal_show");
+                $advertise = $user->advertises()->create($data);
                 if ($request->hasFile('video1')) {
                     $video1 = $request->file('video1');
                     $name_img = 'video1_' . $advertise->id . '.' . $video1->getClientOriginalExtension();
@@ -425,39 +458,39 @@ class AdvertiserController extends Controller
                 }
 
                 $advertise->update($data);
-                if($request->cats){
+                if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
                 }
             }
-            $data['advertise_id']=  $advertise->id;
-            return redirect()->route("send.pay",['type'=>"banner","data"=>$data]);
+            $data['advertise_id'] =  $advertise->id;
+            return redirect()->route("send.pay", ['type' => "banner", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_video', compact(["user","click" ,"view"]));
+        return view('advertiser.advertiser_new_ad_video', compact(["user", "click", "view","type"]));
     }
     public function withdrawal_request(Request $request)
     {
         $user = auth()->user();
-        $min_val_checkout=Setting::whereName("min_val_checkout")->first()->val;
+        $min_val_checkout = Setting::whereName("min_val_checkout")->first()->val;
         if ($request->isMethod("post")) {
             $data = $request->validate([
-                'amount' => "required|integer|min:$min_val_checkout|max:".   $user->balance(),
+                'amount' => "required|integer|min:$min_val_checkout|max:" .   $user->balance(),
             ]);
-            $withdrawal=  $user->withdrawals()->create([
-                'status'=>"wait_for_admin_confirm",
-                'amount'=>$data['amount'],
+            $withdrawal =  $user->withdrawals()->create([
+                'status' => "wait_for_admin_confirm",
+                'amount' => $data['amount'],
             ]);
             $user->transactions()->create([
-                'status'=>"wait_for_admin_confirm",
-                'amount'=>-1*$data['amount'],
-                'type'=>"withdrawal",
-                'withdrawal_id'=>$withdrawal->id,
-                'track'=>$withdrawal->id+1000,
+                'status' => "wait_for_admin_confirm",
+                'amount' => -1 * $data['amount'],
+                'type' => "withdrawal",
+                'withdrawal_id' => $withdrawal->id,
+                'track' => $withdrawal->id + 1000,
             ]);
 
             alert()->success("درخواست شما با موفقیت ثبت شد  ");
             return redirect()->route("advertiser.withdrawal.request");
         }
-        return view('advertiser.withdrawal_request', compact(["user","min_val_checkout"]));
+        return view('advertiser.withdrawal_request', compact(["user", "min_val_checkout"]));
     }
     public function profile(Request $request)
     {
@@ -488,11 +521,11 @@ class AdvertiserController extends Controller
 
         return view('advertiser.profile', compact(["user"]));
     }
-    public function logs(Request $request){
+    public function logs(Request $request)
+    {
         $user = auth()->user();
-        $logs=$user->logs()->latest()->get();
-        return view('advertiser.logs', compact(["user","logs"]));
-
+        $logs = $user->logs()->latest()->get();
+        return view('advertiser.logs', compact(["user", "logs"]));
     }
     public function change_password(Request $request)
     {
@@ -511,19 +544,19 @@ class AdvertiserController extends Controller
 
         return view('advertiser.change_password', compact(["user"]));
     }
-    public function add_active(Request $request,Advertise $advertise)
+    public function add_active(Request $request, Advertise $advertise)
     {
-        $active=0;
-        if( $advertise->active==1){
-            $advertise->update(['active'=>0]);
-            $active=0;
-        }else{
-            $advertise->update(['active'=>1]);
-            $active=1;
+        $active = 0;
+        if ($advertise->active == 1) {
+            $advertise->update(['active' => 0]);
+            $active = 0;
+        } else {
+            $advertise->update(['active' => 1]);
+            $active = 1;
         }
         return response()->json([
-            'status'=>"ok",
-            'active'=>$active,
+            'status' => "ok",
+            'active' => $active,
         ]);
     }
     public function site_script(Request $request)
@@ -535,7 +568,7 @@ class AdvertiserController extends Controller
                 'float_app' => "nullable",
                 'show_display_times' => "required",
             ]);
-            $user->update( $data);
+            $user->update($data);
             alert()->success("اطلاعات باموفقیت ذخیره شد ");
             return redirect()->route("advertiser.site.script");
         }
@@ -564,7 +597,7 @@ class AdvertiserController extends Controller
         $sites = $user->sites;
         return view('advertiser.sites', compact(["user", "sites"]));
     }
-    public function update_site(Request $request ,Site $site)
+    public function update_site(Request $request, Site $site)
     {
         $user = auth()->user();
         if ($request->isMethod("post")) {
