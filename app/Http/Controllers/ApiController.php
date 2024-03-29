@@ -47,11 +47,11 @@ class ApiController extends Controller
                 $qu->doesntHave('actions')
                 ->orWhereHas("actions",function($query){
                     $query->whereDate('created_at', Carbon::today())
-                    ->when(\DB::raw('advertises.count_type = "view"'), function ($query) {
+                    ->when(\DB::raw('advertises.count_type = "view"' && \DB::raw('advertises.limit_daily_view != null')), function ($query) {
                         $query->selectRaw('count(*)')
                               ->havingRaw('count(*) < advertises.limit_daily_view');
                     })
-                    ->when(\DB::raw('advertises.count_type = "click"'), function ($query) {
+                    ->when(\DB::raw('advertises.count_type = "click"' && \DB::raw('advertises.limit_daily_click != null')), function ($query) {
                         $query->selectRaw('count(*)')
                               ->havingRaw('count(*) < advertises.limit_daily_click');
                     });
