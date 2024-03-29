@@ -61,6 +61,7 @@ if(device=="mobile"){
     post()
 
 }
+console.log(url)
 // $.ajax('http://127.0.0.1:8000/api/test', {
 //     headers: {
 //         // 'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,

@@ -50,11 +50,11 @@ class ApiController extends Controller
                             ->when(
                                 \DB::raw('advertises.count_type = "view"'),
                                 function ($query) {
-                                    $query->selectRaw('count(*)')
+                                   return $query->selectRaw('count(*)')
                                         ->havingRaw('count(*) < advertises.limit_daily_view');
                                 },
                                 function ($query) {
-                                    $query->selectRaw('count(*)')
+                                    return  $query->selectRaw('count(*)')
                                         ->havingRaw('count(*) < advertises.limit_daily_click');
                                 }
                             );
