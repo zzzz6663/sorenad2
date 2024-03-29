@@ -61,6 +61,7 @@ if(device=="mobile"){
     post()
 
 }
+console.log(12)
 console.log(url)
 // $.ajax('http://127.0.0.1:8000/api/test', {
 //     headers: {
