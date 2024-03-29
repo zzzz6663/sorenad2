@@ -33,33 +33,37 @@ class ActionManagerJob implements ShouldQueue
     public function handle()
     {
 
-        $all=Action::where('active', 1);
-        $arr= $all->pluck("id")->toArray();
-        $all_action=$all->distinct()->pluck('site_id');
-        $admin=User::find(1);
+        $all = Action::where('active', 1);
 
-        $transaction = $admin->transactions()->create([
-            'amount' => $all->get()->sum("admin_share"),
-            'transactionId' => "7171",
-            'type' => "clear",
-            'pay_type' => "",
-            'advertise_id' => null,
-            'status' => "payed",
-        ]);
-        foreach(   $all_action as $action){
-            $site_actions=Action::where("site_id",$action)->whereIn('id', $arr)->get()->sum("site_share");
-            dump($site_actions);
-          $site_owner=User::find($action);
-          $transaction = $site_owner->transactions()->create([
-            'amount' =>  $site_actions,
-            'transactionId' => "7171",
-            'type' => "clear",
-            'pay_type' => "",
-            'advertise_id' =>null,
-            'status' => "payed",
-        ]);
+        $arr = $all->pluck("id")->toArray();
+        $all_action = $all->distinct()->pluck('site_id');
+        $admin = User::find(1);
+        $sum_admin = $all->get()->sum("admin_share");
+        if ($sum_admin) {
+            $transaction = $admin->transactions()->create([
+                'amount' => $all->get()->sum("admin_share"),
+                'transactionId' => "7171",
+                'type' => "clear",
+                'pay_type' => "",
+                'advertise_id' => null,
+                'status' => "payed",
+            ]);
+            foreach ($all_action as $action) {
+                $site_actions = Action::where("site_id", $action)->whereIn('id', $arr)->get()->sum("site_share");
+                dump($site_actions);
+                $site_owner = User::find($action);
+                $transaction = $site_owner->transactions()->create([
+                    'amount' =>  $site_actions,
+                    'transactionId' => "7171",
+                    'type' => "clear",
+                    'pay_type' => "",
+                    'advertise_id' => null,
+                    'status' => "payed",
+                ]);
+            }
+
+
+            Action::whereIn('id', $arr)->update(['active' => 0]);
         }
-
-        Action::whereIn('id', $arr)->update(['active'=>0]);
     }
 }
