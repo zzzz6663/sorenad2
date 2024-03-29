@@ -42,6 +42,7 @@ class ApiController extends Controller
         //    ->selectRaw('count(*)')->havingRaw('count(*) < advertises.limit_daily_view');
         // })
         // ->first();
+        // ->first();
             $advertise = Advertise::where('active', 1)->whereType("app")->where("confirm", "!=", "null")->whereStatus("ready_to_show")
             ->where(function($qu){
                 $qu->doesntHave('actions')
