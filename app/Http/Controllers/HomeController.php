@@ -26,10 +26,10 @@ class HomeController extends Controller
 
         // $all_action=Action::where('active', 1)->get();;
 
-        $all=Action::where('active', 1);
-        $arr= $all->pluck("id")->toArray();
-        $all_action=$all->distinct()->pluck('site_id');
-        $admin=User::find(1);
+        $all = Action::where('active', 1);
+        $arr = $all->pluck("id")->toArray();
+        $all_action = $all->distinct()->pluck('site_id');
+        $admin = User::find(1);
 
         $transaction = $admin->transactions()->create([
             'amount' => $all->get()->sum("admin_share"),
@@ -39,25 +39,25 @@ class HomeController extends Controller
             'advertise_id' => null,
             'status' => "payed",
         ]);
-        foreach(   $all_action as $action){
-            $site_actions=Action::where("site_id",$action)->whereIn('id', $arr)->get()->sum("site_share");
+        foreach ($all_action as $action) {
+            $site_actions = Action::where("site_id", $action)->whereIn('id', $arr)->get()->sum("site_share");
             dump($site_actions);
-          $site_owner=User::find($action);
-          $transaction = $site_owner->transactions()->create([
-            'amount' =>  $site_actions,
-            'transactionId' => "7171",
-            'type' => "clear",
-            'pay_type' => "",
-            'advertise_id' =>null,
-            'status' => "payed",
-        ]);
+            $site_owner = User::find($action);
+            $transaction = $site_owner->transactions()->create([
+                'amount' =>  $site_actions,
+                'transactionId' => "7171",
+                'type' => "clear",
+                'pay_type' => "",
+                'advertise_id' => null,
+                'status' => "payed",
+            ]);
         }
 
-        Action::whereIn('id', $arr)->update(['active'=>0]);
+        Action::whereIn('id', $arr)->update(['active' => 0]);
 
 
 
-        
+
         // $now = Carbon::now()->format("H:i:s");
         // // dd($now);
         // $invitedUser = new User;
@@ -84,58 +84,58 @@ class HomeController extends Controller
 
     public function redirect_add(Request  $request)
     {
-        $advertise=Advertise::find($request->advertis_id);
-        $site=Site::find($request->site_id);
+        $advertise = Advertise::find($request->advertis_id);
+        $site = Site::find($request->site_id);
 
-        if($advertise->count_type=="click"){
-            $action['count_type']=$advertise->count_type;
-            $action['advertiser_id']=$advertise->user->id;
-            $action['advertise_id']=$advertise->id;
-            $action['site_id']=$site->user->id;
-            $action['type']=$advertise->type;
-            $action['site']=$site->site;
-            $action['signature']=$request->signature;
-            $action['ip']=$request->getClientIp();
+        if ($advertise->count_type == "click") {
+            $action['count_type'] = $advertise->count_type;
+            $action['advertiser_id'] = $advertise->user->id;
+            $action['advertise_id'] = $advertise->id;
+            $action['site_id'] = $site->user->id;
+            $action['type'] = $advertise->type;
+            $action['site'] = $site->site;
+            $action['signature'] = $request->signature;
+            $action['ip'] = $request->getClientIp();
             if ($site->user->vip) {
                 if ($advertise->count_type == "view") {
-                    $action['admin_share'] =$advertise->unit_show- $advertise->unit_vip_show;
+                    $action['admin_share'] = $advertise->unit_show - $advertise->unit_vip_show;
                     $action['site_share'] = $advertise->unit_vip_show;
-                    $action['adveriser_share'] = $advertise->unit_vip_show*-1;
+                    $action['adveriser_share'] = $advertise->unit_vip_show * -1;
                 }
                 if ($advertise->count_type == "click") {
-                    $action['admin_share'] =$advertise->unit_click- $advertise->unit_vip_click;
+                    $action['admin_share'] = $advertise->unit_click - $advertise->unit_vip_click;
                     $action['site_share'] = $advertise->unit_vip_click;
-                    $action['adveriser_share'] = $advertise->unit_vip_click*-1;
+                    $action['adveriser_share'] = $advertise->unit_vip_click * -1;
                 }
-            }else{
+            } else {
                 if ($advertise->count_type == "view") {
-                    $action['admin_share'] =$advertise->unit_show- $advertise->unit_normal_show;
+                    $action['admin_share'] = $advertise->unit_show - $advertise->unit_normal_show;
                     $action['site_share'] = $advertise->unit_normal_show;
-                    $action['adveriser_share'] = $advertise->unit_normal_show*-1;
+                    $action['adveriser_share'] = $advertise->unit_normal_show * -1;
                 }
                 if ($advertise->count_type == "click") {
-                    $action['admin_share'] =$advertise->unit_click- $advertise->unit_normal_click;
+                    $action['admin_share'] = $advertise->unit_click - $advertise->unit_normal_click;
                     $action['site_share'] = $advertise->unit_normal_click;
-                    $action['adveriser_share'] = $advertise->unit_normal_click*-1;
+                    $action['adveriser_share'] = $advertise->unit_normal_click * -1;
                 }
             }
 
-            if($advertise->count_type=="click" ){
+            if ($advertise->count_type == "click") {
                 // && !Action::whereActive(1)->where("signature",$request->signature)->first()
                 Action::create($action);
-                if($advertise->actions->count()>=$advertise->click_count){
-                    $advertise->update(['status'=>"down"]);
+                if ($advertise->actions->count() >= $advertise->click_count) {
+                    $advertise->update(['status' => "down"]);
                 }
             }
-
         }
 
-        switch($advertise->type){
-            case"app":
-        $link=$advertise["landing_link".$request->link_number];
+        switch ($advertise->type) {
+            case "app":
+                $link = $advertise["landing_link" . $request->link_number];
+                return redirect()->to($link);
                 break;
         }
-         return view('advertiser.redirect_add', compact(['link']));
+        return view('advertiser.redirect_add', compact(['link']));
     }
     public function css_add(Request  $request)
     {
@@ -186,11 +186,11 @@ class HomeController extends Controller
 
     public function redirect()
     {
-        $user=auth()->user();
-        if($user->role=="admin"){
-            $route="user.index";
-        }else{
-            $route="advertiser.faqs";
+        $user = auth()->user();
+        if ($user->role == "admin") {
+            $route = "user.index";
+        } else {
+            $route = "advertiser.faqs";
         }
         alert()->success("وود با موفقیت انجام شد ");
         return redirect()->route($route);
@@ -203,10 +203,10 @@ class HomeController extends Controller
     }
     public function login()
     {
-        $user=auth()->user();
-        if($user){
+        $user = auth()->user();
+        if ($user) {
             // ddddd
-        Auth::loginUsingId($user->id,true);
+            Auth::loginUsingId($user->id, true);
             return redirect()->route("redirect");
         }
         return view('auth.login', compact(['user']));
@@ -216,32 +216,31 @@ class HomeController extends Controller
 
     public function chek_code(Request $request)
     {
-        $rnd=      session()->get("rand");
-        $mobile=      session()->get("mobile");
-        $user=User::whereMobile($mobile)->first();
-        if($user && $request->code==$rnd){
-            Auth::loginUsingId( $user->id);
-
+        $rnd =      session()->get("rand");
+        $mobile =      session()->get("mobile");
+        $user = User::whereMobile($mobile)->first();
+        if ($user && $request->code == $rnd) {
+            Auth::loginUsingId($user->id);
         }
         return response()->json([
-            'status'=>"ok",
-            'all'=>$request->all(),
+            'status' => "ok",
+            'all' => $request->all(),
         ]);
     }
     public function mobile_login(Request $request)
     {
         $user = auth()->user();
         if ($request->isMethod('post')) {
-            $rnd=rand ( 10000 , 99999 );
-            $mobile=$request->mobile;
-            session()->put("rand",$rnd);
-            session()->put("mobile",$mobile);
-            $user= new User;
-        $user->send_pattern( $mobile, "svr5y3c1ophdnuo",['code'=>            $rnd]);
+            $rnd = rand(10000, 99999);
+            $mobile = $request->mobile;
+            session()->put("rand", $rnd);
+            session()->put("mobile", $mobile);
+            $user = new User;
+            $user->send_pattern($mobile, "svr5y3c1ophdnuo", ['code' =>            $rnd]);
 
             return response()->json([
-                'code'=>$rnd,
-                'all'=>$request->all(),
+                'code' => $rnd,
+                'all' => $request->all(),
             ]);
         }
         return view('auth.mobile_login', compact(['user']));
@@ -274,24 +273,22 @@ class HomeController extends Controller
         return redirect('/');
     }
 
-    public function download(Request $request )
+    public function download(Request $request)
     {
 
-        return response()->download(($request->path));
-        ;
+        return response()->download(($request->path));;
     }
-    public function change_panel(Request $request )
+    public function change_panel(Request $request)
     {
-        $advertiser=session()->get("advertiser");
-        if( $advertiser){
+        $advertiser = session()->get("advertiser");
+        if ($advertiser) {
             session()->forget("advertiser");
-        }else{
-            session()->put("advertiser",1);
+        } else {
+            session()->put("advertiser", 1);
         }
 
 
-        return back();
-        ;
+        return back();;
     }
 
     public function check_login(Request $request)

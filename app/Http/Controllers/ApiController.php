@@ -47,17 +47,20 @@ class ApiController extends Controller
                 $qu->doesntHave('actions')
                     ->orWhereHas("actions", function ($query) {
                         $query->whereDate('created_at', Carbon::today())
-                            ->when(
-                                \DB::raw('advertises.count_type = "view"'),
-                                function ($query) {
-                                   return $query->selectRaw('count(*)')
-                                        ->havingRaw('count(*) < advertises.limit_daily_view');
-                                },
-                                function ($query) {
-                                    return  $query->selectRaw('count(*)')
-                                        ->havingRaw('count(*) < advertises.limit_daily_click');
-                                }
-                            );
+                        ->whereColumn('count_type', '=', 'advertises.count_type')
+                        ->selectRaw('count(*)')
+                        ->havingRaw('count(*) < CASE WHEN advertises.count_type = "view" THEN advertises.limit_daily_view ELSE advertises.limit_daily_click END');
+                            // ->when(
+                            //     \DB::raw('advertises.count_type = "view"'),
+                            //     function ($query) {
+                            //        return $query->selectRaw('count(*)')
+                            //             ->havingRaw('count(*) < advertises.limit_daily_view');
+                            //     },
+                            //     function ($query) {
+                            //         return  $query->selectRaw('count(*)')
+                            //             ->havingRaw('count(*) < advertises.limit_daily_click');
+                            //     }
+                            // );
                         // ->when(\DB::raw('advertises.count_type = "click"'), function ($query) {
                         //     $query->selectRaw('count(*)')
                         //           ->havingRaw('count(*) < advertises.limit_daily_click');
@@ -148,7 +151,7 @@ class ApiController extends Controller
 
 
         return response()->json([
-            'status' => "nok",
+            'status' => "noسk",
             'float_app' => $site_owner->float_app,
             'advertise' => $advertise,
         ]);
