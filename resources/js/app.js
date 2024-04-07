@@ -370,6 +370,38 @@ window.onload = function () {
     // if ($('.tooltiper').length) {
     //     $('.tooltiper').tooltipster();
     // }
+    $(document).on('click', '.confirm_reject', function (event) {
+        let el =$(this)
+        Swal.fire({
+            title: "در صورت تایید تبلیغ برای همیشه غیر فعال شده و باقیمانده شارژ به حساب شما باز میگردد?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "تایید",
+            denyButtonText: `ی خیال`
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                el.closest('form').submit()
+            } else if (result.isDenied) {
+            }
+          });
+
+    });
+    $(document).on('change', 'input[name="priod"]', function (event) {
+        let el =$(this)
+        console.log(el.val())
+        $(".date-picker").val('')
+    });
+    $(document).on('click', '.date-picker', function (event) {
+        console.log(12)
+        $('input[name="priod"]').prop("checked", false);
+        $('input[name="priod"]').removeAttr("checked");
+    });
+    $(document).on('change', '#file_select', function (event) {
+        let el=$(this)
+        var filename = el.val().split('\\').pop();
+        $('.file_name').text(filename)
+    });
     $(document).on('change', '#file_select', function (event) {
         let el=$(this)
         var filename = el.val().split('\\').pop();

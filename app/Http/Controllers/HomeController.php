@@ -287,6 +287,13 @@ class HomeController extends Controller
             session()->put("advertiser", 1);
         }
 
+        if($advertiser==1){
+            return redirect()->route("customer.log");;
+
+        }else{
+            return redirect()->route("advertiser.log");;
+
+        }
 
         return back();;
     }

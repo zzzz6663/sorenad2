@@ -57,6 +57,7 @@
     <script src="/admin/libs/persian_number.js"></script>
     <script src="/admin/libs/select2/select2.js"></script>
     <script src="/admin/js/tooltipster.bundle.min.js"></script>
+    <script src="/js/libs/apexcharts.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @vite('resources/js/app.js')

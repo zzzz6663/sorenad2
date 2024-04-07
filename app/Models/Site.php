@@ -27,6 +27,9 @@ class Site extends Model
     public function cat(){
         return $this->belongsTo(Cat::class);
     }
+    public function actions(){
+        return $this->hasMany(Action::class);
+    }
     public function income(){
         return 0;
     }

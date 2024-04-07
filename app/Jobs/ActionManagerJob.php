@@ -33,8 +33,7 @@ class ActionManagerJob implements ShouldQueue
     public function handle()
     {
 
-        $all = Action::where('active', 1);
-
+        $all = Action::where('active', 1)->where("main",1);
         $arr = $all->pluck("id")->toArray();
         $all_action = $all->distinct()->pluck('site_id');
         $admin = User::find(1);
@@ -50,9 +49,10 @@ class ActionManagerJob implements ShouldQueue
             ]);
             foreach ($all_action as $action) {
                 $site_actions = Action::where("site_id", $action)->whereIn('id', $arr)->get()->sum("site_share");
-                dump($site_actions);
+                // dump($site_actions);
                 $site_owner = User::find($action);
                 $transaction = $site_owner->transactions()->create([
+                    'site_id' =>  $action,
                     'amount' =>  $site_actions,
                     'transactionId' => "7171",
                     'type' => "clear",

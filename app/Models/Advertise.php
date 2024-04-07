@@ -47,6 +47,7 @@ class Advertise extends Model
         'unit_normal_show',//قیمت در  لحظه ثبت
         'unit_vip_show',//قیمت در  لحظه ثبت
         'unit_vip_click',//قیمت در  لحظه ثبت
+        'dispay_count',//تعداد نمایش کلی
     ];
     public function user(){
         return $this->belongsTo(User::class);

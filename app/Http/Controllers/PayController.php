@@ -48,7 +48,7 @@ class PayController extends Controller
                 // $data['remian'] = $amount;
                 // $data['payed'] = 0;
                 $advertise = Advertise::find($data['advertise_id']);
-                $advertise->update(['tax'=>$amount,'price'=>$price]);
+                $advertise->update(['tax'=>$amount,'price'=>$price,'active'=>1]);
                 $advertise_id = $advertise->id;
                 if ($data['pay_type'] == "acc_money") {
                     if ($user->balance() > $amount) {
@@ -93,7 +93,7 @@ class PayController extends Controller
                 // $data['remian'] = $amount;
                 // $data['payed'] = 0;
                 $advertise_id = $advertise->id;
-                $advertise->update(['price'=>$amount]);
+                $advertise->update(['price'=>$amount,'active'=>1]);
                 if ($data['pay_type'] == "acc_money") {
                     if ($user->balance() > $amount) {
                         $transaction = $user->transactions()->create([

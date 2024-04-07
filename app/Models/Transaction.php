@@ -12,6 +12,7 @@ class Transaction extends Model
         'user_id',
         'withdrawal_id',
         'advertise_id',
+        'site_id',
         'transactionId',
         'amount',
         'track',

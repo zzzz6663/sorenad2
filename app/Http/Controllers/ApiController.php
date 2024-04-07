@@ -42,8 +42,13 @@ class ApiController extends Controller
         //    ->selectRaw('count(*)')->havingRaw('count(*) < advertises.limit_daily_view');
         // })
         // ->first();
-        $advertise = Advertise::where('active', 1)->whereType("app")->where("confirm", "!=", "null")->whereStatus("ready_to_show")
-            ->where(function ($qu) {
+        $advertise = Advertise::where('active', 1)->whereType("app")->where("confirm", "!=", "null")->whereStatus("ready_to_show");
+        if (Advertise::whereHas('cats')->count() > 0) {
+            $advertise->whereHas('cats', function ($query) use ($site) {
+                $query->where('id', $site->cat_id);
+            });
+        }
+           $advertise ->where(function ($qu) {
                 $qu->doesntHave('actions')
                     ->orWhereHas("actions", function ($query) {
                         $query->whereDate('created_at', Carbon::today())
@@ -66,7 +71,8 @@ class ApiController extends Controller
                         //           ->havingRaw('count(*) < advertises.limit_daily_click');
                         // });
                     });
-            })
+            });
+            $advertise=      $advertise
             ->first();
 
 
@@ -120,10 +126,15 @@ class ApiController extends Controller
                 }
             }
             if ($advertise->count_type == "view") {
+                $action['main'] = 1;
                 Action::create($action);
                 if ($advertise->actions->count() >= $advertise->view_count) {
                     $advertise->update(['status' => "down"]);
                 }
+            }else{
+                $action['main'] = 0;
+                $action['active'] = 0;
+                Action::create($action);
             }
         }
 
@@ -145,6 +156,9 @@ class ApiController extends Controller
                 'site_owner' => $site_owner,
                 'advertise_owner' => $advertise_owner,
                 'action' => $action,
+                'advertise_id' => $advertise->id,
+                'site_cat_id' => $site->cat_id,
+                'site_id' => $site->id,
                 'body' => view($app, compact(['advertise', "site"]))->render(),
             ]);
         }

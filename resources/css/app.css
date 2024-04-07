@@ -22,6 +22,12 @@
 .nk-chat-body.profile-shown{
     padding: 0;
 }
+.ml-2{
+    margin-left: 2rem;
+}
+.text-align-right{
+    text-align: right;
+}
 /* .nk-sidebar{
     width: 190px;
 }

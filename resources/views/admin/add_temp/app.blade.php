@@ -7,9 +7,9 @@
     </div>
    </div>
     <div class="sorenad_body">
-        <h6>
+        <h3>
             {{ $advertise->title }}
-        </h6>
+        </h3>
         <p>
             {{ $advertise->info }}
         </p>

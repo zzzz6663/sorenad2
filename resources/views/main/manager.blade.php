@@ -108,6 +108,7 @@
     <script src="{{ asset('/admin/assets/js/bundle.js') }}"></script>
     <script src="{{ asset('/admin/assets/js/scripts.js') }}"></script>
     <script src="{{ asset('/js/tinymce/tinymce.min.js') }}"></script>
+
     {{--  <script src="{{ asset('/admin/js/charts/gd-campaign.js') }}"></script>
     <script src="{{ asset('/admin/assets/js/persian-date.js') }}"></script>
     <script src="{{ asset('/admin/assets/js/persian-datepicker.js') }}"></script>  --}}

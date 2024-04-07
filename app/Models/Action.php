@@ -21,9 +21,14 @@ class Action extends Model
         'admin_share',
         'adveriser_share',
         'signature',
+        'main',//اصلی بودن یا نبودن اکشن
+        //اکشنهایغیر اصلی برای شمارش بازدید فقط محاسبه میشوند
         'active',//محاسبه نشده اگر صفر بود یعنی محاسبه شده
     ];
     public function advertise(){
         return $this->belongsTo(Advertise::class);
+    }
+    public function sites(){
+        return $this->belongsTo(Site::class);
     }
 }

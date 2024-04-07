@@ -74,6 +74,7 @@ Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function
 Route::prefix('customer')->middleware(['auth',"role:customer"])->namespace('customer')->group(function () {
     Route::any('/money_charge', 'CustomerController@money_charge')->name('customer.money.charge');
     Route::any('/transaction_factor', 'CustomerController@transaction_factor')->name('customer.transaction.factor');
+    Route::get('/customer_log', 'CustomerController@customer_log')->name('customer.log');
 });
 Route::prefix('advertiser')->middleware(['auth'])->namespace('advertiser')->group(function () {
     Route::post('/add_active/{advertise}', 'AdvertiserController@add_active')->name('advertiser.add.active');
@@ -93,6 +94,8 @@ Route::prefix('advertiser')->middleware(['auth'])->namespace('advertiser')->grou
     Route::any('/advertiser_new_ad_text/{advertise?}', 'AdvertiserController@advertiser_new_ad_text')->name('advertiser.new.ad.text');
     Route::any('/advertiser_new_ad_video/{advertise?}', 'AdvertiserController@advertiser_new_ad_video')->name('advertiser.new.ad.video');
     Route::get('/advertiser_list', 'AdvertiserController@advertiser_list')->name('advertiser.list');
+    Route::get('/advertiser_log', 'AdvertiserController@advertiser_log')->name('advertiser.log');
+    Route::post('/advertise_reject/{advertise}', 'AdvertiserController@advertise_reject')->name('advertise.reject');
     Route::get('/logs', 'AdvertiserController@logs')->name('logs');
     // Route::get('/withdrawal_list', 'AdvertiserController@withdrawal_list')->name('advertiser.withdrawal.list');
     // Route::any('/sites', 'AdvertiserController@sites')->name('advertiser.sites');
