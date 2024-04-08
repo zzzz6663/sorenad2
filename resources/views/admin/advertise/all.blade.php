@@ -155,14 +155,14 @@
                             <div class="nk-tb-col tb-col-sm">
                                 <span class="sub-text">بودجه</span>
                             </div>
-                            <div class="nk-tb-col tb-col-md">
+                            {{--  <div class="nk-tb-col tb-col-md">
                                 <span class="sub-text">موجودی</span>
-                            </div>
+                            </div>  --}}
                             <div class="nk-tb-col tb-col-md">
                                 <span class="sub-text">وضعیت</span>
                             </div>
                             <div class="nk-tb-col tb-col-xxl">
-                                <span class="sub-text">Vip</span>
+                                <span class="sub-text">نوع</span>
                             </div>
                             <div class="nk-tb-col tb-col-lg">
                                 <span class="sub-text">تاریخ</span>
@@ -229,7 +229,9 @@
                                     {{ jdate($advertise->created_at)->format("Y-m-d") }}
                                 </span>
                             </div>
-
+                            <div class="nk-tb-col">
+                                @include('advertiser.detail_show')
+                            </div>
                             <div class="nk-tb-col nk-tb-col-tools">
                                 <ul class="nk-tb-actions gx-2">
 

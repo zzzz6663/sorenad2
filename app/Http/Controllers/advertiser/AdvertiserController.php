@@ -15,6 +15,7 @@ use App\Models\Advertise;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
 use App\Http\Controllers\Controller;
+use App\Models\Cat;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
@@ -163,6 +164,8 @@ class AdvertiserController extends Controller
                 $advertise->update($data);
                 if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
+                }else{
+                    $advertise->cats()->attach(Cat::whereActive(1)->pluck("id")->toArray());
                 }
             }
 
@@ -248,6 +251,8 @@ class AdvertiserController extends Controller
                 $advertise->update($data);
                 if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
+                }else{
+                    $advertise->cats()->attach(Cat::whereActive(1)->pluck("id")->toArray());
                 }
             }
 
@@ -327,6 +332,8 @@ class AdvertiserController extends Controller
                 $advertise->update($data);
                 if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
+                }else{
+                    $advertise->cats()->attach(Cat::whereActive(1)->pluck("id")->toArray());
                 }
             }
             $data['advertise_id'] =  $advertise->id;
@@ -398,6 +405,8 @@ class AdvertiserController extends Controller
                 $advertise->update($data);
                 if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
+                }else{
+                    $advertise->cats()->attach(Cat::whereActive(1)->pluck("id")->toArray());
                 }
             }
             $data['advertise_id'] =  $advertise->id;
@@ -462,6 +471,8 @@ class AdvertiserController extends Controller
                 $advertise->update($data);
                 if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
+                }else{
+                    $advertise->cats()->attach(Cat::whereActive(1)->pluck("id")->toArray());
                 }
             }
             $data['advertise_id'] =  $advertise->id;
@@ -688,7 +699,7 @@ return back();
         if ($request->site_id) {
             $actions->where('site_id', $request->site_id);
         }
-      
+
 
         if ($request->has("priod")) {
             $actions->whereDate('created_at', '>=', Carbon::now()->subDays($request->priod));

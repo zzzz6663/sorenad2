@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Action;
 use Carbon\Carbon;
+use App\Models\Cat;
 use App\Models\Site;
 use App\Models\User;
+use App\Models\Action;
 use App\Models\Course;
 use App\Models\Section;
 use App\Models\Setting;
@@ -43,18 +44,32 @@ class ApiController extends Controller
         // })
         // ->first();
         $advertise = Advertise::where('active', 1)->whereType("app")->where("confirm", "!=", "null")->whereStatus("ready_to_show");
-        if (Advertise::whereHas('cats')->count() > 0) {
+        // if (Advertise::whereHas('cats')->count() > 0) {
             $advertise->whereHas('cats', function ($query) use ($site) {
                 $query->where('id', $site->cat_id);
             });
-        }
+        // }
            $advertise ->where(function ($qu) {
                 $qu->doesntHave('actions')
                     ->orWhereHas("actions", function ($query) {
                         $query->whereDate('created_at', Carbon::today())
-                        ->whereColumn('count_type', '=', 'advertises.count_type')
-                        ->selectRaw('count(*)')
-                        ->havingRaw('count(*) < CASE WHEN advertises.count_type = "view" THEN advertises.limit_daily_view ELSE advertises.limit_daily_click END');
+                       ->whereDate('created_at', Carbon::today())
+                        ->where(function ($query) {
+                            if (\DB::raw('advertises.count_type') === 'view') {
+                                $query->selectRaw('count(*)')
+                                    ->havingRaw('count(*) < advertises.limit_daily_view');
+                            }
+
+
+                            else {
+                                $query->selectRaw('count(*)')
+                                    ->havingRaw('count(*) < advertises.limit_daily_click');
+                            }
+                        });
+
+                        // ->whereColumn('count_type', '=', 'advertises.count_type')
+                        // ->selectRaw('count(*)')
+                        // ->havingRaw('count(*) < CASE WHEN advertises.count_type = "view" THEN advertises.limit_daily_view ELSE advertises.limit_daily_click END');
                             // ->when(
                             //     \DB::raw('advertises.count_type = "view"'),
                             //     function ($query) {
@@ -72,9 +87,8 @@ class ApiController extends Controller
                         // });
                     });
             });
-            $advertise=      $advertise
+            $advertise=      $advertise->inRandomOrder()
             ->first();
-
 
         if ($advertise) {
             $advertise_owner = $advertise->user;
