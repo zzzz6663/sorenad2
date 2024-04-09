@@ -122,7 +122,12 @@ class HomeController extends Controller
 
             if ($advertise->count_type == "click") {
                 // && !Action::whereActive(1)->where("signature",$request->signature)->first()
-                Action::create($action);
+
+                $exist=Action::where('ip', $action['ip'])->where('site', $action['site'])->where('advertise_id', $action['advertise_id'])->first();
+                if(!$exist){
+                    Action::create($action);
+
+                }
                 if ($advertise->actions->count() >= $advertise->click_count) {
                     $advertise->update(['status' => "down"]);
                 }
