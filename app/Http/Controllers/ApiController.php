@@ -139,17 +139,21 @@ class ApiController extends Controller
                     $action['adveriser_share'] = $advertise->unit_normal_click * -1;
                 }
             }
-            if ($advertise->count_type == "view") {
-                $action['main'] = 1;
-                Action::create($action);
-                if ($advertise->actions->count() >= $advertise->view_count) {
-                    $advertise->update(['status' => "down"]);
+            $exist=Action::where('ip', $action['ip'])->where('site', $action['site'])->where('advertise_id', $action['advertise_id'])->first();
+            if(! $exist){
+                if ($advertise->count_type == "view") {
+                    $action['main'] = 1;
+                    Action::create($action);
+                    if ($advertise->actions->count() >= $advertise->view_count) {
+                        $advertise->update(['status' => "down"]);
+                    }
+                }else{
+                    $action['main'] = 0;
+                    $action['active'] = 0;
+                    Action::create($action);
                 }
-            }else{
-                $action['main'] = 0;
-                $action['active'] = 0;
-                Action::create($action);
             }
+
         }
 
 
