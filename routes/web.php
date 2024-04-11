@@ -77,6 +77,7 @@ Route::prefix('customer')->middleware(['auth',"role:customer"])->namespace('cust
     Route::get('/customer_log', 'CustomerController@customer_log')->name('customer.log');
 });
 Route::prefix('advertiser')->middleware(['auth'])->namespace('advertiser')->group(function () {
+    Route::post('/add_tiny_image', 'AdvertiserController@add_tiny_image')->name('add.tiny.image');
     Route::post('/add_active/{advertise}', 'AdvertiserController@add_active')->name('advertiser.add.active');
     Route::any('/contact', 'AdvertiserController@contact')->name('advertiser.contact');
     Route::any('/profile', 'AdvertiserController@profile')->name('advertiser.profile');

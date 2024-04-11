@@ -63,6 +63,17 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group">
+                        <label class="form-label" for="default-06">رنگ پس زمینه تبلیغ</label>
+                        <div class="form-control-wrap">
+                            <div class="form-file">
+                                <input type="color" id="bg_color" name="bg_color" value="{{ old("bg_color",'#ffffff') }}" class="form-control  form-control-outlined" >
+                                <label class="file-label" for="customFile"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{--  <div class="col-lg-4">
+                    <div class="form-group">
                         <label class="form-label" for="default-06">آپلود فایل بنر</label>
                         <div class="form-control-wrap">
                             <div class="form-file">
@@ -72,7 +83,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>  --}}
                 <div class="col-lg-4">
                     <br>
                     <div class="form-control-wrap">

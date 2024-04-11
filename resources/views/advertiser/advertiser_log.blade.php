@@ -167,7 +167,7 @@
         <div class="card-inner position-relative card-tools-toggle">
             <div class="row">
                 <div class="col-lg-2 col-sm-6">
-                    <div class="card">
+                    <div class="card bg-primary-dim">
                         <div class="nk-ecwg nk-ecwg6">
                             <div class="card-inner">
                                 <div class="card-title-group">
@@ -194,7 +194,7 @@
                     <!-- .card -->
                 </div>
                 <div class="col-lg-2 col-sm-6">
-                    <div class="card">
+                    <div class="card bg-success-dim">
                         <div class="nk-ecwg nk-ecwg6">
                             <div class="card-inner">
                                 <div class="card-title-group">
@@ -210,6 +210,34 @@
                                     <div class="data-group">
                                         <div class="amount">
                                             {{ $actions->where('count_type',"click")->count() }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- .card-inner -->
+                        </div>
+                        <!-- .nk-ecwg -->
+                    </div>
+                    <!-- .card -->
+                </div>
+
+                <div class="col-lg-2 col-sm-6">
+                    <div class="card bg-danger-dim  ">
+                        <div class="nk-ecwg nk-ecwg6">
+                            <div class="card-inner">
+                                <div class="card-title-group">
+                                    <div class="card-title">
+                                        <h6 class="title">
+                                            <i class="fas fa-money-bill-alt"></i>
+                                            درآمد
+                                        </h6>
+
+                                    </div>
+                                </div>
+                                <div class="data">
+                                    <div class="data-group">
+                                        <div class="amount">
+                                            {{ number_format(abs($actions->where('main',"1")->sum("site_share")) )}}
                                         </div>
                                     </div>
                                 </div>
@@ -287,16 +315,20 @@
 
                         <th scope="col">بازدید</th>
                         <th scope="col">کلیک</th>
+                        <th scope="col">Ctr</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($user->sites as $site)
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
-                        <td>{{ $site->title }}</td>
+                        <td>{{ $site->site }}</td>
                         <td>{{ number_format($site->actions()->where('main',1)->whereActive(0)->where("count_type","view")->sum('site_share')) }}</td>
                         <td>{{ $site->actions()->where('main',1)->whereActive(0)->where("count_type","view")->count() }}</td>
                         <td>{{ $site->actions()->where('main',1)->whereActive(0)->where("count_type","click")->count() }}</td>
+                        <td>{{ floor(($site->actions()->where('main',1)->whereActive(0)->where("count_type","click")->count()*100)/
+                           $all= $site->actions()->count()?$all:1
+                            ) }}%</td>
                     </tr>
                     @endforeach
 

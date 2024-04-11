@@ -24,7 +24,9 @@
     background: #f1f1f1;
 
 }
-
+.sorenad_title{
+    font-weight: 900;
+}
 .soren_ad_mobile * {
     font-family: arial;
     direction: rtl !important;
@@ -34,7 +36,20 @@
 .sorenad_close {
     position: absolute;
     left: 10px;
-    bottom: 115px;
+    top: 9px;
+}
+.sorenad_base_logo {
+    position: absolute;
+    right: 10px;
+    top: 0px;
+}
+
+.sorenad_base_logo img{
+    position: absolute;
+    right: 10px;
+    top: 9px;
+    height: 16px;
+
 }
 
 .sorenad_btn {

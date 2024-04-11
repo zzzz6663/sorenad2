@@ -185,7 +185,7 @@
                     <div class="col-lg-3 text-align-right mb-2">
                         <span class="title fw-bold modal-title">
                             تعداد نمایش:
-                            {{ $advertise->status }}
+                            {{--  {{ $advertise->status }}  --}}
                         </span>
                         <span class="content">
                           {{ $advertise->actions()->where("count_type","view")->count() }}

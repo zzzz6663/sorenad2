@@ -514,17 +514,17 @@
                                             </ul>
                                             <!-- .nk-menu-sub -->
                                         </li>
-
-
-
-                                        @endif
-
                                         <li class="nk-menu-item   {{ Route::currentRouteName()=="customer.money.charge"?"active":"" }}">
                                             <a href="{{ route("customer.money.charge") }}" class="nk-menu-link  ">
                                                 <span class="nk-menu-icon"><i class="fas fa-wallet"></i></span>
                                                 <span class="nk-menu-text">کیف </span>
                                             </a>
                                         </li>
+
+
+                                        @endif
+
+
                                         <li class="nk-menu-item   {{ Route::currentRouteName()=="customer.log"?"active":"" }}">
                                             <a href="{{ route("customer.log") }}" class="nk-menu-link  ">
                                                 <span class="nk-menu-icon"><i class="fas fa-chart-line"></i></span>

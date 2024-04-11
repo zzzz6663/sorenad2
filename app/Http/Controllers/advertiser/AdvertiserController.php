@@ -82,6 +82,19 @@ class AdvertiserController extends Controller
 
         return view('advertiser.advertiser_new_ad_popup', compact(["user", "price","type"]));
     }
+    public function add_tiny_image(Request $request)
+    {    if ($request->hasFile('file')) {
+        $file = $request->file('file');
+        $name_img = 'file_' . time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('/media/advertises/'), $name_img);
+        $data['file'] = $name_img;
+    }
+    return response()->json([
+        'all'=>$request->all(),
+        'location'=>asset('/media/advertises/'.$name_img)
+    ]);
+
+    }
     public function advertiser_new_ad_app(Request $request, Advertise $advertise)
     {
         $user = auth()->user();
@@ -270,9 +283,6 @@ class AdvertiserController extends Controller
         $type="fixpost";
         if ($request->isMethod("post")) {
             // dd($request->all());
-
-
-
             if ($advertise->id) {
                 $data['title'] =  $advertise->title;
                 $data['info'] =  $advertise->info;
@@ -280,13 +290,14 @@ class AdvertiserController extends Controller
                 $data['landing_title1'] =  $advertise->landing_title1;
                 $data['call_to_action'] =  $advertise->call_to_action;
                 $data['count_type'] =  $advertise->count_type;
-                $data['banner1'] =  $advertise->banner1;
+                // $data['banner1'] =  $advertise->banner1;
                 $data['limit_daily_view'] =  $advertise->limit_daily_view;
                 $data['click_count'] =  $advertise->click_count;
                 $data['limit_daily_click'] =  $advertise->limit_daily_click;
                 $data['view_count'] =  $advertise->view_count;
                 $data['limit_daily_view'] =  $advertise->limit_daily_view;
                 $data['device'] =  $advertise->device;
+                $data['bg_color'] =  $advertise->bg_color;
                 $data['pay_type'] =  $request->pay_type;
                 $data["type"] = "fixpost";
             } else {
@@ -297,7 +308,8 @@ class AdvertiserController extends Controller
                     'landing_link1' => "required|url",
                     'landing_title1' => "required",
                     'call_to_action' => "required",
-                    'banner1' => "required",
+                    'bg_color' => "required",
+                    // 'banner1' => "required",
                     'count_type' => "required",
                     'click_count' => "required_if:count_type,click",
                     'limit_daily_click' => "required_if:count_type,click",

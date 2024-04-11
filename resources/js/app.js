@@ -114,21 +114,120 @@ window.onload = function () {
 
         }
     });
+    const image_upload_handler_callback = (blobInfo, progress) => new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
+        xhr.open('POST', '/advertiser/add_tiny_image');
+        xhr.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector('meta[name="csrf-token"]').content);
 
+        xhr.upload.onprogress = (e) => {
+            progress(e.loaded / e.total * 100);
+        };
+
+        xhr.onload = () => {
+            if (blobInfo.blob().size > 1024 * 1024) {
+                return reject({message: 'File is too big!', remove: true});
+              }
+
+            if (xhr.status === 403) {
+                reject({ message: 'HTTP Error: ' + xhr.status, remove: true });
+                return;
+            }
+
+            if (xhr.status < 200 || xhr.status >= 300) {
+                reject('HTTP Error: ' + xhr.status);
+                return;
+            }
+
+            const json = JSON.parse(xhr.responseText);
+
+            if (!json || typeof json.location != 'string') {
+                reject('Invalid JSON: ' + xhr.responseText);
+                return;
+            }
+
+            resolve(json.location);
+        };
+
+        xhr.onerror = () => {
+          reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+        };
+
+        const formData = new FormData();
+        formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+        xhr.send(formData);
+    });
     if ($('#tiny').length) {
         tinymce.init({
             selector: '#tiny',
-            height: 500,
+            plugins: ["image","emoticons"],
+                   height: 500,
             menubar: false,
-            plugins: [
-                    "advlist directionality autolink autosave link image lists charmap print preview hr anchor pagebreak",
-                    "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-                    "table contextmenu textcolor paste textcolor"
-            ],
-            toolbar: 'undo redo | blocks | bold italic backcolor | ' +
-              'alignleft aligncenter alignright alignjustify | ' +
-              'bullist numlist outdent indent | removeformat | help'
-          });
+            toolbar: 'emoticons forecolor backcolor |undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | image | color',
+
+            // without images_upload_url set, Upload tab won't show up
+            images_upload_url: 'upload.php',
+
+            // override default upload handler to simulate successful upload
+            images_upload_handler: image_upload_handler_callback
+        });
+        // tinymce.init({
+        //     selector: '#tiny',
+        //     height: 500,
+        //     menubar: false,
+        //     plugins: [
+        //             "advlist directionality autolink autosave link image lists charmap print preview hr anchor pagebreak",
+        //             "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+        //             "table contextmenu textcolor paste textcolor"
+        //     ],
+        //     toolbar: 'undo redo | blocks | bold italic backcolor | ' +
+        //       'alignleft aligncenter alignright alignjustify | ' +
+        //       'bullist numlist outdent indent | removeformat | help'
+
+        //       ,
+        //       image_title: true,
+        //       automatic_uploads: true,
+        //       file_picker_types: 'image',
+        //       /* and here's our custom image picker*/
+        //       file_picker_callback: function (cb, value, meta) {
+        //         var input = document.createElement('input');
+        //         input.setAttribute('type', 'file');
+        //         input.setAttribute('accept', 'image/*');
+
+        //         /*
+        //           Note: In modern browsers input[type="file"] is functional without
+        //           even adding it to the DOM, but that might not be the case in some older
+        //           or quirky browsers like IE, so you might want to add it to the DOM
+        //           just in case, and visually hide it. And do not forget do remove it
+        //           once you do not need it anymore.
+        //         */
+
+        //         input.onchange = function () {
+        //           var file = this.files[0];
+
+        //           var reader = new FileReader();
+        //           reader.onload = function () {
+        //             /*
+        //               Note: Now we need to register the blob in TinyMCEs image blob
+        //               registry. In the next release this part hopefully won't be
+        //               necessary, as we are looking to handle it internally.
+        //             */
+        //             var id = 'blobid' + (new Date()).getTime();
+        //             var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+        //             var base64 = reader.result.split(',')[1];
+        //             var blobInfo = blobCache.create(id, file, base64);
+        //             blobCache.add(blobInfo);
+
+        //             /* call the callback and populate the Title field with the file name */
+        //             cb(blobInfo.blobUri(), { title: file.name });
+        //           };
+        //           reader.readAsDataURL(file);
+        //         };
+
+        //         input.click();
+        //       },
+        //   });
     }
 
     $('#send_pay').on("click", function (e) {

@@ -48,6 +48,7 @@ class Advertise extends Model
         'unit_vip_show',//قیمت در  لحظه ثبت
         'unit_vip_click',//قیمت در  لحظه ثبت
         'dispay_count',//تعداد نمایش کلی
+        'bg_color',//رتگ بک گراند
     ];
     public function user(){
         return $this->belongsTo(User::class);

@@ -145,8 +145,8 @@ $tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first
                 <div class="form-control-wrap">
                     <input type="number" name="limit_daily_click" id="limit_daily_click" class="form-control  form-control-outlined cal_p" value="{{ old("limit_daily_click") }}" id="limit_daily_click">
                     <label class="form-label-outlined" for="limit_daily_click">
-                        محدودیت تعداد
-                        کلیک
+                      
+                        محدودیت تعداد کلیک این تبلیغ در روز
                     </label>
                     <span class="input-group-text   ">
                         <span class="info_txt">
@@ -193,8 +193,8 @@ $tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first
                 <div class="form-control-wrap">
                     <input type="number" name="limit_daily_view" id="limit_daily_view" class="form-control  form-control-outlined cal_p" value="{{ old("limit_daily_view") }}" id="limit_daily_view">
                     <label class="form-label-outlined" for="limit_daily_view">
-                        محدودیت تعداد
-                        نمایش
+
+                        محدودیت تعداد نمایش این تبلیغ در روز
                     </label>
                     <span class="input-group-text   ">
                         <span class="info_txt">

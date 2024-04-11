@@ -56,7 +56,7 @@
     <div class="card card-stretch">
         <div class="card-inner-group">
 
-            <form action="{{ route('user.index') }}" method="get" autocomplete="off">
+            <form action="{{ route('advertise.index') }}" method="get" autocomplete="off">
                 @csrf
                 @method('get')
                 <div class="card-inner position-relative card-tools-toggle">
