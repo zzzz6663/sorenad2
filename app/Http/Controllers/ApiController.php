@@ -94,7 +94,6 @@ class ApiController extends Controller
             $qu->doesntHave('actions')
                 ->orWhereHas("actions", function ($query) {
                     $query->whereDate('created_at', Carbon::today())
-                        ->whereDate('created_at', Carbon::today())
                         ->where(function ($query) {
                             if (\DB::raw('advertises.count_type') === 'view') {
                                 $query->selectRaw('count(*)')
@@ -151,6 +150,7 @@ class ApiController extends Controller
                 } else {
                     $action['main'] = 0;
                     $action['active'] = 0;
+                    $action['count_type'] = "fake";
                     Action::create($action);
                 }
             }
