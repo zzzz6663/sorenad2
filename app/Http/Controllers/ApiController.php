@@ -98,14 +98,13 @@ class ApiController extends Controller
                         ->where(function ($query) {
                             $query->where(function ($query) {
                             $query->where('count_type', 'view')
-                                ->selectRaw('count(*)')
-                                ->havingRaw('count(*) < advertises.limit_daily_view');
-                                })->orWhere(function ($query) {
-                                    $query->where('count_type', '!=', 'view')
-                                        ->selectRaw('count(*)')
-                                        ->havingRaw('count(*) < advertises.limit_daily_click');
-                                });
-
+                          ->when(\DB::raw('advertises.count_type') === 'view', function ($query1) {
+                                $query1->selectRaw('count(*)')
+                                    ->havingRaw('count(*) < advertises.limit_daily_view');
+                            }, function ($query2) {
+                                $query2->selectRaw('count(*)')
+                                    ->havingRaw('count(*) < advertises.limit_daily_click');
+                            });
                         });
                 });
         });
