@@ -95,15 +95,16 @@ class ApiController extends Controller
                 ->orWhereHas("actions", function ($query) {
                     $query->whereDate('created_at', Carbon::today())
                         ->where(function ($query) {
-                            if (\DB::raw('advertises.count_type') === 'view') {
-                                $query->selectRaw('count(*)')
-                                    ->havingRaw('count(*) < advertises.limit_daily_view');
-                            }
-                            if (\DB::raw('advertises.count_type') === 'click') {
-                                $query->selectRaw('count(*)')
-                                    ->havingRaw('count(*) < advertises.limit_daily_click');
-                            }
-                         
+                            $query->where(function ($query) {
+                            $query->where('count_type', 'view')
+                                ->selectRaw('count(*)')
+                                ->havingRaw('count(*) < advertises.limit_daily_view');
+                                })->orWhere(function ($query) {
+                                    $query->where('count_type', '!=', 'view')
+                                        ->selectRaw('count(*)')
+                                        ->havingRaw('count(*) < advertises.limit_daily_click');
+                                });
+
                         });
                 });
         });
