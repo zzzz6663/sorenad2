@@ -150,7 +150,7 @@ class ApiController extends Controller
 
                 }
             }
-            $advertise->update(['display'=> $advertise->display++]);
+            $advertise->update(['display'=> $advertise->display+1]);
         }
         return $advertise;
     }
