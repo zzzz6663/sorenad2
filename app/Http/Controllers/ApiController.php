@@ -95,17 +95,15 @@ class ApiController extends Controller
             $qu->doesntHave('actions')
                 ->orWhereHas("actions", function ($query) {
                     $query->whereDate('created_at', Carbon::today())
-                        ->where(function ($query) {
-                            $query->where(function ($query) {
-                            $query->where('count_type', 'view')
-                          ->when(\DB::raw('advertises.count_type') === 'view', function ($query1) {
-                                $query1->selectRaw('count(*)')
-                                    ->havingRaw('count(*) < advertises.limit_daily_view');
-                            }, function ($query2) {
-                                $query2->selectRaw('count(*)')
-                                    ->havingRaw('count(*) < advertises.limit_daily_click');
-                            });
+                    ->where(function ($query) {
+                        $query->when(\DB::raw('advertises.count_type') === 'view', function ($query2) {
+                            $query2->selectRaw('count(*)')
+                                ->havingRaw('count(*) < advertises.limit_daily_view');
+                        }, function ($query3) {
+                            $query3->selectRaw('count(*)')
+                                ->havingRaw('count(*) < advertises.limit_daily_click');
                         });
+                    });
                 });
         });
         $advertise = $advertise->inRandomOrder()->first();
