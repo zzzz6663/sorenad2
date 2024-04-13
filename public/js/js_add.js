@@ -13,12 +13,14 @@ let domin = window.location.hostname
 // let device = check_device() ? "mobile" : "desktop"
 let device = touchDevice ? "mobile" : "desktop"
 // let device = "mobile"
-let data = {
+var fixpost = document.getElementById("sorenad_fixpost");
 
+let data = {
     domin: domin,
     device: device,
+    fixpost: document.querySelectorAll("#sorenad_fixpost").length,
 }
-console.log(device)
+console.log(data)
 let WebXmlHttpRequest=(method,url,data)=>{
     return new Promise((resolve,reject)=>{
         let xHttp=new XMLHttpRequest()
@@ -43,24 +45,32 @@ let WebXmlHttpRequest=(method,url,data)=>{
 let url ="https://sorenad.runflare.run/api/test"
 // let url ="http://127.0.0.1:8000/api/test"
 function post(url){
+    console.log(url)
     WebXmlHttpRequest("post",url,data).then(function(res){
         console.log(res)
         let css = res.css
-        if(device=="mobile" ){
+        if( res.status=="ok"){
             document.head.innerHTML += `<link rel="stylesheet" href="${res.css}" type="text/css"/>`;
-            document.body.innerHTML += res.body;
+
+        }
+        if(device=="mobile" && res.app){
+            document.body.innerHTML += res.app;
             document.querySelector(".sorenad_close").addEventListener('click', function (e) {
                 this.closest(".sorenad_par").remove()
             })
+        }
+        if( res.fixpost){
+            console.log(8080)
+            console.log(res.fixpost)
+            document.getElementById("sorenad_fixpost").innerHTML = res.fixpost;
         }
     }).catch(function(err){
         console.log(err)
     })
 }
-if(device=="mobile"){
-    post(url)
 
-}
+post(url)
+
 console.log(12)
 console.log(url)
 // $.ajax('http://127.0.0.1:8000/api/test', {

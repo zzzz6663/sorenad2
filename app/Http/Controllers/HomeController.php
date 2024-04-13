@@ -52,11 +52,12 @@ class HomeController extends Controller
         //         'status' => "payed",
         //     ]);
         // }
+        $advertise=Advertise::find(4);
+        dd($advertise->actions);
 
         // Action::whereIn('id', $arr)->update(['active' => 0]);
 
-
-
+            Action::where("count_type","click")->update(['main'=>1]);
 
         // $now = Carbon::now()->format("H:i:s");
         // // dd($now);
@@ -64,7 +65,7 @@ class HomeController extends Controller
         // ($invitedUser->send_pattern("09373699317", "svr5y3c1ophdnuo",['code'=>123]));
         // ($invitedUser->send_sms("09373699317", "تست"));
 
-        Auth::loginUsingId(1, 'true');
+        // Auth::loginUsingId(1, 'true');
         Artisan::call('cache:clear');
         Artisan::call('route:cache');
         Artisan::call('config:cache');
@@ -77,7 +78,7 @@ class HomeController extends Controller
         // Auth::loginUsingId($user->id,true);
         // $user->assignRole("admin");
         // $user->assignRole("admin");.
-        return redirect()->route('redirect');
+        // return redirect()->route('redirect');
 
         return 12;
     }
@@ -128,6 +129,7 @@ class HomeController extends Controller
 
                 $exist=Action::where('ip', $action['ip'])->where('site', $action['site'])->where('advertise_id', $action['advertise_id'])->first();
                 if(!$exist){
+                    $data["main"]=1;
                     Action::create($action);
 
                 }
@@ -142,6 +144,10 @@ class HomeController extends Controller
                 $link = $advertise["landing_link" . $request->link_number];
                 return redirect()->to($link);
                 break;
+
+                case "fixpost":
+                    $link = $advertise["landing_link1"];
+                    break;
         }
         return view('advertiser.redirect_add', compact(['link']));
     }

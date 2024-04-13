@@ -23,7 +23,9 @@ class ApiController extends Controller
 {
     public function test(Request $request)
     {
-
+        // return response()->json([
+        //     'status' => "noسk",
+        // ]);
 
         // $users = Cache::rememberForever('users', function () {
         //     return User::all();
@@ -33,82 +35,80 @@ class ApiController extends Controller
         $css = response()->make(asset('/css/css_add.css'));
         $css = asset('/css/css_add.css');
         $domin = $request->domin;
-        $app = ("admin.add_temp.app");
-        $site = Site::where('site', 'LIKE', "%{$domin}%")->first();
+        $device = $request->device;
+        $fixpost_req = $request->fixpost;
+        $app_temp = ("admin.add_temp.app");
+        $fixpost_temp = ("admin.add_temp.fixpost");
+        $site = Site::where('site', 'LIKE', "%{$domin}%")->whereStatus("confirmed")->first();
         $site_owner = $site->user;
-        $type = "app";
-        // $advertise = Advertise::where('active', 1)->whereType("app")->where("confirm", "!=", "null")->whereStatus("ready_to_show")
-        // ->whereHas("actions",function($query){
-        //     $query->whereDate('created_at', Carbon::today())
-        //    ->selectRaw('count(*)')->havingRaw('count(*) < advertises.limit_daily_view');
-        // })
-        // ->first();
-        $advertise = Advertise::where('active', 1)->whereType("app")->where("confirm", "!=", "null")->whereStatus("ready_to_show");
-        // if (Advertise::whereHas('cats')->count() > 0) {
-            $advertise->whereHas('cats', function ($query) use ($site) {
-                $query->where('id', $site->cat_id);
-            });
-        // }
-           $advertise ->where(function ($qu) {
-                $qu->doesntHave('actions')
-                    ->orWhereHas("actions", function ($query) {
-                        $query->whereDate('created_at', Carbon::today())
-                       ->whereDate('created_at', Carbon::today())
+        $app=null;
+        $fixpost=null;
+        if ($site_owner->float_app  &&  $device == "mobile") {
+            $advertise = $this->query($site, $request, "app");
+            if( $advertise){
+                $app= view($app_temp, compact(['advertise', "site"]))->render();
+
+            }
+        }
+
+        if ($fixpost_req) {
+            $advertise = $this->query($site, $request, "fixpost");
+            if( $advertise){
+                $fixpost= view($fixpost_temp, compact(['advertise', "site"]))->render();
+
+            }
+        }
+
+
+        return response()->json([
+            'all' => $request->all(),
+            'ip' => $request->ip(),
+            'ips' => $request->getClientIp(),
+            'css' => $css,
+            'status' => "ok",
+            'url' => $request->getRequestUri(),
+            'url2' => $request->fullUrl(),
+            'url3' => $request->url(),
+            'url4' => $request->getHost(),
+            'advertise' => $advertise,
+            'site_owner' => $site_owner,
+            'site_cat_id' => $site->cat_ied,
+            'site_id' => $site->id,
+            'fixpost_req' => $fixpost_req,
+            'app' => $app,
+            'fixpost' => $fixpost,
+        ]);
+
+
+
+    }
+    public function query($site, $request, $type)
+    {
+        $site_owner = $site->user;
+
+        $advertise = Advertise::where('active', 1)->whereType($type)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
+        $advertise->whereHas('cats', function ($query) use ($site) {
+            $query->where('id', $site->cat_id);
+        });
+        $advertise->where(function ($qu) {
+            $qu->doesntHave('actions')
+                ->orWhereHas("actions", function ($query) {
+                    $query->whereDate('created_at', Carbon::today())
+                        ->whereDate('created_at', Carbon::today())
                         ->where(function ($query) {
                             if (\DB::raw('advertises.count_type') === 'view') {
                                 $query->selectRaw('count(*)')
                                     ->havingRaw('count(*) < advertises.limit_daily_view');
-                            }
-
-
-                            else {
+                            } else {
                                 $query->selectRaw('count(*)')
                                     ->havingRaw('count(*) < advertises.limit_daily_click');
                             }
                         });
-
-                        // ->whereColumn('count_type', '=', 'advertises.count_type')
-                        // ->selectRaw('count(*)')
-                        // ->havingRaw('count(*) < CASE WHEN advertises.count_type = "view" THEN advertises.limit_daily_view ELSE advertises.limit_daily_click END');
-                            // ->when(
-                            //     \DB::raw('advertises.count_type = "view"'),
-                            //     function ($query) {
-                            //        return $query->selectRaw('count(*)')
-                            //             ->havingRaw('count(*) < advertises.limit_daily_view');
-                            //     },
-                            //     function ($query) {
-                            //         return  $query->selectRaw('count(*)')
-                            //             ->havingRaw('count(*) < advertises.limit_daily_click');
-                            //     }
-                            // );
-                        // ->when(\DB::raw('advertises.count_type = "click"'), function ($query) {
-                        //     $query->selectRaw('count(*)')
-                        //           ->havingRaw('count(*) < advertises.limit_daily_click');
-                        // });
-                    });
-            });
-            $advertise=      $advertise->inRandomOrder()
-            ->first();
-
+                });
+        });
+        $advertise = $advertise->inRandomOrder()->first();
         if ($advertise) {
             $advertise_owner = $advertise->user;
-            // $data['app_advertiser_show'] = $advertise_owner->setting_cache("app_advertiser_show");
-            // $data['app_advertiser_click'] = $advertise_owner->setting_cache("app_advertiser_click");
-            // $data['app_user_vip_click'] = $advertise_owner->setting_cache("app_user_vip_click");
-            // $data['app_user_normal_click'] = $advertise_owner->setting_cache("app_user_normal_click");
-            // $data['app_user_normal_show'] = $advertise_owner->setting_cache("app_user_normal_show");
-            // $data['app_user_vip_show'] = $advertise_owner->setting_cache("app_user_vip_show");
-
-
-            // 'site_share',
-            // 'admin_share',
-            // 'adveriser_share',e
-            // 'unit_show',//قیمت در  لحظه ثبت
-            // 'unit_click',//قیمت در  لحظه ثبت
-            // 'unit_normal_click',//قیمت در  لحظه ثبت
-            // 'unit_normal_show',//قیمت در  لحظه ثبت
-            // 'unit_vip_show',//قیمت در  لحظه ثبت
-            // 'unit_vip_click',//
             $action['count_type'] = $advertise->count_type;
             $action['advertiser_id'] = $advertise->user->id;
             $action['advertise_id'] = $advertise->id;
@@ -139,53 +139,22 @@ class ApiController extends Controller
                     $action['adveriser_share'] = $advertise->unit_normal_click * -1;
                 }
             }
-            $exist=Action::where('ip', $action['ip'])->where('site', $action['site'])->where('advertise_id', $action['advertise_id'])->first();
-            if(! $exist){
+
+            $exist = Action::where('ip', $action['ip'])->where('site', $action['site'])->where('advertise_id', $action['advertise_id'])->first();
+            if (!$exist) {
                 if ($advertise->count_type == "view") {
                     $action['main'] = 1;
                     Action::create($action);
                     if ($advertise->actions->count() >= $advertise->view_count) {
                         $advertise->update(['status' => "down"]);
                     }
-                }else{
+                } else {
                     $action['main'] = 0;
                     $action['active'] = 0;
                     Action::create($action);
                 }
             }
-
         }
-
-
-
-
-        if ($site_owner->float_app &&  $advertise) {
-            return response()->json([
-                'all' => $request->all(),
-                'ip' => $request->ip(),
-                'ips' => $request->getClientIp(),
-                'css' => $css,
-                'status' => "ok",
-                'url' => $request->getRequestUri(),
-                'url2' => $request->fullUrl(),
-                'url3' => $request->url(),
-                'url4' => $request->getHost(),
-                'advertise' => $advertise,
-                'site_owner' => $site_owner,
-                'advertise_owner' => $advertise_owner,
-                'action' => $action,
-                'advertise_id' => $advertise->id,
-                'site_cat_id' => $site->cat_id,
-                'site_id' => $site->id,
-                'body' => view($app, compact(['advertise', "site"]))->render(),
-            ]);
-        }
-
-
-        return response()->json([
-            'status' => "noسk",
-            'float_app' => $site_owner->float_app,
-            'advertise' => $advertise,
-        ]);
+        return $advertise;
     }
 }

@@ -34,8 +34,7 @@
                             متن کوتاه توضیحات
                         </h54>
                         <label class="form-label-outlined" for="info">متن کوتاه توضیحات</label>
-
-                        <input type="text" name="info" id="tiny" class="form-control  form-control-outlined" value="{{ old("info") }}" id="info">
+                        <textarea name="info" id="tiny" cols="5" rows="5">{!!  old("info") !!}</textarea>
                     </div>
                 </div>
             </div>

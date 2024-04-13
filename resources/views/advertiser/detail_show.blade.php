@@ -116,6 +116,14 @@
                             {{ $advertise->limit_daily_click}}
                         </span>
                     </div>
+                    <div class="col-lg-3 text-align-right mb-2">
+                        <span class="title fw-bold modal-title">
+                            تعداد  کلیک امروز:
+                        </span>
+                        <span class="content">
+                            {{ $advertise->actions()->where("count_type","click")->whereMain(1)->count()}}
+                        </span>
+                    </div>
                     @endif
                     @if($advertise->count_type=="view")
                     <div class="col-lg-3 text-align-right mb-2">
@@ -134,11 +142,15 @@
                             {{ $advertise->limit_daily_view}}
                         </span>
                     </div>
+                    <div class="col-lg-3 text-align-right mb-2">
+                        <span class="title fw-bold modal-title">
+                            تعداد  نمایش امروز:
+                        </span>
+                        <span class="content">
+                            {{ $advertise->actions()->where("count_type","view")->whereMain(1)->count()}}
+                        </span>
+                    </div>
                     @endif
-
-
-
-
                     <div class="col-lg-12 text-align-right mb-2">
                         <span class="title fw-bold modal-title">
                             لینک های فرود:
@@ -158,14 +170,14 @@
                             @endif
                         </span>
                     </div>
-                    <div class="col-lg-12 text-align-right mb-2">
+                    {{--  <div class="col-lg-12 text-align-right mb-2">
                         <span class="title fw-bold modal-title">
                             توضیحات آگهی:
                         </span>
                         <span class="content">
-                          {{ $advertise->info }}
+                          {!! $advertise->info  !!}
                         </span>
-                    </div>
+                    </div>  --}}
                     <div class="col-lg-12 text-align-right mb-2">
                         <span class="title fw-bold modal-title">
                             متن تبلیغ:

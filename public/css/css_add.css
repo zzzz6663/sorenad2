@@ -51,7 +51,17 @@
     height: 16px;
 
 }
+.fixpost_container{
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 15px;
 
+}
+
+.fixpost_container img{
+    max-width: 100%;
+    border-radius: 15px;
+}
 .sorenad_btn {
     display: inline-block;
     padding: 5px 10px;

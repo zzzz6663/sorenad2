@@ -20,6 +20,7 @@
     {{--  <link rel="stylesheet" href="{{ asset('/common/persiandate.css') }}" />  --}}
     {{--  <link rel="stylesheet" href="{{ asset('/admin/assets/css/theme.css') }}" />  --}}
     <link rel="stylesheet" href="{{ asset('/common/modal-loading.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/css_add.css') }}">
     {{--  <link id="skin-default" rel="stylesheet" href="./assets/css/theme.css" />  --}}
     {{--  @vite( 'resources/css/app.css')  --}}
     <script src="{{ asset('/site/js/jquery.js') }}"></script>

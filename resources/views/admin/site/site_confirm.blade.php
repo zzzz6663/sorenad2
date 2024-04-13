@@ -59,7 +59,7 @@
                     <br>
                     <br>
                     <div class="mb-3">
-                        <a href="{{ route("user.index") }}" class="btn btn-warning">
+                        <a href="{{ route("site.index") }}" class="btn btn-warning">
                             برگشت
                             <i class="ti ti-arrow-narrow-left"></i>
                         </a>

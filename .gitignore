@@ -17,4 +17,6 @@ yarn-error.log
 /vendor1
 /public/hot
 /public/hot/
+/public/media
+/public/media/
 /th

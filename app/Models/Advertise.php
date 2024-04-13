@@ -28,7 +28,6 @@ class Advertise extends Model
         'banner2',//بنر دو
         'banner',//بنر دو
         'icon',//بنر دو
-        'info',//بنر دو
         'click_count',//کلیک درخواستی
         'view_count',//نمایش درخواستی
         'payed',//وضعیت پرداخت

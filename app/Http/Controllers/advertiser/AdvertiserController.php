@@ -86,12 +86,12 @@ class AdvertiserController extends Controller
     {    if ($request->hasFile('file')) {
         $file = $request->file('file');
         $name_img = 'file_' . time() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('/media/advertises/'), $name_img);
+        $file->move(public_path('/media/advertises/tiny/'), $name_img);
         $data['file'] = $name_img;
     }
     return response()->json([
         'all'=>$request->all(),
-        'location'=>asset('/media/advertises/'.$name_img)
+        'location'=>asset('/media/advertises/tiny/'.$name_img)
     ]);
 
     }
@@ -301,10 +301,9 @@ class AdvertiserController extends Controller
                 $data['pay_type'] =  $request->pay_type;
                 $data["type"] = "fixpost";
             } else {
-                // dd($request->all());
                 $data = $request->validate([
                     'title' => "required|max:256",
-                    // 'info' => "required|max:1500",
+                    'info' => "required|max:1500",
                     'landing_link1' => "required|url",
                     'landing_title1' => "required",
                     'call_to_action' => "required",

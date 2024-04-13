@@ -117,7 +117,8 @@ window.onload = function () {
     const image_upload_handler_callback = (blobInfo, progress) => new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.withCredentials = false;
-        xhr.open('POST', '/advertiser/add_tiny_image');
+        console.log(window.location.origin)
+        xhr.open('POST',window.location.origin+ '/advertiser/add_tiny_image');
         xhr.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector('meta[name="csrf-token"]').content);
 
         xhr.upload.onprogress = (e) => {
@@ -140,7 +141,7 @@ window.onload = function () {
             }
 
             const json = JSON.parse(xhr.responseText);
-
+            console.log(json.location)
             if (!json || typeof json.location != 'string') {
                 reject('Invalid JSON: ' + xhr.responseText);
                 return;
@@ -164,14 +165,70 @@ window.onload = function () {
             plugins: ["image","emoticons"],
                    height: 500,
             menubar: false,
+            remove_script_host: false,
+            convert_urls: false,
             toolbar: 'emoticons forecolor backcolor |undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | image | color',
 
             // without images_upload_url set, Upload tab won't show up
-            images_upload_url: 'upload.php',
+            // images_upload_url: 'upload.php',
 
             // override default upload handler to simulate successful upload
-            images_upload_handler: image_upload_handler_callback
+            images_upload_handler: image_upload_handler_callback,
+            setup: function (editor) {
+                // editor.on('BeforeSetContent', function () {
+                //     var img = editor.dom.select('img');
+                //     img.forEach(function (i) {
+                //         var src = i.getAttribute('src');
+                //         console.log(src)
+                //         if (src && src.includes('..')) {
+                //             var newSrc = src.replace('..', window.location.origin);
+                //             i.setAttribute('src', newSrc);
+                //         }
+                //     });
+                // });
+                editor.on('BeforeSetContent', function (e) {
+                    var dom = editor.dom;
+                    var images = dom.select('img', e.content);
+                    images.forEach(function (img) {
+                        var src = img.getAttribute('src');
+                        var siteDomain = window.location.protocol + '//' + window.location.hostname;
+                        if (src && src.startsWith(siteDomain)) {
+                            img.setAttribute('src', src);
+                        }
+                    });
+                });
+                // editor.on('BeforeSetContent', function (e) {
+                //     var dom = editor.dom;
+                //     var images = dom.select('img', e.content);
+                //     images.forEach(function (img) {
+                //         var src = img.getAttribute('src');
+                //         if (src && src.includes('unwanted_value')) {
+                //             img.setAttribute('src', 'new_value');
+                //         }
+                //     });
+                // });
+                // editor.on("change", (e) => {
+                //     var img = editor.dom.select('img');
+                //     img.forEach(function (i) {
+                //         var src = i.getAttribute('src');
+                //         console.log(src)
+                //         if (src && src.includes('..')) {
+                //             var newSrc = src.replace('..', window.location.origin);
+                //             i.setAttribute('src', newSrc);
+                //         }
+                //     });
+                //     let content =tinyMCE.activeEditor.getContent();
+                //     // if(content.includes('..')){
+                //     //     content.replace('..', window.location.origin);
+                //     // }
+                //     // tinymce.get('tiny').setContent();
+
+                //     console.log(content)
+                //   });
+            }
         });
+
+
         // tinymce.init({
         //     selector: '#tiny',
         //     height: 500,
@@ -265,7 +322,26 @@ window.onload = function () {
         // $('.after_tax_price').text(tax + " تومان")
     }
 
+    $('.copy_h').on("click", function (e) {
+        let el = $(this);
+        let id = (el.data("id"));
 
+       let url=` <div id="${id}"></div>`
+        navigator.clipboard.writeText(url).then(
+            function() {
+                Swal.fire({
+                    toast: true,
+                    position: "top-center",
+                    text: "کد  کپی شد !",
+                    showConfirmButton: false,
+                    timer: 2500,
+                    timerProgressBar: true,
+                  });
+            },
+            function() {
+            }
+          )
+       })
     $('.copy').on("click", function (e) {
         let el = $(this);
         let url = (el.data("url"));
