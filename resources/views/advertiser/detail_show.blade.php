@@ -200,7 +200,8 @@
                             {{--  {{ $advertise->status }}  --}}
                         </span>
                         <span class="content">
-                          {{ $advertise->actions()->whereIn("count_type","view")->count() }}
+                            {{ number_format($advertise->display) }}
+                          {{--  {{ $advertise->actions()->whereIn("count_type","view")->count() }}  --}}
                         </span>
                     </div>
                     @role('customer')

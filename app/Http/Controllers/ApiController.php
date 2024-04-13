@@ -147,12 +147,10 @@ class ApiController extends Controller
                     if ($advertise->actions->count() >= $advertise->view_count) {
                         $advertise->update(['status' => "down"]);
                     }
-                } else {
-                    $action['main'] = 0;
-                    $action['active'] = 0;
-                    $advertise->update(['display'=> $advertise->display++]);
+
                 }
             }
+            $advertise->update(['display'=> $advertise->display++]);
         }
         return $advertise;
     }
