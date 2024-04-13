@@ -191,7 +191,7 @@
                             تعداد کلیک:
                         </span>
                         <span class="content">
-                          {{ $advertise->actions()->where("count_type","click")->count() }}
+                          {{ $advertise->actions()->where("count_type","click")->whereMain(1)->count() }}
                         </span>
                     </div>
                     <div class="col-lg-3 text-align-right mb-2">
@@ -200,7 +200,7 @@
                             {{--  {{ $advertise->status }}  --}}
                         </span>
                         <span class="content">
-                          {{ $advertise->actions()->where("count_type","view")->count() }}
+                          {{ $advertise->actions()->whereIn("count_type","view")->count() }}
                         </span>
                     </div>
                     @role('customer')

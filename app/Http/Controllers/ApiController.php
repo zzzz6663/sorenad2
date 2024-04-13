@@ -150,8 +150,7 @@ class ApiController extends Controller
                 } else {
                     $action['main'] = 0;
                     $action['active'] = 0;
-                    $action['count_type'] = "fake";
-                    Action::create($action);
+                    $advertise->update(['display'=> $advertise->display++]);
                 }
             }
         }
