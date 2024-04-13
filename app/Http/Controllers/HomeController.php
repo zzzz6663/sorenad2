@@ -129,7 +129,7 @@ class HomeController extends Controller
 
                 $exist=Action::where('ip', $action['ip'])->where('site', $action['site'])->where('advertise_id', $action['advertise_id'])->first();
                 if(!$exist){
-                    $data["main"]=1;
+                    $action["main"]=1;
                     Action::create($action);
 
                 }
