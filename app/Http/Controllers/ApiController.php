@@ -39,23 +39,24 @@ class ApiController extends Controller
         $fixpost_req = $request->fixpost;
         $app_temp = ("admin.add_temp.app");
         $fixpost_temp = ("admin.add_temp.fixpost");
+        // $site = Site::find(22);
+             // $device = "mobile"
         $site = Site::where('site', 'LIKE', "%{$domin}%")->whereStatus("confirmed")->first();
         $site_owner = $site->user;
-        $app=null;
-        $fixpost=null;
+        $app = null;
+        $fixpost = null;
+   ;
         if ($site_owner->float_app  &&  $device == "mobile") {
             $advertise = $this->query($site, $request, "app");
-            if( $advertise){
-                $app= view($app_temp, compact(['advertise', "site"]))->render();
-
+            if ($advertise) {
+                $app = view($app_temp, compact(['advertise', "site"]))->render();
             }
         }
 
         if ($fixpost_req) {
             $advertise = $this->query($site, $request, "fixpost");
-            if( $advertise){
-                $fixpost= view($fixpost_temp, compact(['advertise', "site"]))->render();
-
+            if ($advertise) {
+                $fixpost = view($fixpost_temp, compact(['advertise', "site"]))->render();
             }
         }
 
@@ -78,9 +79,6 @@ class ApiController extends Controller
             'app' => $app,
             'fixpost' => $fixpost,
         ]);
-
-
-
     }
     public function query($site, $request, $type)
     {
@@ -91,21 +89,33 @@ class ApiController extends Controller
         $advertise->whereHas('cats', function ($query) use ($site) {
             $query->where('id', $site->cat_id);
         });
-        $advertise->where(function ($qu) {
-            $qu->doesntHave('actions')
-                ->orWhereHas("actions", function ($query) {
-                    $query->whereDate('created_at', Carbon::today())
-                    ->where(function ($query) {
-                        $query->when(\DB::raw('advertises.count_type') === 'view', function ($query2) {
-                            $query2->selectRaw('count(*)')
-                                ->havingRaw('count(*) < advertises.limit_daily_view');
-                        }, function ($query3) {
-                            $query3->selectRaw('count(*)')
-                                ->havingRaw('count(*) < advertises.limit_daily_click');
-                        });
+        $advertise->where(function ($q1) {
+                $q1->where("count_type", "view")
+                    ->orWhereHas("actions", function ($q3) {
+                        $q3->whereDate('created_at', Carbon::today())
+                      ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily_view');
+                    })
+               ->where("count_type", "click")
+                    ->orWhereHas("actions", function ($q4) {
+                        $q4->whereDate('created_at', Carbon::today())
+                        ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily_click');
                     });
-                });
+
         });
+        // $advertise->where(function ($qu) {
+        //     $qu->doesntHave('actions')
+        //     ->orWhereHas("actions", function ($query) {
+        //         $query->whereDate('created_at', Carbon::today())
+        //             ->where(function ($query) {
+        //                 $query->where('advertises.count_type', 'view')->selectRaw('count(*)')
+        //                     ->havingRaw('count(*) < advertises.limit_daily_view');
+        //             })
+        //             ->orWhere(function ($query) {
+        //                 $query->where('advertises.count_type', 'click')->selectRaw('count(*)')
+        //                     ->havingRaw('count(*) < advertises.limit_daily_click');
+        //             });
+        //     });
+        // });
         $advertise = $advertise->inRandomOrder()->first();
         if ($advertise) {
             $advertise_owner = $advertise->user;
@@ -148,10 +158,9 @@ class ApiController extends Controller
                     if ($advertise->actions->count() >= $advertise->view_count) {
                         $advertise->update(['status' => "down"]);
                     }
-
                 }
             }
-            $advertise->update(['display'=> $advertise->display+1]);
+            $advertise->update(['display' => $advertise->display + 1]);
         }
         return $advertise;
     }
