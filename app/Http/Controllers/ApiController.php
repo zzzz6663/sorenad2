@@ -84,6 +84,7 @@ class ApiController extends Controller
     }
     public function query($site, $request, $type)
     {
+        // ddd
         $site_owner = $site->user;
 
         $advertise = Advertise::where('active', 1)->whereType($type)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
