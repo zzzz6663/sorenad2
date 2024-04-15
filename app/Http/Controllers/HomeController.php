@@ -52,12 +52,12 @@ class HomeController extends Controller
         //         'status' => "payed",
         //     ]);
         // }
-        $advertise=Advertise::find(4);
-        dd($advertise->actions);
+        // $advertise=Advertise::find(4);
+        // dd($advertise->actions);
 
-        // Action::whereIn('id', $arr)->update(['active' => 0]);
+        // // Action::whereIn('id', $arr)->update(['active' => 0]);
 
-            Action::where("count_type","click")->update(['main'=>1]);
+        //     Action::where("count_type","click")->update(['main'=>1]);
 
         // $now = Carbon::now()->format("H:i:s");
         // // dd($now);
@@ -95,9 +95,10 @@ class HomeController extends Controller
             $action['count_type'] = $advertise->count_type;
             $action['advertiser_id'] = $advertise->user->id;
             $action['advertise_id'] = $advertise->id;
-            $action['site_id'] = $site->user->id;
-            $action['type'] = $advertise->type;
             $action['site'] = $site->site;
+            $action['type'] = $advertise->type;
+            $action['siter_id'] = $site->user->id;
+            $action['site_id'] = $site->id;
             $action['signature'] = $request->signature;
             $action['ip'] = $request->getClientIp();
             if ($site->user->vip) {
@@ -127,7 +128,7 @@ class HomeController extends Controller
             if ($advertise->count_type == "click") {
                 // && !Action::whereActive(1)->where("signature",$request->signature)->first()
 
-                $exist=Action::where('ip', $action['ip'])->where('site', $action['site'])->where('advertise_id', $action['advertise_id'])->first();
+                $exist=Action::where('ip', $action['ip'])->where('site_id', $action['site_id'])->where('advertise_id', $action['advertise_id'])->first();
                 if(!$exist){
                     $action["main"]=1;
                     Action::create($action);

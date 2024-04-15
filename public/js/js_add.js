@@ -42,8 +42,8 @@ let WebXmlHttpRequest=(method,url,data)=>{
     })
 
 }
-let url ="https://sorenad.runflare.run/api/test"
-// let url ="http://127.0.0.1:8000/api/test"
+// let url ="https://sorenad.runflare.run/api/test"
+let url ="http://127.0.0.1:8000/api/test"
 function post(url){
     console.log(url)
     WebXmlHttpRequest("post",url,data).then(function(res){
@@ -54,46 +54,58 @@ function post(url){
 
         }
         if(device=="mobile" && res.app){
-            document.body.innerHTML += res.app;
-            document.querySelector(".sorenad_close").addEventListener('click', function (e) {
-                this.closest(".sorenad_par").remove()
-            })
+            console.log("app")
+            setTimeout(() => {
+                document.body.innerHTML += res.app;
+                document.querySelector(".sorenad_close").addEventListener('click', function (e) {
+                    this.closest(".sorenad_par").remove()
+                })
+            }, 200);
+
+
         }
         if( res.fixpost){
-            console.log(8080)
-            console.log(res.fixpost)
-            document.getElementById("sorenad_fixpost").innerHTML = res.fixpost;
+            console.log("fixpost")
+            // console.log(res.fixpost)
+            setTimeout(() => {
+                document.getElementById("sorenad_fixpost").innerHTML = res.fixpost;
+
+            }, 200);
         }
     }).catch(function(err){
         console.log(err)
     })
 }
+window.onload = function(){
+    post(url)
 
-post(url)
-
+ };
+// ajax()
 console.log(12)
 // console.log(url)
-// $.ajax('http://127.0.0.1:8000/api/test', {
-//     headers: {
-//         // 'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
-//     },
-//     type: 'post',
-//     data: data,
-//     datatype: 'json',
-//     success: function (data) {
-//         console.log(data)
-//         // let css = data.css
-//         // document.head.innerHTML += `<link rel="stylesheet" href="${data.css}" type="text/css"/>`;
-//         // document.body.innerHTML += data.body;
-//         // document.querySelector(".sorenad_close").addEventListener('click', function (e) {
-//         //     this.closest(".sorenad_par").remove()
-//         // })
+ function ajax(){
+    $.ajax('http://127.0.0.1:8000/api/test', {
+    headers: {
+        // 'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+    },
+    type: 'post',
+    data: data,
+    datatype: 'json',
+    success: function (data) {
+        console.log(data)
+        // let css = data.css
+        // document.head.innerHTML += `<link rel="stylesheet" href="${data.css}" type="text/css"/>`;
+        // document.body.innerHTML += data.body;
+        // document.querySelector(".sorenad_close").addEventListener('click', function (e) {
+        //     this.closest(".sorenad_par").remove()
+        // })
 
-//     },
-//     error: function (request, status, error) {
-//         console.log(request);
-//         console.log(status);
-//         console.log(error);
-//     }
-// })
+    },
+    error: function (request, status, error) {
+        console.log(request);
+        console.log(status);
+        console.log(error);
+    }
+})
+}
 

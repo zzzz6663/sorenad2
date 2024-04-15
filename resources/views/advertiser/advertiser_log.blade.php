@@ -323,9 +323,9 @@
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
                         <td>{{ $site->site }}</td>
-                        <td>{{ number_format($site->actions()->where('main',1)->whereActive(0)->where("count_type","view")->sum('site_share')) }}</td>
-                        <td>{{ $site->actions()->where('main',1)->whereActive(0)->where("count_type","view")->count() }}</td>
-                        <td>{{ $site->actions()->where('main',1)->whereActive(0)->where("count_type","click")->count() }}</td>
+                        <td>{{ number_format($site->actions()->where('main',1)->sum('site_share')) }}</td>
+                        <td>{{ $site->actions()->where('main',1)->where("count_type","view")->count() }}</td>
+                        <td>{{ $site->actions()->where('main',1)->where("count_type","click")->count() }}</td>
 
                             <td>
                                 {{ floor(($site->actions()->where('main',1)->where("count_type","click")->count()*100)/

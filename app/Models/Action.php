@@ -10,8 +10,10 @@ class Action extends Model
     use HasFactory;
     protected $fillable=[
         'advertiser_id',
-        'site_id',
         'advertise_id',
+
+        'site_id',
+        'siter_id',
         'type',
         'site',
         'amount',
@@ -28,7 +30,13 @@ class Action extends Model
     public function advertise(){
         return $this->belongsTo(Advertise::class);
     }
-    public function sites(){
+    public function advertiser(){
+        return $this->belongsTo(User::class,"advertiser_id");
+    }
+    public function site(){
         return $this->belongsTo(Site::class);
+    }
+    public function siter(){
+        return $this->belongsTo(User::class,"siter_id");
     }
 }

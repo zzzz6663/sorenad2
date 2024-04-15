@@ -88,33 +88,13 @@ class ApiController extends Controller
         $advertise->whereHas('cats', function ($query) use ($site) {
             $query->where('id', $site->cat_id);
         });
-
-        $advertise->doesntHave('actions')
-        ->orWhereHas("actions", function ($q3) {
-            $q3->whereDate('created_at',">=",  Carbon::today())
-            ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily');
+        $advertise->where(function($qu){
+            $qu->doesntHave('actions')
+            ->orWhereHas("actions", function ($q3) {
+                $q3->whereDate('created_at',">=",  Carbon::today())
+                ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily');
+            });
         });
-        // $q1 ->doesntHave('actions')
-                    // ->orWhereHas("actions", function ($q3) {
-                    //     $q3->whereDate('created_at', '>=', Carbon::today())
-                    //         ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily');
-                    //     });
-                    // });
-            //     });
-        // $advertise->where(function ($qu) {
-        //     $qu->doesntHave('actions')
-        //     ->orWhereHas("actions", function ($query) {
-        //         $query->whereDate('created_at', Carbon::today())
-        //             ->where(function ($query) {
-        //                 $query->where('advertises.count_type', 'view')->selectRaw('count(*)')
-        //                     ->havingRaw('count(*) < advertises.limit_daily_view');
-        //             })
-        //             ->orWhere(function ($query) {
-        //                 $query->where('advertises.count_type', 'click')->selectRaw('count(*)')
-        //                     ->havingRaw('count(*) < advertises.limit_daily_click');
-        //             });
-        //     });
-        // });
         $advertise = $advertise
         ->inRandomOrder()
         ->first();
@@ -123,7 +103,8 @@ class ApiController extends Controller
             $action['count_type'] = $advertise->count_type;
             $action['advertiser_id'] = $advertise->user->id;
             $action['advertise_id'] = $advertise->id;
-            $action['site_id'] = $site->user->id;
+            $action['siter_id'] = $site->user->id;
+            $action['site_id'] = $site->id;
             $action['type'] = $type;
             $action['site'] = $site->site;
             $action['ip'] = $request->getClientIp();
@@ -151,7 +132,7 @@ class ApiController extends Controller
                 }
             }
 
-            $exist = Action::where('ip', $action['ip'])->where('site', $action['site'])->where('advertise_id', $action['advertise_id'])->first();
+            $exist = Action::where('ip', $action['ip'])->where('site_id', $action['site_id'])->where('advertise_id', $action['advertise_id'])->first();
             if (!$exist) {
                 if ($advertise->count_type == "view") {
                     $action['main'] = 1;

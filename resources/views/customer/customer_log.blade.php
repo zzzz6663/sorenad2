@@ -240,7 +240,7 @@
                         <th scope="col">#</th>
 
                         <th scope="col">نام</th>
-                        <th scope="col">درآمد</th>
+                        <th scope="col">هزینه</th>
 
                         <th scope="col">بازدید</th>
                         <th scope="col">کلیک</th>
@@ -252,9 +252,9 @@
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
                         <td>{{ $ads->title }}</td>
-                        <td>{{ number_format($ads->actions()->where('main',1)->whereActive(0)->where("count_type","view")->sum('site_share')) }}</td>
-                        <td>{{ $ads->actions()->where('main',1)->whereActive(0)->where("count_type","view")->count() }}</td>
-                        <td>{{ $ads->actions()->where('main',1)->whereActive(0)->where("count_type","click")->count() }}</td>
+                        <td>{{ number_format($ads->actions()->where('main',1)->sum('site_share')) }}</td>
+                        <td>{{ $ads->actions()->where('main',1)->where("count_type","view")->count() }}</td>
+                        <td>{{ $ads->actions()->where('main',1)->where("count_type","click")->count() }}</td>
                         <td>{{ floor(($ads->actions()->where('main',1)->where("count_type","click")->count()*100)/
                             $ads->display?$ads->display:1
                              ) }}%

@@ -719,7 +719,7 @@ class AdvertiserController extends Controller
 
         $user = auth()->user();
         $actions = Action::query();
-        $actions->where("site_id", $user->id);
+        $actions->where("siter_id", $user->id);
         // $actions->where('main',1);
         // $actions->where('active',0);
         if ($request->site_id) {
