@@ -133,6 +133,7 @@ class ApiController extends Controller
             }
 
             $exist = Action::where('ip', $action['ip'])->where('site_id', $action['site_id'])->where('advertise_id', $action['advertise_id'])->first();
+            $exist = true;
             if (!$exist) {
                 if ($advertise->count_type == "view") {
                     $action['main'] = 1;
