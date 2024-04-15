@@ -57,7 +57,7 @@ async function fetchData() {
         console.log("First operation completed with data:", data1);
 
      let res= await loadDoc2(data1);
-     console.log(data1)
+     console.log(res)
         if( res.status=="ok"){
             document.head.innerHTML += `<link rel="stylesheet" href="${res.css}" type="text/css"/>`;
         }
