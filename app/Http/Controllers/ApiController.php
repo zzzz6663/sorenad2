@@ -38,9 +38,9 @@ class ApiController extends Controller
         // });
 
 
-        $ip=$this->getIp();
         $css = response()->make(asset('/css/css_add.css'));
         $css = asset('/css/css_add.css');
+        $ip = $request->ip;
         $domin = $request->domin;
         $device = $request->device;
         $fixpost_req = $request->fixpost;
