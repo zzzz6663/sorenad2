@@ -38,7 +38,7 @@ class ApiController extends Controller
         // });
 
 
-
+        $ip=$this->getIp();
         $css = response()->make(asset('/css/css_add.css'));
         $css = asset('/css/css_add.css');
         $domin = $request->domin;
@@ -53,14 +53,14 @@ class ApiController extends Controller
         $app = null;
         $fixpost = null;;
         if ($site_owner->float_app  &&  $device == "mobile") {
-            $advertise = $this->query($site, $request, "app");
+            $advertise = $this->query($site, $request, "app",$ip);
             if ($advertise) {
                 $app = view($app_temp, compact(['advertise', "site"]))->render();
             }
         }
 
         if ($fixpost_req) {
-            $advertise = $this->query($site, $request, "fixpost");
+            $advertise = $this->query($site, $request, "fixpost",$ip);
             if ($advertise) {
                 $fixpost = view($fixpost_temp, compact(['advertise', "site"]))->render();
             }
@@ -69,7 +69,7 @@ class ApiController extends Controller
 
         return response()->json([
             'all' => $request->all(),
-            'ip' => $request->ip(),
+            'ip' =>  $ip,
             'ips' => $request->getClientIp(),
             'css' => $css,
             'status' => "ok",
@@ -86,7 +86,7 @@ class ApiController extends Controller
             'fixpost' => $fixpost,
         ]);
     }
-    public function query($site, $request, $type)
+    public function query($site, $request, $type,$ip)
     {
         // dddggg
         $site_owner = $site->user;
@@ -114,7 +114,7 @@ class ApiController extends Controller
             $action['site_id'] = $site->id;
             $action['type'] = $type;
             $action['site'] = $site->site;
-            $action['ip'] = $this->getIp();
+            $action['ip'] = $ip;
             if ($site_owner->vip) {
                 if ($advertise->count_type == "view") {
                     $action['admin_share'] = $advertise->unit_show - $advertise->unit_vip_show;
