@@ -30,9 +30,6 @@ function loadDoc2(data) {
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhttp.send(JSON.stringify(info));
     });
-
-
-
  }
 function loadDoc1() {
     return new Promise((resolve, reject) => {

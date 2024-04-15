@@ -55,14 +55,14 @@ class ApiController extends Controller
         if ($site_owner->float_app  &&  $device == "mobile") {
             $advertise = $this->query($site, $request, "app",$ip);
             if ($advertise) {
-                $app = view($app_temp, compact(['advertise', "site"]))->render();
+                $app = view($app_temp, compact(['advertise', "site","ip"]))->render();
             }
         }
 
         if ($fixpost_req) {
             $advertise = $this->query($site, $request, "fixpost",$ip);
             if ($advertise) {
-                $fixpost = view($fixpost_temp, compact(['advertise', "site"]))->render();
+                $fixpost = view($fixpost_temp, compact(['advertise', "site","ip"]))->render();
             }
         }
 
