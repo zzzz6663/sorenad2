@@ -40,12 +40,11 @@ class ApiController extends Controller
         $app_temp = ("admin.add_temp.app");
         $fixpost_temp = ("admin.add_temp.fixpost");
         // $site = Site::find(22);
-             // $device = "mobile"
+        // $device = "mobile"
         $site = Site::where('site', 'LIKE', "%{$domin}%")->whereStatus("confirmed")->first();
         $site_owner = $site->user;
         $app = null;
-        $fixpost = null;
-   ;
+        $fixpost = null;;
         if ($site_owner->float_app  &&  $device == "mobile") {
             $advertise = $this->query($site, $request, "app");
             if ($advertise) {
@@ -89,19 +88,19 @@ class ApiController extends Controller
         $advertise->whereHas('cats', function ($query) use ($site) {
             $query->where('id', $site->cat_id);
         });
-        $advertise->where(function ($q1) {
-                $q1->where("count_type", "view")
-                    ->orWhereHas("actions", function ($q3) {
-                        $q3->whereDate('created_at', Carbon::today())
-                      ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily_view');
-                    })
-               ->where("count_type", "click")
-                    ->orWhereHas("actions", function ($q4) {
-                        $q4->whereDate('created_at', Carbon::today())
-                        ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily_click');
-                    });
 
+        $advertise->doesntHave('actions')
+        ->orWhereHas("actions", function ($q3) {
+            $q3->whereDate('created_at',">=",  Carbon::today())
+            ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily');
         });
+        // $q1 ->doesntHave('actions')
+                    // ->orWhereHas("actions", function ($q3) {
+                    //     $q3->whereDate('created_at', '>=', Carbon::today())
+                    //         ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily');
+                    //     });
+                    // });
+            //     });
         // $advertise->where(function ($qu) {
         //     $qu->doesntHave('actions')
         //     ->orWhereHas("actions", function ($query) {
@@ -116,7 +115,9 @@ class ApiController extends Controller
         //             });
         //     });
         // });
-        $advertise = $advertise->inRandomOrder()->first();
+        $advertise = $advertise
+        ->inRandomOrder()
+        ->first();
         if ($advertise) {
             $advertise_owner = $advertise->user;
             $action['count_type'] = $advertise->count_type;

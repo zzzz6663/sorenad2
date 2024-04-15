@@ -72,28 +72,28 @@ function post(url){
 post(url)
 
 console.log(12)
-console.log(url)
-$.ajax('http://127.0.0.1:8000/api/test', {
-    headers: {
-        // 'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
-    },
-    type: 'post',
-    data: data,
-    datatype: 'json',
-    success: function (data) {
-        console.log(data)
-        // let css = data.css
-        // document.head.innerHTML += `<link rel="stylesheet" href="${data.css}" type="text/css"/>`;
-        // document.body.innerHTML += data.body;
-        // document.querySelector(".sorenad_close").addEventListener('click', function (e) {
-        //     this.closest(".sorenad_par").remove()
-        // })
+// console.log(url)
+// $.ajax('http://127.0.0.1:8000/api/test', {
+//     headers: {
+//         // 'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+//     },
+//     type: 'post',
+//     data: data,
+//     datatype: 'json',
+//     success: function (data) {
+//         console.log(data)
+//         // let css = data.css
+//         // document.head.innerHTML += `<link rel="stylesheet" href="${data.css}" type="text/css"/>`;
+//         // document.body.innerHTML += data.body;
+//         // document.querySelector(".sorenad_close").addEventListener('click', function (e) {
+//         //     this.closest(".sorenad_par").remove()
+//         // })
 
-    },
-    error: function (request, status, error) {
-        console.log(request);
-        console.log(status);
-        console.log(error);
-    }
-})
+//     },
+//     error: function (request, status, error) {
+//         console.log(request);
+//         console.log(status);
+//         console.log(error);
+//     }
+// })
 

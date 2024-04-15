@@ -1,4 +1,3 @@
-
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDefault{{ $advertise->id }}">
     جزئیات
 </button>
@@ -8,7 +7,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">جزئیات آگهی
                     <span class="text text-primary">
-                        {{  $advertise->title }}
+                        {{ $advertise->title }}
                     </span>
 
                 </h5>
@@ -23,7 +22,7 @@
                             عنوان:
                         </span>
                         <span class="content">
-                            {{  $advertise->title }}
+                            {{ $advertise->title }}
                         </span>
                     </div>
                     @if( $advertise->device)
@@ -32,7 +31,7 @@
                             دیوایس:
                         </span>
                         <span class="content">
-                            {{  $advertise->device }}
+                            {{ $advertise->device }}
                         </span>
                     </div>
                     @endif
@@ -42,7 +41,7 @@
                             بنر اول:
                         </span>
                         <span class="content">
-                            <a target="_blank"  class="no_link" href="{{ $advertise->banner1() }}"></a>
+                            <a target="_blank" class="no_link" href="{{ $advertise->banner1() }}"></a>
                         </span>
                     </div>
                     @endif
@@ -52,7 +51,7 @@
                             بنر دوم:
                         </span>
                         <span class="content">
-                            <a target="_blank"  class="no_link" href="{{ $advertise->banner2() }}"></a>
+                            <a target="_blank" class="no_link" href="{{ $advertise->banner2() }}"></a>
                         </span>
                     </div>
                     @endif
@@ -63,7 +62,7 @@
                             بنر سوم:
                         </span>
                         <span class="content">
-                            <a target="_blank"  class="no_link" href="{{ $advertise->banner3() }}"></a>
+                            <a target="_blank" class="no_link" href="{{ $advertise->banner3() }}"></a>
                         </span>
                     </div>
                     @endif
@@ -74,7 +73,7 @@
                             آیکون:
                         </span>
                         <span class="content">
-                            <a target="_blank"  class="no_link" href="{{ $advertise->icon() }}"></a>
+                            <a target="_blank" class="no_link" href="{{ $advertise->icon() }}"></a>
                         </span>
                     </div>
                     @endif
@@ -84,7 +83,7 @@
                             نوع آگهی:
                         </span>
                         <span class="content">
-                            {{  __("advertise_type.".$advertise->type) }}
+                            {{ __("advertise_type.".$advertise->type) }}
                         </span>
                     </div>
 
@@ -95,7 +94,7 @@
                             مدل قیمت گذاری:
                         </span>
                         <span class="content">
-                            {{  __("arr.".$advertise->count_type) }}
+                            {{ __("arr.".$advertise->count_type) }}
                         </span>
                     </div>
 
@@ -113,15 +112,35 @@
                             محدودیت تعداد کلیک:
                         </span>
                         <span class="content">
-                            {{ $advertise->limit_daily_click}}
+                            {{ $advertise->limit_daily}}
                         </span>
                     </div>
                     <div class="col-lg-3 text-align-right mb-2">
                         <span class="title fw-bold modal-title">
-                            تعداد  کلیک امروز:
+                            تعداد کلیک امروز:
                         </span>
                         <span class="content">
-                            {{ $advertise->actions()->where("count_type","click")->whereMain(1)->count()}}
+                            {{ $advertise->actions()->where("count_type","click")->whereDate('created_at', '>=', Carbon\Carbon::today())->whereMain(1)->count()}}
+                        </span>
+                    </div>
+                    <div class="col-lg-3 text-align-right mb-2">
+                        <span class="title fw-bold modal-title">
+                            تعداد مصرف شده
+                            کلیک
+                            :
+                        </span>
+                        <span class="content">
+                            {{ $advertise->actions->count()}}
+                        </span>
+                    </div>
+                    <div class="col-lg-3 text-align-right mb-2">
+                        <span class="title fw-bold modal-title">
+                            تعداد باقی مانده
+                            کلیک
+                            :
+                        </span>
+                        <span class="content">
+                            {{$advertise->click_count- $advertise->actions->count()}}
                         </span>
                     </div>
                     @endif
@@ -139,18 +158,40 @@
                             محدودیت تعداد نمایش:
                         </span>
                         <span class="content">
-                            {{ $advertise->limit_daily_view}}
+                            {{ $advertise->limit_daily}}
                         </span>
                     </div>
                     <div class="col-lg-3 text-align-right mb-2">
                         <span class="title fw-bold modal-title">
-                            تعداد  نمایش امروز:
+                            تعداد نمایش امروز:
                         </span>
                         <span class="content">
-                            {{ $advertise->actions()->where("count_type","view")->whereMain(1)->count()}}
+                            {{ $advertise->actions()->where("count_type","view")->whereMain(1)->whereDate('created_at', '>=', Carbon\Carbon::today())->count()}}
+                        </span>
+                    </div>
+                    <div class="col-lg-3 text-align-right mb-2">
+                        <span class="title fw-bold modal-title">
+                            تعداد مصرف شده
+                            نمایش
+                            :
+                        </span>
+                        <span class="content">
+                            {{ $advertise->actions->count()}}
+                        </span>
+                    </div>
+                    <div class="col-lg-3 text-align-right mb-2">
+                        <span class="title fw-bold modal-title">
+                            تعداد باقی مانده
+                            نمایش
+                            :
+                        </span>
+                        <span class="content">
+                            {{$advertise->view_count- $advertise->actions->count()}}
                         </span>
                     </div>
                     @endif
+
+
                     <div class="col-lg-12 text-align-right mb-2">
                         <span class="title fw-bold modal-title">
                             لینک های فرود:
@@ -170,7 +211,8 @@
                             @endif
                         </span>
                     </div>
-                    {{--  <div class="col-lg-12 text-align-right mb-2">
+
+                    {{-- <div class="col-lg-12 text-align-right mb-2">
                         <span class="title fw-bold modal-title">
                             توضیحات آگهی:
                         </span>
@@ -183,7 +225,7 @@
                             متن تبلیغ:
                         </span>
                         <span class="content">
-                          {{ $advertise->text }}
+                            {{ $advertise->text }}
                         </span>
                     </div>
                     <div class="col-lg-3 text-align-right mb-2">
@@ -191,17 +233,15 @@
                             تعداد کلیک:
                         </span>
                         <span class="content">
-                          {{ $advertise->actions()->where("count_type","click")->whereMain(1)->count() }}
+                            {{ $advertise->actions()->where("count_type","click")->whereMain(1)->count() }}
                         </span>
                     </div>
                     <div class="col-lg-3 text-align-right mb-2">
                         <span class="title fw-bold modal-title">
                             تعداد نمایش:
-                            {{--  {{ $advertise->status }}  --}}
                         </span>
                         <span class="content">
                             {{ number_format($advertise->display) }}
-                          {{--  {{ $advertise->actions()->whereIn("count_type","view")->count() }}  --}}
                         </span>
                     </div>
                     @role('customer')

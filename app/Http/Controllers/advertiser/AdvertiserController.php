@@ -42,13 +42,13 @@ class AdvertiserController extends Controller
     {
         $user = auth()->user();
         $price = $user->view_price("popup");
-        $type="popup";
+        $type = "popup";
         if ($request->isMethod("post")) {
             // dd($request->ssall());
             if ($advertise->id) {
                 $data['view_count'] =  $advertise->view_count;
                 $data['landing_link1'] =  $advertise->landing_link1;
-                $data['limit_daily_view'] =  $advertise->limit_daily_view;
+                $data['limit_daily'] =  $advertise->limit_daily;
                 $data['title'] =  $advertise->title;
                 $data['device'] =  $advertise->device;
                 $data['pay_type'] =  $request->pay_type;
@@ -65,13 +65,16 @@ class AdvertiserController extends Controller
                 $data["type"] = "popup";
                 $data["status"] = "created";
 
-                $data["unit_show"] = $user->setting_cache( $type."_advertiser_show");
-                $data["unit_click"] = $user->setting_cache($type."_advertiser_click");
-                $data["unit_vip_click"] = $user->setting_cache($type."_user_vip_click");
-                $data["unit_vip_show"] = $user->setting_cache($type."_user_vip_show");
-                $data["unit_normal_click"] = $user->setting_cache($type."_user_normal_click");
-                $data["unit_normal_show"] = $user->setting_cache($type."_user_normal_show");
-
+                $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
+                $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
+                $data["unit_vip_click"] = $user->setting_cache($type . "_user_vip_click");
+                $data["unit_vip_show"] = $user->setting_cache($type . "_user_vip_show");
+                $data["unit_normal_click"] = $user->setting_cache($type . "_user_normal_click");
+                $data["unit_normal_show"] = $user->setting_cache($type . "_user_normal_show");
+                $data['limit_daily'] = $request->limit_daily_view;
+                if ($request->limit_daily_click) {
+                    $data['limit_daily'] = $request->limit_daily_click;
+                }
                 $advertise = $user->advertises()->create($data);
             }
 
@@ -80,27 +83,27 @@ class AdvertiserController extends Controller
             return redirect()->route("send.pay", ['type' => "popup", "data" => $data]);
         }
 
-        return view('advertiser.advertiser_new_ad_popup', compact(["user", "price","type"]));
+        return view('advertiser.advertiser_new_ad_popup', compact(["user", "price", "type"]));
     }
     public function add_tiny_image(Request $request)
-    {    if ($request->hasFile('file')) {
-        $file = $request->file('file');
-        $name_img = 'file_' . time() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('/media/advertises/tiny/'), $name_img);
-        $data['file'] = $name_img;
-    }
-    return response()->json([
-        'all'=>$request->all(),
-        'location'=>asset('/media/advertises/tiny/'.$name_img)
-    ]);
-
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $name_img = 'file_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('/media/advertises/tiny/'), $name_img);
+            $data['file'] = $name_img;
+        }
+        return response()->json([
+            'all' => $request->all(),
+            'location' => asset('/media/advertises/tiny/' . $name_img)
+        ]);
     }
     public function advertiser_new_ad_app(Request $request, Advertise $advertise)
     {
         $user = auth()->user();
         $click = $user->click_price('app');
         $view = $user->view_price('app');
-        $type="app";
+        $type = "app";
         if ($request->isMethod("post")) {
 
 
@@ -117,11 +120,9 @@ class AdvertiserController extends Controller
                 $data['icon'] =  $advertise->icon;
                 $data['count_type'] =  $advertise->count_type;
                 $data['banner1'] =  $advertise->banner1;
-                $data['limit_daily_view'] =  $advertise->limit_daily_view;
-                $data['click_count'] =  $advertise->click_count;
+                 $data['click_count'] =  $advertise->click_count;
+                 $data['view_count'] =  $advertise->view_count;
                 $data['limit_daily_click'] =  $advertise->limit_daily_click;
-                $data['view_count'] =  $advertise->view_count;
-                $data['limit_daily_view'] =  $advertise->limit_daily_view;
                 $data['pay_type'] =  $request->pay_type;
                 $data["type"] = "app";
             } else {
@@ -153,13 +154,16 @@ class AdvertiserController extends Controller
                 $data["type"] = "app";
                 $data["status"] = "created";
 
-                $data["unit_show"] = $user->setting_cache( $type."_advertiser_show");
-                $data["unit_click"] = $user->setting_cache($type."_advertiser_click");
-                $data["unit_vip_click"] = $user->setting_cache($type."_user_vip_click");
-                $data["unit_vip_show"] = $user->setting_cache($type."_user_vip_show");
-                $data["unit_normal_click"] = $user->setting_cache($type."_user_normal_click");
-                $data["unit_normal_show"] = $user->setting_cache($type."_user_normal_show");
-
+                $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
+                $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
+                $data["unit_vip_click"] = $user->setting_cache($type . "_user_vip_click");
+                $data["unit_vip_show"] = $user->setting_cache($type . "_user_vip_show");
+                $data["unit_normal_click"] = $user->setting_cache($type . "_user_normal_click");
+                $data["unit_normal_show"] = $user->setting_cache($type . "_user_normal_show");
+                $data['limit_daily'] = $request->limit_daily_view;
+                if ($request->limit_daily_click) {
+                    $data['limit_daily'] = $request->limit_daily_click;
+                }
                 $advertise = $user->advertises()->create($data);
                 if ($request->hasFile('icon')) {
                     $icon = $request->file('icon');
@@ -177,7 +181,7 @@ class AdvertiserController extends Controller
                 $advertise->update($data);
                 if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
-                }else{
+                } else {
                     $advertise->cats()->attach(Cat::whereActive(1)->pluck("id")->toArray());
                 }
             }
@@ -186,14 +190,14 @@ class AdvertiserController extends Controller
 
             return redirect()->route("send.pay", ['type' => "app", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_app', compact(["user", "click", "view","type"]));
+        return view('advertiser.advertiser_new_ad_app', compact(["user", "click", "view", "type"]));
     }
     public function advertiser_new_ad_banner(Request $request, Advertise $advertise)
     {
         $user = auth()->user();
         $click = $user->click_price("banner");
         $view = $user->view_price("banner");
-        $type="banner";
+        $type = "banner";
         if ($request->isMethod("post")) {
             // dd($request->all());
 
@@ -205,13 +209,11 @@ class AdvertiserController extends Controller
                 $data['landing_link1'] =  $advertise->landing_link1;
                 $data['banner1'] =  $advertise->banner1;
                 $data['banner2'] =  $advertise->banner2;
-                $data['limit_daily_view'] =  $advertise->limit_daily_view;
 
                 $data['click_count'] =  $advertise->click_count;
-                $data['limit_daily_click'] =  $advertise->limit_daily_click;
 
                 $data['view_count'] =  $advertise->view_count;
-                $data['limit_daily_view'] =  $advertise->limit_daily_view;
+                $data['limit_daily'] =  $advertise->limit_daily;
 
 
                 $data['pay_type'] =  $request->pay_type;
@@ -235,12 +237,16 @@ class AdvertiserController extends Controller
                 $data["type"] = "banner";
                 $data["status"] = "created";
 
-                $data["unit_show"] = $user->setting_cache( $type."_advertiser_show");
-                $data["unit_click"] = $user->setting_cache($type."_advertiser_click");
-                $data["unit_vip_click"] = $user->setting_cache($type."_user_vip_click");
-                $data["unit_vip_show"] = $user->setting_cache($type."_user_vip_show");
-                $data["unit_normal_click"] = $user->setting_cache($type."_user_normal_click");
-                $data["unit_normal_show"] = $user->setting_cache($type."_user_normal_show");
+                $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
+                $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
+                $data["unit_vip_click"] = $user->setting_cache($type . "_user_vip_click");
+                $data["unit_vip_show"] = $user->setting_cache($type . "_user_vip_show");
+                $data["unit_normal_click"] = $user->setting_cache($type . "_user_normal_click");
+                $data["unit_normal_show"] = $user->setting_cache($type . "_user_normal_show");
+                $data['limit_daily'] = $request->limit_daily_view;
+                if ($request->limit_daily_click) {
+                    $data['limit_daily'] = $request->limit_daily_click;
+                }
                 $advertise = $user->advertises()->create($data);
                 // if ($request->hasFile('icon')) {
                 //     $icon = $request->file('icon');
@@ -264,7 +270,7 @@ class AdvertiserController extends Controller
                 $advertise->update($data);
                 if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
-                }else{
+                } else {
                     $advertise->cats()->attach(Cat::whereActive(1)->pluck("id")->toArray());
                 }
             }
@@ -273,14 +279,14 @@ class AdvertiserController extends Controller
 
             return redirect()->route("send.pay", ['type' => "banner", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_banner', compact(["user", "click", "view","type"]));
+        return view('advertiser.advertiser_new_ad_banner', compact(["user", "click", "view", "type"]));
     }
     public function advertiser_new_ad_fixpost(Request $request, Advertise $advertise)
     {
         $user = auth()->user();
         $click = $user->click_price("fixpost");
         $view = $user->view_price("fixpost");
-        $type="fixpost";
+        $type = "fixpost";
         if ($request->isMethod("post")) {
             // dd($request->all());
             if ($advertise->id) {
@@ -291,11 +297,11 @@ class AdvertiserController extends Controller
                 $data['call_to_action'] =  $advertise->call_to_action;
                 $data['count_type'] =  $advertise->count_type;
                 // $data['banner1'] =  $advertise->banner1;
-                $data['limit_daily_view'] =  $advertise->limit_daily_view;
+
                 $data['click_count'] =  $advertise->click_count;
-                $data['limit_daily_click'] =  $advertise->limit_daily_click;
+
                 $data['view_count'] =  $advertise->view_count;
-                $data['limit_daily_view'] =  $advertise->limit_daily_view;
+                $data['limit_daily'] =  $advertise->limit_daily;
                 $data['device'] =  $advertise->device;
                 $data['bg_color'] =  $advertise->bg_color;
                 $data['pay_type'] =  $request->pay_type;
@@ -321,12 +327,16 @@ class AdvertiserController extends Controller
                 $data["type"] = "fixpost";
                 $data["status"] = "created";
 
-                $data["unit_show"] = $user->setting_cache( $type."_advertiser_show");
-                $data["unit_click"] = $user->setting_cache($type."_advertiser_click");
-                $data["unit_vip_click"] = $user->setting_cache($type."_user_vip_click");
-                $data["unit_vip_show"] = $user->setting_cache($type."_user_vip_show");
-                $data["unit_normal_click"] = $user->setting_cache($type."_user_normal_click");
-                $data["unit_normal_show"] = $user->setting_cache($type."_user_normal_show");
+                $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
+                $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
+                $data["unit_vip_click"] = $user->setting_cache($type . "_user_vip_click");
+                $data["unit_vip_show"] = $user->setting_cache($type . "_user_vip_show");
+                $data["unit_normal_click"] = $user->setting_cache($type . "_user_normal_click");
+                $data["unit_normal_show"] = $user->setting_cache($type . "_user_normal_show");
+                $data['limit_daily'] = $request->limit_daily_view;
+                if ($request->limit_daily_click) {
+                    $data['limit_daily'] = $request->limit_daily_click;
+                }
                 $advertise = $user->advertises()->create($data);
                 if ($request->hasFile('icon')) {
                     $icon = $request->file('icon');
@@ -343,21 +353,21 @@ class AdvertiserController extends Controller
                 $advertise->update($data);
                 if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
-                }else{
+                } else {
                     $advertise->cats()->attach(Cat::whereActive(1)->pluck("id")->toArray());
                 }
             }
             $data['advertise_id'] =  $advertise->id;
             return redirect()->route("send.pay", ['type' => "banner", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_fixpost', compact(["user", "click", "view","type"]));
+        return view('advertiser.advertiser_new_ad_fixpost', compact(["user", "click", "view", "type"]));
     }
     public function advertiser_new_ad_text(Request $request, Advertise $advertise)
     {
         $user = auth()->user();
         $click = $user->click_price("text");
         $view = $user->view_price("text");
-        $type="text";
+        $type = "text";
         if ($request->isMethod("post")) {
             // dd($request->all());
 
@@ -368,9 +378,8 @@ class AdvertiserController extends Controller
                 $data['text'] =  $advertise->text;
                 $data['landing_link1'] =  $advertise->landing_link1;
                 $data['click_count'] =  $advertise->click_count;
-                $data['limit_daily_click'] =  $advertise->limit_daily_click;
-                $data['view_count'] =  $advertise->view_count;
-                $data['limit_daily_view'] =  $advertise->limit_daily_view;
+                 $data['view_count'] =  $advertise->view_count;
+                $data['limit_daily'] =  $advertise->limit_daily;
                 $data['device'] =  $advertise->device;
                 $data['pay_type'] =  $request->pay_type;
                 $data["type"] = "text";
@@ -394,12 +403,16 @@ class AdvertiserController extends Controller
                 $data["type"] = "text";
                 $data["status"] = "created";
 
-                $data["unit_show"] = $user->setting_cache( $type."_advertiser_show");
-                $data["unit_click"] = $user->setting_cache($type."_advertiser_click");
-                $data["unit_vip_click"] = $user->setting_cache($type."_user_vip_click");
-                $data["unit_vip_show"] = $user->setting_cache($type."_user_vip_show");
-                $data["unit_normal_click"] = $user->setting_cache($type."_user_normal_click");
-                $data["unit_normal_show"] = $user->setting_cache($type."_user_normal_show");
+                $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
+                $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
+                $data["unit_vip_click"] = $user->setting_cache($type . "_user_vip_click");
+                $data["unit_vip_show"] = $user->setting_cache($type . "_user_vip_show");
+                $data["unit_normal_click"] = $user->setting_cache($type . "_user_normal_click");
+                $data["unit_normal_show"] = $user->setting_cache($type . "_user_normal_show");
+                $data['limit_daily'] = $request->limit_daily_view;
+                if ($request->limit_daily_click) {
+                    $data['limit_daily'] = $request->limit_daily_click;
+                }
                 $advertise = $user->advertises()->create($data);
                 if ($request->hasFile('icon')) {
                     $icon = $request->file('icon');
@@ -416,21 +429,21 @@ class AdvertiserController extends Controller
                 $advertise->update($data);
                 if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
-                }else{
+                } else {
                     $advertise->cats()->attach(Cat::whereActive(1)->pluck("id")->toArray());
                 }
             }
             $data['advertise_id'] =  $advertise->id;
             return redirect()->route("send.pay", ['type' => "banner", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_text', compact(["user", "click", "view","type"]));
+        return view('advertiser.advertiser_new_ad_text', compact(["user", "click", "view", "type"]));
     }
     public function advertiser_new_ad_video(Request $request, Advertise $advertise)
     {
         $user = auth()->user();
         $click = $user->click_price("video");
         $view = $user->view_price("video");
-        $type="video";
+        $type = "video";
         if ($request->isMethod("post")) {
             // dd($request->all());
 
@@ -440,9 +453,8 @@ class AdvertiserController extends Controller
                 $data['title'] =  $advertise->title;
                 $data['landing_link1'] =  $advertise->landing_link1;
                 $data['click_count'] =  $advertise->click_count;
-                $data['limit_daily_click'] =  $advertise->limit_daily_click;
-                $data['view_count'] =  $advertise->view_count;
-                $data['limit_daily_view'] =  $advertise->limit_daily_view;
+                 $data['view_count'] =  $advertise->view_count;
+                $data['limit_daily'] =  $advertise->limit_daily;
                 $data['count_type'] =  $advertise->count_type;
                 $data['device'] =  $advertise->device;
                 $data['pay_type'] =  $request->pay_type;
@@ -465,12 +477,16 @@ class AdvertiserController extends Controller
                 $data["type"] = "video";
                 $data["status"] = "created";
 
-                $data["unit_show"] = $user->setting_cache( $type."_advertiser_show");
-                $data["unit_click"] = $user->setting_cache($type."_advertiser_click");
-                $data["unit_vip_click"] = $user->setting_cache($type."_user_vip_click");
-                $data["unit_vip_show"] = $user->setting_cache($type."_user_vip_show");
-                $data["unit_normal_click"] = $user->setting_cache($type."_user_normal_click");
-                $data["unit_normal_show"] = $user->setting_cache($type."_user_normal_show");
+                $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
+                $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
+                $data["unit_vip_click"] = $user->setting_cache($type . "_user_vip_click");
+                $data["unit_vip_show"] = $user->setting_cache($type . "_user_vip_show");
+                $data["unit_normal_click"] = $user->setting_cache($type . "_user_normal_click");
+                $data["unit_normal_show"] = $user->setting_cache($type . "_user_normal_show");
+                $data['limit_daily'] = $request->limit_daily_view;
+                if ($request->limit_daily_click) {
+                    $data['limit_daily'] = $request->limit_daily_click;
+                }
                 $advertise = $user->advertises()->create($data);
                 if ($request->hasFile('video1')) {
                     $video1 = $request->file('video1');
@@ -482,14 +498,14 @@ class AdvertiserController extends Controller
                 $advertise->update($data);
                 if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
-                }else{
+                } else {
                     $advertise->cats()->attach(Cat::whereActive(1)->pluck("id")->toArray());
                 }
             }
             $data['advertise_id'] =  $advertise->id;
             return redirect()->route("send.pay", ['type' => "banner", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_video', compact(["user", "click", "view","type"]));
+        return view('advertiser.advertiser_new_ad_video', compact(["user", "click", "view", "type"]));
     }
     public function withdrawal_request(Request $request)
     {
@@ -601,6 +617,7 @@ class AdvertiserController extends Controller
     public function sites(Request $request)
     {
         $user = auth()->user();
+        // dd( $user);
         // dd($request->all());
         if ($request->isMethod("post")) {
             $data = $request->validate([
@@ -662,26 +679,26 @@ class AdvertiserController extends Controller
         }
         return view('advertiser.bank_info', compact(["user"]));
     }
-    public function advertise_reject(Request $request ,Advertise $advertise)
+    public function advertise_reject(Request $request, Advertise $advertise)
     {
-        if($advertise->status!="ready_to_show"){
+        if ($advertise->status != "ready_to_show") {
             alert()->warning('این عملیات ممکن نیست');
             return back();
         }
 
-        $advertise->update(['status'=>'down']);
+        $advertise->update(['status' => 'down']);
 
-        if($advertise->count_type=="view"){
-            $data['count']=$advertise->view_count;
-            $data['unit']=$advertise->unit_show;
+        if ($advertise->count_type == "view") {
+            $data['count'] = $advertise->view_count;
+            $data['unit'] = $advertise->unit_show;
         }
 
-        if($advertise->count_type=="click"){
-            $data['count']=$advertise->click_count;
-            $data['unit']=$advertise->unit_click;
+        if ($advertise->count_type == "click") {
+            $data['count'] = $advertise->click_count;
+            $data['unit'] = $advertise->unit_click;
         }
-       $data['total']= $advertise->actions()->where("main",1)->count();
-       $data['amount']= ($data['count']- $data['total'])*$data['unit'];
+        $data['total'] = $advertise->actions()->where("main", 1)->count();
+        $data['amount'] = ($data['count'] - $data['total']) * $data['unit'];
 
 
         $transaction = $advertise->user->transactions()->create([
@@ -694,17 +711,15 @@ class AdvertiserController extends Controller
             'status' => "payed",
         ]);
         alert()->success("شارژ با موفقیت به حساب شما برگشت");
-return back();
-
-
+        return back();
     }
     public function advertiser_log(Request $request)
     {
         $user = auth()->user();
 
-        $user=auth()->user();
+        $user = auth()->user();
         $actions = Action::query();
-        $actions->where("site_id",$user->id);
+        $actions->where("site_id", $user->id);
         // $actions->where('main',1);
         // $actions->where('active',0);
         if ($request->site_id) {
@@ -720,17 +735,16 @@ return back();
 
             // $request->from = $user->convert_date($request->from);
             $actions->where('created_at', '>=', $request->from);
-
         }
         if ($request->to) {
             // $request->to = $user->convert_date($request->to);
             $actions->where('created_at', '<', $request->to);
         }
-        $action_log=clone   $actions;
-        $actions =$actions->latest()->get();
-
-        $advertises=$user->advertises;
-        $time=[
+        $action_log = clone   $actions;
+        $actions = $actions->latest()->get();
+        $transaction = $user->transactions()->whereType('clear');
+        $advertises = $user->advertises;
+        $time = [
             'فروردین',
             'اردیبهشت',
             'خرداد',
@@ -744,27 +758,26 @@ return back();
             'بهمن',
             'اسفند',
         ];
-        $income=[];
-        for($i=12; $i >= 1; $i--){
-          $log=  clone   $action_log;
+        $income = [];
+        for ($i = 12; $i >= 1; $i--) {
+            //   $log=  clone   $action_log;
 
-        $year = jdate(date('Y-m-d'))->getYear();
-        $month = $i;
-        $day = 1;
-        $persian_date = $year . '-' . $month . '-' . $day;
-        $date_count = (new Jalalian($year, $month, $day))->getMonthDays();
-        $first_month =\Morilog\Jalali\CalendarUtils::toGregorian($year, $month, $day);
-           $first_month = $first_month[0] . '-' . $first_month[1] . '-' . $first_month[2] ;
+            $year = jdate(date('Y-m-d'))->getYear();
+            $month = $i;
+            $day = 1;
+            $persian_date = $year . '-' . $month . '-' . $day;
+            $date_count = (new Jalalian($year, $month, $day))->getMonthDays();
+            $first_month = \Morilog\Jalali\CalendarUtils::toGregorian($year, $month, $day);
+            $first_month = $first_month[0] . '-' . $first_month[1] . '-' . $first_month[2];
 
-           $end_month =\Morilog\Jalali\CalendarUtils::toGregorian($year, $month, $date_count);
-           $end_month = $end_month[0] . '-' . $end_month[1] . '-' . $end_month[2] ;
-           $log->whereDate('created_at', '>=', $first_month);
-           $log->whereDate('created_at', '<=', $end_month);
-           $income[]= $log->sum('site_share');
-
-        // $end_month = \Morilog\Jalali\Jalalian::jalaliToGregorian($year, $month, $date_count, '-');
+            $end_month = \Morilog\Jalali\CalendarUtils::toGregorian($year, $month, $date_count);
+            $end_month = $end_month[0] . '-' . $end_month[1] . '-' . $end_month[2];
+            $transaction->whereDate('created_at', '>=', $first_month);
+            $transaction->whereDate('created_at', '<=', $end_month);
+            $income[] = $transaction->sum('amount');
+            // $end_month = \Morilog\Jalali\Jalalian::jalaliToGregorian($year, $month, $date_count, '-');
         }
-        $income=array_reverse($income);
+        $income = array_reverse($income);
 
 
         // $time=[
@@ -776,6 +789,6 @@ return back();
         //     5,
         // ];
         // dd(json_encode( $time,JSON_UNESCAPED_UNICODE));
-        return view('advertiser.advertiser_log', compact(["user","actions","advertises","action_log","time",'income']));
+        return view('advertiser.advertiser_log', compact(["user", "actions", "advertises", "action_log", "time", 'income']));
     }
 }

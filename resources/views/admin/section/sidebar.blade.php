@@ -284,6 +284,10 @@
                                                     <i class="fas fa-ad"></i>
                                                 </span>
                                                 <span class="nk-menu-text">تبلیغات </span>
+                                                @if($unread_ad=App\Models\Advertise::whereStatus("ready_to_confirm")->count())
+                                                <span class="num_circle">{{ $unread_ad }}</span>
+
+                                                @endif
                                             </a>
                                         </li>
                                         <li class="nk-menu-item   {{ Route::currentRouteName()=="transaction.index"?"active":"" }}">

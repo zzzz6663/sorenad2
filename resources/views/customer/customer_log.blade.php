@@ -255,9 +255,11 @@
                         <td>{{ number_format($ads->actions()->where('main',1)->whereActive(0)->where("count_type","view")->sum('site_share')) }}</td>
                         <td>{{ $ads->actions()->where('main',1)->whereActive(0)->where("count_type","view")->count() }}</td>
                         <td>{{ $ads->actions()->where('main',1)->whereActive(0)->where("count_type","click")->count() }}</td>
-                        <td>{{ floor(($ads->actions()->where('main',1)->whereActive(0)->where("count_type","click")->count()*100)/
-                            $all= $ads->actions()->count()?$all:1
-                             ) }}%</td>
+                        <td>{{ floor(($ads->actions()->where('main',1)->where("count_type","click")->count()*100)/
+                            $ads->display?$ads->display:1
+                             ) }}%
+
+                            </td>
                     </tr>
                     @endforeach
 

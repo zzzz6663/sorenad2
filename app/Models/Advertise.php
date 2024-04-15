@@ -21,8 +21,7 @@ class Advertise extends Model
         'type',//نوع آگهی
         'count_type',//نوع شمارش آگهی
         'model_price',//
-        'limit_daily_view',//محدودیت نمایش روزانه
-        'limit_daily_click',//محدودیت کلیک روزانه
+        'limit_daily',//محدودیت  روزانه
         'device',//ابزار نمایش
         'banner1',//بنر یک
         'banner2',//بنر دو
