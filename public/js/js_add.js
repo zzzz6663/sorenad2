@@ -14,7 +14,7 @@ function loadDoc2(data) {
         ip: data.ipAddress,
         fixpost: document.querySelectorAll("#sorenad_fixpost").length,
     }
-
+    console.log(info)
     return new Promise((resolve, reject) => {
         const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
@@ -22,7 +22,7 @@ function loadDoc2(data) {
                 if (this.status == 200) {
                     resolve(JSON.parse(this.responseText));
                 } else {
-                    reject(new Error('Failed to fetch data from API'));
+                    reject(new Error('Failed to fetch data from API +loadDoc2'));
                 }
             }
         };
