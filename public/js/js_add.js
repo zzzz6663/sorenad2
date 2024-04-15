@@ -42,8 +42,8 @@ let WebXmlHttpRequest=(method,url,data)=>{
     })
 
 }
-// let url ="https://sorenad.runflare.run/api/test"
-let url ="http://127.0.0.1:8000/api/test"
+let url ="https://sorenad.runflare.run/api/test"
+// let url ="http://127.0.0.1:8000/api/test"
 function post(url){
     console.log(url)
     WebXmlHttpRequest("post",url,data).then(function(res){
