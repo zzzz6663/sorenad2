@@ -34,7 +34,7 @@ class ApiController extends Controller
 
 
         // $users = Cache::rememberForever('users', function () {
-        //     return User::all();
+        //     returnd User::all();
         // });
 
 
