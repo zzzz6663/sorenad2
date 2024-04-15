@@ -8,6 +8,7 @@ use App\Models\Site;
 use App\Models\User;
 use App\Models\Action;
 use App\Models\Course;
+use GuzzleHttp\Client;
 use App\Models\Section;
 use App\Models\Setting;
 use App\Models\Advertise;
@@ -27,9 +28,15 @@ class ApiController extends Controller
         //     'status' => "noسk",
         // ]);
 
+
+// echo $res->getStatusCode(); // 200
+// echo $res->getBody(); // { "type": "User", ....
+
+
         // $users = Cache::rememberForever('users', function () {
         //     return User::all();
         // });
+
 
 
         $css = response()->make(asset('/css/css_add.css'));
@@ -107,7 +114,7 @@ class ApiController extends Controller
             $action['site_id'] = $site->id;
             $action['type'] = $type;
             $action['site'] = $site->site;
-            $action['ip'] = $request->getClientIp();
+            $action['ip'] = $this->getIp();
             if ($site_owner->vip) {
                 if ($advertise->count_type == "view") {
                     $action['admin_share'] = $advertise->unit_show - $advertise->unit_vip_show;
@@ -132,8 +139,7 @@ class ApiController extends Controller
                 }
             }
 
-            // $exist = Action::where('ip', $action['ip'])->where('site_id', $action['site_id'])->where('advertise_id', $action['advertise_id'])->first();
-            $exist = false;
+            $exist = Action::where('ip', $action['ip'])->where('site_id', $action['site_id'])->where('advertise_id', $action['advertise_id'])->first();
             if (!$exist) {
                 if ($advertise->count_type == "view") {
                     $action['main'] = 1;
@@ -147,4 +153,11 @@ class ApiController extends Controller
         }
         return $advertise;
     }
-}
+
+    public function getIp(){
+        $client = new Client();
+        $res = $client->get('https://api.db-ip.com/v2/free/self');
+       $res= json_decode($res->getBody()->getContents(), true);
+        return $res['ipAddress'];
+    }
+ }
