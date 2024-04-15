@@ -256,7 +256,7 @@
                         <td>{{ $ads->actions()->where('main',1)->where("count_type","view")->count() }}</td>
                         <td>{{ $ads->actions()->where('main',1)->where("count_type","click")->count() }}</td>
                         <td>{{ floor(($ads->actions()->where('main',1)->where("count_type","click")->count()*100)/
-                            $ads->display?$ads->display:1
+                           ( $ads->display?$ads->display:1)
                              ) }}%
                             </td>
                     </tr>
