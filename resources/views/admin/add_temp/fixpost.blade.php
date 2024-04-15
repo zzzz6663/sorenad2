@@ -5,7 +5,7 @@
         </p>
         <br>
         <div class=" sorenad_btn_par">
-            <a class="sorenad_btn" href="{{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["site_id"=>$site->id,'advertis_id' =>  $advertise->id]) }}">
+            <a target="blank" class="sorenad_btn" href="{{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["site_id"=>$site->id,'advertis_id' =>  $advertise->id]) }}">
                 {{ $advertise->landing_title1 }}
             </a>
         </div>

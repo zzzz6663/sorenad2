@@ -15,17 +15,17 @@
             </p>
             <div class=" sorenad_btn_par">
                 @if($advertise->landing_link1)
-                <a class="sorenad_btn" href="{{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["site_id"=>$site->id,'advertis_id' =>  $advertise->id,"link_number"=>1]) }}">
+                <a target="blank" class="sorenad_btn" href="{{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["site_id"=>$site->id,'advertis_id' =>  $advertise->id,"link_number"=>1]) }}">
                     {{ $advertise->landing_title1 }}
                 </a>
                 @endif
                 @if($advertise->landing_link2)
-                <a class="sorenad_btn" href="{{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["site_id"=>$site->id,'advertis_id' =>  $advertise->id,"link_number"=>2]) }}">
+                <a target="blank" class="sorenad_btn" href="{{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["site_id"=>$site->id,'advertis_id' =>  $advertise->id,"link_number"=>2]) }}">
                     {{ $advertise->landing_title2 }}
                 </a>
                 @endif
                 @if($advertise->landing_link3)
-                <a class="sorenad_btn" href="{{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["site_id"=>$site->id,'advertis_id' =>  $advertise->id,"link_number"=>3]) }}">
+                <a  target="blank" class="sorenad_btn" href="{{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["site_id"=>$site->id,'advertis_id' =>  $advertise->id,"link_number"=>3]) }}">
                     {{ $advertise->landing_title3 }}
                 </a>
                 @endif
