@@ -68,7 +68,7 @@ class CustomerController extends Controller
         ];
         $income=[];
         for($i=12; $i >= 1; $i--){
-        //   $log=  clone   $action_log;
+          $log=  clone   $action_log;
 
         $year = jdate(date('Y-m-d'))->getYear();
         $month = $i;
@@ -80,9 +80,9 @@ class CustomerController extends Controller
 
            $end_month =\Morilog\Jalali\CalendarUtils::toGregorian($year, $month, $date_count);
            $end_month = $end_month[0] . '-' . $end_month[1] . '-' . $end_month[2] ;
-           $transaction->whereDate('created_at', '>=', $first_month);
-           $transaction->whereDate('created_at', '<=', $end_month);
-           $income[]= $transaction->sum('amount');
+           $log->whereDate('created_at', '>=', $first_month);
+           $log->whereDate('created_at', '<=', $end_month);
+           $income[]=abs( $log->sum('adveriser_share'));
         // $end_month = \Morilog\Jalali\Jalalian::jalaliToGregorian($year, $month, $date_count, '-');
         }
         $income=array_reverse($income);

@@ -258,7 +258,6 @@
                         <td>{{ floor(($ads->actions()->where('main',1)->where("count_type","click")->count()*100)/
                             $ads->display?$ads->display:1
                              ) }}%
-
                             </td>
                     </tr>
                     @endforeach
