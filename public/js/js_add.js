@@ -1,3 +1,9 @@
+window.onload = function(){
+    fetchData();
+
+ };
+
+
 var touchDevice = ('ontouchstart' in document.documentElement);
 let domin = window.location.hostname
 let device = touchDevice ? "mobile" : "desktop"
@@ -6,8 +12,8 @@ var fixpost = document.getElementById("sorenad_fixpost");
 
 function loadDoc2(data) {
     console.log(data )
-    let url ="https://sorenad.runflare.run/api/test"
-    // let url ="http://127.0.0.1:8000/api/test"
+    // let url ="https://sorenad.runflare.run/api/test"
+    let url ="http://127.0.0.1:8000/api/test"
     let info = {
         domin: domin,
         device: device,
@@ -80,4 +86,3 @@ async function fetchData() {
     }
 }
 
-fetchData();

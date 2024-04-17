@@ -8,6 +8,7 @@ use App\Models\Site;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 
 class SiteController extends Controller
 {
@@ -166,7 +167,7 @@ class SiteController extends Controller
 
             }
             alert()->success('اطلاعات با موفقیت ثبت شد  ');
-
+            Cache::put('sites', Site::whereStatus("confirmed"));
             return redirect()->route('site.index');
         }
 

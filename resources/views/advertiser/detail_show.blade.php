@@ -41,7 +41,7 @@
                             بنر اول:
                         </span>
                         <span class="content">
-                            <a target="_blank" class="no_link" href="{{ $advertise->banner1() }}"></a>
+                            <a target="_blank" class="no_link" href="{{ $advertise->banner1() }}">مشاهده</a>
                         </span>
                     </div>
                     @endif
@@ -51,7 +51,7 @@
                             بنر دوم:
                         </span>
                         <span class="content">
-                            <a target="_blank" class="no_link" href="{{ $advertise->banner2() }}"></a>
+                            <a target="_blank" class="no_link" href="{{ $advertise->banner2() }}">مشاهده</a>
                         </span>
                     </div>
                     @endif
@@ -62,7 +62,7 @@
                             بنر سوم:
                         </span>
                         <span class="content">
-                            <a target="_blank" class="no_link" href="{{ $advertise->banner3() }}"></a>
+                            <a target="_blank" class="no_link" href="{{ $advertise->banner3() }}">مشاهده</a>
                         </span>
                     </div>
                     @endif
@@ -73,7 +73,7 @@
                             آیکون:
                         </span>
                         <span class="content">
-                            <a target="_blank" class="no_link" href="{{ $advertise->icon() }}"></a>
+                            <a target="_blank" class="no_link" href="{{ $advertise->icon() }}">مشاهده</a>
                         </span>
                     </div>
                     @endif

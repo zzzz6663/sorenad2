@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\admin;
+
 use Carbon\Carbon;
-use App\Models\User;
+use App\Models\Site;
 // use App\Notifications\SendKaveCode;
+use App\Models\User;
+use App\Models\Advertise;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Advertise;
+use Illuminate\Support\Facades\Cache;
 
 class AdvertiseController extends Controller
 {
@@ -17,7 +20,7 @@ class AdvertiseController extends Controller
      */
     public function index(Request $request)
     {
-        $user=auth()->user();
+        $user = auth()->user();
         $advertises = Advertise::query();
         if ($request->search) {
             $search = $request->search;
@@ -42,11 +45,11 @@ class AdvertiseController extends Controller
             $request->to = $user->convert_date($request->to);
             $advertises->where('created_at', '<', $request->to);
         }
-        $advertises =$advertises
-        // ->whereRole("customer")
-        ->latest()->paginate(10);
-        $customers=User::whereRole("customer")->get();
-        return view('admin.advertise.all', compact(['advertises',"customers"]));
+        $advertises = $advertises
+            // ->whereRole("customer")
+            ->latest()->paginate(30);
+        $customers = User::whereRole("customer")->get();
+        return view('admin.advertise.all', compact(['advertises', "customers"]));
     }
 
     /**
@@ -67,7 +70,6 @@ class AdvertiseController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $data = $request->validate([
             'name' => 'required|max:256',
             'family' => 'required|max:256',
@@ -85,7 +87,7 @@ class AdvertiseController extends Controller
             $avatar = $request->file('avatar');
             $name_img = 'avatar_' . $user->id . '.' . $avatar->getClientOriginalExtension();
             $avatar->move(public_path('/media/avatar/'), $name_img);
-            $user->update(['avatar'=>$name_img]);
+            $user->update(['avatar' => $name_img]);
         }
 
         // اختصاص دادن سطح کاربری
@@ -113,7 +115,11 @@ class AdvertiseController extends Controller
      */
     public function edit(Request $request, Advertise $advertise)
     {
-        return view('admin.advertise.edit', compact(['advertise']));
+
+
+        $site = Site::latest()->first();
+        $price = 0;
+        return view('admin.advertise.edit', compact(['advertise', "site", "price"]));
     }
 
     /**
@@ -125,20 +131,69 @@ class AdvertiseController extends Controller
      */
     public function update(Request $request, Advertise $advertise)
     {
+        // dump($advertise->type);
         // dd($request->all());
-        $data = $request->validate([
-            "title"=>"nullable",
-            "info"=>"nullable",
-            "text"=>"nullable",
-            "landing_title1"=>"nullable",
-            "landing_link1"=>"nullable",
-            "landing_title2"=>"nullable",
-            "landing_link2"=>"nullable",
-            "landing_title3"=>"nullable",
-            "landing_link3"=>"nullable",
-            "limit_daily_view"=>"nullable",
-            "limit_daily_click"=>"nullable",
-        ]);
+
+        switch ($advertise->type) {
+            case "fixpost":
+                $data = $request->validate([
+                    "title" => "required",
+                    "info" => "required",
+                    "device" => "required",
+                    "bg_color" => "required",
+                    "landing_title1" => "required",
+                    "landing_link1" => "required",
+                    "call_to_action" => "required",
+                ]);
+                break;
+            case "text":
+                $data = $request->validate([
+                    "title" => "required",
+                    "text" => "required",
+                    "landing_link1" => "required",
+                ]);
+                break;
+            case "banner":
+                $data = $request->validate([
+                    "title" => "required",
+                    "landing_link1" => "required",
+                    "banner1" => "required",
+                    "banner1" => "nullable",
+                    "banner2" => "nullable",
+                ]);
+                break;
+            case "app":
+                $data = $request->validate([
+                    "title" => "required",
+                    "info" => "required",
+                    "landing_link1" => "required",
+                    "landing_title1" => "required",
+                    "landing_link2" => "required",
+                    "landing_title2" => "required",
+                    "landing_link3" => "required",
+                    "landing_title3" => "required",
+                ]);
+
+
+
+                break;
+            case "popup":
+                $data = $request->validate([
+                    "title" => "required",
+                    "device" => "required",
+                    "landing_link1" => "required",
+                ]);
+                break;
+                 case "video":
+                $data = $request->validate([
+                    "title" => "required",
+                    "call_to_action" => "required",
+                    "landing_link1" => "required",
+                    "landing_title1" => "required",
+                ]);
+                break;
+        }
+
         if ($request->hasFile('icon')) {
             $icon = $request->file('icon');
             $name_img = 'icon_' . $advertise->id . '.' . $icon->getClientOriginalExtension();
@@ -157,7 +212,12 @@ class AdvertiseController extends Controller
             $banner2->move(public_path('/media/advertises/'), $name_img);
             $data['banner2'] = $name_img;
         }
-
+        if ($request->hasFile('video1')) {
+            $video1 = $request->file('video1');
+            $name_img = 'video1_' . $advertise->id . '.' . $video1->getClientOriginalExtension();
+            $video1->move(public_path('/media/advertises/'), $name_img);
+            $data['video1'] = $name_img;
+        }
         $advertise->update($data);
         alert()->success('تبلیغ با موفقیت به روز  شد ');
         return redirect()->route('advertise.index');
@@ -175,19 +235,17 @@ class AdvertiseController extends Controller
         alert()->success('کاربر با موفقیت حذف شد ');
         return redirect()->route('user.index');
     }
-    public function advertise_confirm(Advertise $advertise,Request $request)
+    public function advertise_confirm(Advertise $advertise, Request $request)
     {
-        if($advertise->status=="ready_to_confirm"){
-            $advertise->update(['status'=>"ready_to_show","confirm"=>Carbon::now()]);
+        if ($advertise->status == "ready_to_confirm") {
+            $advertise->update(['status' => "ready_to_show", "confirm" => Carbon::now()]);
             alert()->success("تبیغ با موفقیت تایید شد ");
-            $advertise->user->send_pattern(  $advertise->user->mobile, "k4qdf4se66hu8ch", ['name' => $advertise->user->name()]);
+            $advertise->user->send_pattern($advertise->user->mobile, "k4qdf4se66hu8ch", ['name' => $advertise->user->name()]);
             // $advertise->user->send_pattern(  $advertise->user->mobile, "dvykkxdfbv9gj8x", ['name' => $advertise->user->name()]);
-
-        }else{
+            Cache::put('advertise', Advertise::where('active', 1)->where("confirm", "!=", "null")->whereStatus("ready_to_show"));
+        } else {
             alert()->warning("این تبلیغ قابل تایید نیست  ");
-
         }
-            return redirect()->route("advertise.index");
+        return redirect()->route("advertise.index");
     }
-
 }

@@ -11,7 +11,7 @@
     </div>
     <div class="col-lg-4">
         <div class="form-control-wrap">
-            <input type="text" name="title" class="form-control  form-control-outlined" value="{{ old("title") }}" id="title">
+            <input type="text" name="title" class="form-control  form-control-outlined" value="{{ old("title",$advertise->title) }}" id="title">
             <label class="form-label-outlined" for="title">عنوان </label>
             {{--  <span class="info_txt">در حد سه کلمه (مثال : نصب اپ اسنپ)</span>  --}}
         </div>
@@ -19,7 +19,7 @@
 
     <div class="col-lg-8">
         <div class="form-control-wrap">
-            <input type="text" name="landing_link1" class="form-control  form-control-outlined"  value="{{ old("landing_link1") }}" id="landing_link1">
+            <input type="text" name="landing_link1" class="form-control  form-control-outlined"  value="{{ old("landing_link1",$advertise->landing_link1) }}" id="landing_link1">
             <label class="form-label-outlined" for="landing_link1">لینک صفحه فرود</label>
         </div>
     </div>

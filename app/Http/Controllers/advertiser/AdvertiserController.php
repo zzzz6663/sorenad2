@@ -93,7 +93,7 @@ class AdvertiserController extends Controller
             return redirect()->route("send.pay", ['type' => "popup", "data" => $data]);
         }
 
-        return view('advertiser.advertiser_new_ad_popup', compact(["user", "price", "type"]));
+        return view('advertiser.advertiser_new_ad_popup', compact(["user", "price", "type","advertise"]));
     }
     public function add_tiny_image(Request $request)
     {
@@ -200,7 +200,7 @@ class AdvertiserController extends Controller
 
             return redirect()->route("send.pay", ['type' => "app", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_app', compact(["user", "click", "view", "type"]));
+        return view('advertiser.advertiser_new_ad_app', compact(["user", "click", "view", "type","advertise"]));
     }
     public function advertiser_new_ad_banner(Request $request, Advertise $advertise)
     {
@@ -289,7 +289,7 @@ class AdvertiserController extends Controller
 
             return redirect()->route("send.pay", ['type' => "banner", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_banner', compact(["user", "click", "view", "type"]));
+        return view('advertiser.advertiser_new_ad_banner', compact(["user", "click", "view", "type","advertise"]));
     }
     public function advertiser_new_ad_fixpost(Request $request, Advertise $advertise)
     {
@@ -370,7 +370,7 @@ class AdvertiserController extends Controller
             $data['advertise_id'] =  $advertise->id;
             return redirect()->route("send.pay", ['type' => "banner", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_fixpost', compact(["user", "click", "view", "type"]));
+        return view('advertiser.advertiser_new_ad_fixpost', compact(["user", "click", "view", "type","advertise"]));
     }
     public function advertiser_new_ad_text(Request $request, Advertise $advertise)
     {
@@ -446,7 +446,7 @@ class AdvertiserController extends Controller
             $data['advertise_id'] =  $advertise->id;
             return redirect()->route("send.pay", ['type' => "banner", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_text', compact(["user", "click", "view", "type"]));
+        return view('advertiser.advertiser_new_ad_text', compact(["user", "click", "view", "type","advertise"]));
     }
     public function advertiser_new_ad_video(Request $request, Advertise $advertise)
     {
@@ -515,7 +515,7 @@ class AdvertiserController extends Controller
             $data['advertise_id'] =  $advertise->id;
             return redirect()->route("send.pay", ['type' => "banner", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_video', compact(["user", "click", "view", "type"]));
+        return view('advertiser.advertiser_new_ad_video', compact(["user", "click", "view", "type","advertise"]));
     }
     public function withdrawal_request(Request $request)
     {

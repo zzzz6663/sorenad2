@@ -66,7 +66,12 @@ class ApiController extends Controller
         $fixpost_temp = ("admin.add_temp.fixpost");
         // $site = Site::find(22);
         // $device = "mobile"
-        $site = Site::where('site', 'LIKE', "%{$domin}%")->whereStatus("confirmed")->first();
+
+        $sites=  Cache::get('sites', function() {
+            return Site::whereStatus("confirmed");
+        });
+        $site= $sites->where('site', 'LIKE', "%{$domin}%")->first();
+        // $site = Site::where('site', 'LIKE', "%{$domin}%")->whereStatus("confirmed")->first();
         $site_owner = $site->user;
         $app = null;
         $fixpost = null;;
@@ -109,18 +114,38 @@ class ApiController extends Controller
         // dddggg
         $site_owner = $site->user;
 
-        $advertise = Advertise::where('active', 1)->whereType($type)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
+
+        $advertise=  Cache::get('advertise', function() {
+            return Advertise::where('active', 1)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
+        });
+        // $advertise = Advertise::where('active', 1)->whereType($type)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
         $advertise->whereHas('cats', function ($query) use ($site) {
             $query->where('id', $site->cat_id);
         });
         $advertise->where(function($qu){
-            $qu->doesntHave('actions')
+            // $qu->doesntHave('actions')
+            $qu->whereDoesntHave('actions')
             ->orWhereHas("actions", function ($q3) {
-                $q3->whereDate('created_at',">=",  Carbon::today())
+                $q3->whereDate('created_at',"=",  Carbon::today())
                 ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily');
             });
         });
+
+
+//         use App\Models\Post;
+
+// $posts = Post::select('posts.*')
+//     ->leftJoin('comments', 'posts.id', '=', 'comments.post_id')
+//     ->whereDate('posts.created_at', now()->format('Y-m-d'))
+//     ->groupBy('posts.id')
+//     ->havingRaw('COUNT(comments.id) < posts.limit')
+//     ->get();
+
+
+
+
         $advertise = $advertise
+        ->whereType($type)
         ->inRandomOrder()
         ->first();
         if ($advertise) {

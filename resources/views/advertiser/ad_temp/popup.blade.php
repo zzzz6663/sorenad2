@@ -11,19 +11,21 @@
     </div>
     <div class="col-lg-6">
         <div class="form-control-wrap">
-            <input type="text" name="title" class="form-control  form-control-outlined"  value="{{ old("title") }}" id="title">
+            <input type="text" name="title" class="form-control  form-control-outlined"  value="{{ old("title",$advertise->title) }}" id="title">
             <label class="form-label-outlined" for="title">عنوان تبلیغ</label>
         </div>
     </div>
 
     <div class="col-lg-6">
         <div class="form-control-wrap">
-            <input type="text" name="landing_link1" class="form-control  form-control-outlined"  value="{{ old("landing_link1") }}" id="landing_link1">
+            <input type="text" name="landing_link1" class="form-control  form-control-outlined"  value="{{ old("landing_link1",$advertise->landing_link1) }}" id="landing_link1">
             <label class="form-label-outlined" for="landing_link1">لینک صفحه فرود</label>
         </div>
     </div>
 
 </div>
+@if($price)
+
 <div class="row mb-3">
 
     <div class="col-lg-6">
@@ -49,6 +51,7 @@
         </div>
     </div>
 </div>
+@endif
 
 <div class="row mb-3">
     @include('advertiser.device_temp')
