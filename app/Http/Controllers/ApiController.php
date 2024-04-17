@@ -122,21 +122,35 @@ class ApiController extends Controller
         $site_owner = $site->user;
 
 
-        $advertise=  Cache::get('advertise', function() {
-            return Advertise::where('active', 1)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
-        });
-        // $advertise = Advertise::where('active', 1)->whereType($type)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
+        // $advertise=  Cache::get('advertise', function() {
+        //     return Advertise::where('active', 1)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
+        // });
+        $advertise = Advertise::where('active', 1)->whereType($type)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
         $advertise->whereHas('cats', function ($query) use ($site) {
             $query->where('id', $site->cat_id);
         });
-        $advertise->where(function($qu){
-            // $qu->doesntHave('actions')
-            $qu->whereDoesntHave('actions')
-            ->orWhereHas("actions", function ($q3) {
-                $q3->whereDate('created_at',"=",  Carbon::today())
-                ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily');
-            });
-        });
+
+        $advertise->join('advertises', 'advertises.id', '=', 'action.advertise_id')
+        ->select('advertises.*')
+        ->havingRaw('COUNT(*) < advertises.limit_daily');
+        // $advertise->where(function($qu){
+        //     // $qu->doesntHave('actions')
+        //     // $qu->whereDoesntHave('actions')
+        //     // ->orWhereHas("actions", function ($q3) {
+        //     //     $q3->whereDate('created_at',"=",  Carbon::today())
+        //     //     ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily');
+        //     // });
+        //     $qu->join('advertises', 'advertises.id', '=', 'action.advertise_id')
+        //     ->select('advertises.*')
+        //     ->havingRaw('COUNT(*) < advertises.limit_daily');
+        // });
+
+
+        // $posts = Post::whereHas('comments', function ($query) {
+        //     $query->join('posts', 'posts.id', '=', 'comments.post_id')
+        //           ->select('posts.*')
+        //           ->havingRaw('COUNT(*) < posts.limit');
+        // })->get();
 
 
 //         use App\Models\Post;
