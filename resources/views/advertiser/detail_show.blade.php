@@ -212,6 +212,19 @@
                         </span>
                     </div>
 
+
+                    <div class="col-lg-12 text-align-right mb-2">
+                        <span class="title fw-bold modal-title">
+                            دسته بندی :
+                        </span>
+                        <span class="content">
+                        {{ implode(" ",$advertise->cats->pluck("name")->toArray()) }}
+
+                        </span>
+                    </div>
+
+
+
                     {{-- <div class="col-lg-12 text-align-right mb-2">
                         <span class="title fw-bold modal-title">
                             توضیحات آگهی:
