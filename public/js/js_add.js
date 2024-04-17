@@ -11,7 +11,7 @@ function loadDoc2(data) {
     let info = {
         domin: domin,
         device: device,
-        ip: data.ipAddress,
+        ip: 1,
         fixpost: document.querySelectorAll("#sorenad_fixpost").length,
     }
     console.log(info)
@@ -51,10 +51,10 @@ function loadDoc1() {
 
 async function fetchData() {
     try {
-        const data1 = await loadDoc1();
-        console.log("First operation completed with data:", data1);
+        // const data1 = await loadDoc1();
+        // console.log("First operation completed with data:", data1);
 
-     let res= await loadDoc2(data1);
+     let res= await loadDoc2();
      console.log(res)
         if( res.status=="ok"){
             document.head.innerHTML += `<link rel="stylesheet" href="${res.css}" type="text/css"/>`;
