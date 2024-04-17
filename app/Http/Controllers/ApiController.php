@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
 use Carbon\Carbon;
 use App\Models\Cat;
 use App\Models\Site;
@@ -67,11 +67,11 @@ class ApiController extends Controller
         // $site = Site::find(22);
         // $device = "mobile"
 
-        $sites=  Cache::get('sites', function() {
-            return Site::whereStatus("confirmed");
-        });
-        $site= $sites->where('site', 'LIKE', "%{$domin}%")->first();
-        // $site = Site::where('site', 'LIKE', "%{$domin}%")->whereStatus("confirmed")->first();
+        // $sites=  Cache::get('sites', function() {
+        //     return Site::whereStatus("confirmed");
+        // });
+        // $site= $sites->where('site', 'LIKE', "%{$domin}%")->first();
+        $site = Site::where('site', 'LIKE', "%{$domin}%")->whereStatus("confirmed")->first();
         if(! $site){
             return response()->json([
                 'all' => $request->all(),
@@ -122,10 +122,10 @@ class ApiController extends Controller
         $site_owner = $site->user;
 
 
-        $advertise=  Cache::get('advertise', function() {
-            return Advertise::where('active', 1)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
-        });
-        // $advertise = Advertise::where('active', 1)->whereType($type)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
+        // $advertise=  Cache::get('advertise', function() {
+        //     return Advertise::where('active', 1)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
+        // });
+        $advertise = Advertise::where('active', 1)->whereType($type)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
         $advertise->whereHas('cats', function ($query) use ($site) {
             $query->where('id', $site->cat_id);
         });
@@ -133,18 +133,33 @@ class ApiController extends Controller
             // $qu->doesntHave('actions')
             $qu->whereDoesntHave('actions')
             ->orWhereHas("actions", function ($q3) {
-
-
-                // $q3->whereDate('created_at',"=",  Carbon::today())
-                // ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily');
-                $today = now()->toDateString();
-                $q3->whereDate('created_at', $today)
-                ->selectRaw('advertise_id, COUNT(*) as action_count')
-                ->groupBy('advertise_id')
-                ->havingRaw('action_count < advertises.limit_daily');
-            });
+                $q3->whereDate('created_at', '=', now()->toDateString());
+            //     // $q3->whereDate('created_at',"=",  Carbon::today())
+            //     // ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily');
+            //     $today = now()->toDateString();
+            //     $q3->whereDate('created_at', $today)
+            //     ->selectRaw('advertise_id, COUNT(*) as action_count')
+            //     ->groupBy('advertise_id')
+            //     ->havingRaw('action_count < advertises.limit_daily');
+            }, '<', DB::raw('`limit_daily`'));
         });
 
+
+        // $posts = Post::whereHas('comments', function($query) {
+        //     $query->whereDate('created_at', '=', now()->toDateString());
+        // })->where(function($query) {
+        //     $query->where('limit', '<', 5)
+        //           ->orWhereNull('limit');
+        // })->get();
+
+
+        // $posts = Post::whereHas('comments', function($query) {
+        //     $query->whereDate('created_at', '=', now()->toDateString());
+        // }, '<', DB::raw('`limit_daily`'))->get();
+
+        // $posts = Post::whereHas('comments', function($query) {
+        //     $query->whereDate('created_at', '=', now()->toDateString());
+        // }, '<', DB::raw('`limit`'))->get();
 
 //         $today = now()->toDateString();
 
