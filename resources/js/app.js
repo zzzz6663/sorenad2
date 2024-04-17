@@ -160,8 +160,10 @@ window.onload = function () {
         xhr.send(formData);
     });
     if ($('#tiny').length) {
+        console.log(60605)
         tinymce.init({
             selector: '#tiny',
+            language : 'fa',
             plugins: ["image","emoticons"],
                    height: 500,
             menubar: false,
@@ -175,59 +177,24 @@ window.onload = function () {
             // override default upload handler to simulate successful upload
             images_upload_handler: image_upload_handler_callback,
             setup: function (editor) {
-                // editor.on('BeforeSetContent', function () {
-                //     var img = editor.dom.select('img');
-                //     img.forEach(function (i) {
-                //         var src = i.getAttribute('src');
-                //         console.log(src)
-                //         if (src && src.includes('..')) {
-                //             var newSrc = src.replace('..', window.location.origin);
-                //             i.setAttribute('src', newSrc);
-                //         }
-                //     });
-                // });
-                editor.on('BeforeSetContent', function (e) {
-                    var dom = editor.dom;
-                    var images = dom.select('img', e.content);
-                    images.forEach(function (img) {
-                        var src = img.getAttribute('src');
-                        var siteDomain = window.location.protocol + '//' + window.location.hostname;
-                        if (src && src.startsWith(siteDomain)) {
-                            img.setAttribute('src', src);
-                        }
-                    });
+                editor.ui.registry.addIcon('image', 'آپلود تصویر');  // ایجاد آیکون سفارشی برای دکمه image
+                editor.ui.registry.addButton('image', {
+                  icon: 'image',  // استفاده از آیکون ایجاد شده
+                  onAction: function (_) {
+                    editor.execCommand('mceInsertContent', false, '<img src="http://www.example.com/image.jpg">');
+                  },
+                  onPostRender: function() {
+                    const button = this;
+                    button.iconElem.classList.add('my-custom-class');
+                  }
                 });
-                // editor.on('BeforeSetContent', function (e) {
-                //     var dom = editor.dom;
-                //     var images = dom.select('img', e.content);
-                //     images.forEach(function (img) {
-                //         var src = img.getAttribute('src');
-                //         if (src && src.includes('unwanted_value')) {
-                //             img.setAttribute('src', 'new_value');
-                //         }
-                //     });
-                // });
-                // editor.on("change", (e) => {
-                //     var img = editor.dom.select('img');
-                //     img.forEach(function (i) {
-                //         var src = i.getAttribute('src');
-                //         console.log(src)
-                //         if (src && src.includes('..')) {
-                //             var newSrc = src.replace('..', window.location.origin);
-                //             i.setAttribute('src', newSrc);
-                //         }
-                //     });
-                //     let content =tinyMCE.activeEditor.getContent();
-                //     // if(content.includes('..')){
-                //     //     content.replace('..', window.location.origin);
-                //     // }
-                //     // tinymce.get('tiny').setContent();
 
-                //     console.log(content)
-                //   });
-            }
+              }
         });
+        setTimeout(() => {
+            $('.tox-toolbar__group').children().last().find("button").css("width","150px")
 
+        }, 1500);
 
         // tinymce.init({
         //     selector: '#tiny',
@@ -424,6 +391,15 @@ window.onload = function () {
 
     //  })
     $('input[name="count_type"]').on("click", function (e) {
+        let el=$(this)
+       console.log( el.val())
+       if( el.val()=="click"){
+        $('.click_inp').removeAttr('disabled');
+        $('.view_inp').attr('disabled', 'disabled');;
+       }else{
+        $('.view_inp').removeAttr('disabled');
+        $('.click_inp').attr('disabled', 'disabled');;
+       }
        $('.cal_p').val("")
        $('.totoal_price_view').text("")
        $('.totoal_price_click').text("")

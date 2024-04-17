@@ -155,16 +155,11 @@ class UserTicketController extends Controller
         if($user->role=="admin"){
             $data['user_id'] = $user->id;
         $data['status'] = 'wait_for_customer';
-
-
+        $ticket->customer->send_pattern(  $ticket->customer->mobile, "no5zhn5ilof5k1l", ['name' => $ticket->customer->name()]);
         }
-
-
         if($user->role=="customer"){
             $data['customer_id'] = $user->id;
         $data['status'] = 'wait_for_admin';
-
-
         }
         $ticket->update(["status"=> $data['status']]);
         $answer= $ticket->answers()->create($data);

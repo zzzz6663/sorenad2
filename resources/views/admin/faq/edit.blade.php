@@ -27,6 +27,14 @@
                         <textarea name="content" id="" class="form-control"  cols="30" rows="10">{{ old("content",$faq->content) }}</textarea>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label" for="type">نوع </label>
+                        <select class="form-select" id="type" class="form-control"  name="type">
+                            <option  value="">انتخاب کنید   </option>
+                            <option  {{ old("type",$faq->type)=="advertiser"?"selected":"" }} value="advertiser">تبلیغ کننده </option>
+                            <option  {{ old("type",$faq->type)=="showman"?"selected":"" }} value="showman"> نمایش دهنده</option>
+                        </select>
+                    </div>
 
                     {{--  <div class="mb-3">
                         <label class="form-label" for="region_id">منطقه</label>

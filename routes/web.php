@@ -71,12 +71,12 @@ Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function
 
 
 
-Route::prefix('customer')->middleware(['auth',"role:customer"])->namespace('customer')->group(function () {
+Route::prefix('customer')->middleware(['auth',"role:customer","check_active"])->namespace('customer')->group(function () {
     Route::any('/money_charge', 'CustomerController@money_charge')->name('customer.money.charge');
     Route::any('/transaction_factor', 'CustomerController@transaction_factor')->name('customer.transaction.factor');
     Route::get('/customer_log', 'CustomerController@customer_log')->name('customer.log');
 });
-Route::prefix('advertiser')->middleware(['auth'])->namespace('advertiser')->group(function () {
+Route::prefix('advertiser')->middleware(['auth',"check_active"])->namespace('advertiser')->group(function () {
     Route::post('/add_tiny_image', 'AdvertiserController@add_tiny_image')->name('add.tiny.image');
     Route::post('/add_active/{advertise}', 'AdvertiserController@add_active')->name('advertiser.add.active');
     Route::any('/contact', 'AdvertiserController@contact')->name('advertiser.contact');

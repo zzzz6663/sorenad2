@@ -12,5 +12,6 @@ class Faq extends Model
         'user_id',
         'title',
         'content',
+        'type',
     ];
 }

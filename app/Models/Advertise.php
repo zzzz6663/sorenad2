@@ -82,4 +82,10 @@ class Advertise extends Model
         }
         return false;
     }
+    public function video1(){
+        if($this->icon){
+            return asset('/media/advertises/'.$this->video1);
+        }
+        return false;
+    }
 }

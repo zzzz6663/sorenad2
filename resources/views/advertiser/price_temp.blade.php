@@ -131,7 +131,7 @@ $tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first
             </div>
             <div class="col-lg-4">
                 <div class="form-control-wrap">
-                    <input type="number" name="click_count" id="click_count" class="form-control  form-control-outlined cal_p" value="{{ old("click_count") }}" data-price="{{ $click }}" id="click_count">
+                    <input type="number" name="click_count" id="click_count" class="form-control click_inp  form-control-outlined cal_p" {{ old("click_count")?"":"disabled" }} value="{{ old("click_count") }}" data-price="{{ $click }}" id="click_count">
                     <label class="form-label-outlined" for="click_count">
                         تعداد کلیک
                     </label>
@@ -143,9 +143,9 @@ $tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first
             </div>
             <div class="col-lg-4">
                 <div class="form-control-wrap">
-                    <input type="number" name="limit_daily_click" id="limit_daily_click" class="form-control  form-control-outlined cal_p" value="{{ old("limit_daily_click") }}" id="limit_daily_click">
+                    <input type="number" name="limit_daily_click" id="limit_daily_click" class="form-control click_inp  form-control-outlined cal_p" {{ old("click_count")?"":"disabled" }} value="{{ old("limit_daily_click") }}" id="limit_daily_click">
                     <label class="form-label-outlined" for="limit_daily_click">
-                      
+
                         محدودیت تعداد کلیک این تبلیغ در روز
                     </label>
                     <span class="input-group-text   ">
@@ -179,7 +179,7 @@ $tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first
             </div>
             <div class="col-lg-4">
                 <div class="form-control-wrap">
-                    <input type="number" name="view_count" id="view_count" class="form-control  form-control-outlined cal_p" value="{{ old("view_count") }}" data-price="{{ $view }}" id="view_count">
+                    <input type="number" name="view_count" id="view_count" class="form-control view_inp form-control-outlined cal_p" {{ old("view_count")?"":"disabled" }}  value="{{ old("view_count") }}" data-price="{{ $view }}" id="view_count">
                     <label class="form-label-outlined" for="view_count">
                         تعداد نمایش
                     </label>
@@ -191,7 +191,7 @@ $tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first
             </div>
             <div class="col-lg-4">
                 <div class="form-control-wrap">
-                    <input type="number" name="limit_daily_view" id="limit_daily_view" class="form-control  form-control-outlined cal_p" value="{{ old("limit_daily_view") }}" id="limit_daily_view">
+                    <input type="number" name="limit_daily_view" id="limit_daily_view" class="form-control view_inp form-control-outlined cal_p"  {{ old("limit_daily_view")?"":"disabled" }} value="{{ old("limit_daily_view") }}" id="limit_daily_view">
                     <label class="form-label-outlined" for="limit_daily_view">
 
                         محدودیت تعداد نمایش این تبلیغ در روز

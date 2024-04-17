@@ -144,6 +144,9 @@
                             <div class="nk-tb-col">
                                 <span class="sub-text">نام</span>
                             </div>
+                            <div class="nk-tb-col">
+                                <span class="sub-text">دسته بندی</span>
+                            </div>
 
                             <div class="nk-tb-col tb-col-sm">
                                 <span class="sub-text">دامنه</span>
@@ -201,19 +204,31 @@
                                 <div class="site-card">
                                     <div class="site-name">
                                         <span class="tb-lead">
+                                            {{ $site->cat->name }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nk-tb-col">
+                                <div class="site-card">
+                                    <div class="site-name">
+                                        <span class="tb-lead">
                                             {{ $site->site }}
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="nk-tb-col tb-col-sm">
-                                {{ __("site_status.".$site->status) }}
+                                <span  class="text  text-{{ $site->status=="confirmed"?"success":"danger" }}">
+                                    {{ __("site_status.".$site->status) }}
+
+                                </span>
 
                                 @if($site->status=="created")
                                 بررسی نشده
                                     @else
-                                    <span class="text tooltiper text-{{ $site->status=="confirmed"?"success":"danger" }} " title="{{ $site->status=="confirmed"?"فعال":"غیر فعال" }}">
-                                        <i class="fa-solid tooltiper
+                                    <span class=" ">
+                                        <i class="fa-solid
                                              {{ $site->status=="confirmed"?"fa-badge-check":"fa-circle-xmark" }} ">
                                             </i>
                                     </span>

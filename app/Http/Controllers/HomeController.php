@@ -18,8 +18,45 @@ use Laravel\Socialite\Facades\Socialite;
 
 class HomeController extends Controller
 {
-    public function clear()
+
+
+    public function getUserIpAddr()
     {
+        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key) {
+            if (array_key_exists($key, $_SERVER) === true) {
+                foreach (explode(',', $_SERVER[$key]) as $ip) {
+                    $ip = trim($ip); // just to be safe
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
+                        return $ip;
+                    }
+                }
+            }
+        }
+        return request()->ip();
+    }
+
+    public function getUserIpAddr2(){
+        $ipaddress = '';
+        if (isset($_SERVER['HTTP_CLIENT_IP']))
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        else if(isset($_SERVER['HTTP_X_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        else if(isset($_SERVER['HTTP_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        else if(isset($_SERVER['REMOTE_ADDR']))
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
+        else
+            $ipaddress = 'UNKNOWN';
+        return $ipaddress;
+     }
+    public function clear(Request $request)
+    {
+        dump($this->getUserIpAddr());
+        dd($this->getUserIpAddr2());
 
 
         // $sum=Action::where('active', 1)->update(['active'=>0]);
@@ -128,11 +165,10 @@ class HomeController extends Controller
             if ($advertise->count_type == "click") {
                 // && !Action::whereActive(1)->where("signature",$request->signature)->first()
 
-                $exist=Action::where('ip', $action['ip'])->where('site_id', $action['site_id'])->where('advertise_id', $action['advertise_id'])->first();
-                if(!$exist){
-                    $action["main"]=1;
+                $exist = Action::where('ip', $action['ip'])->where('site_id', $action['site_id'])->where('advertise_id', $action['advertise_id'])->first();
+                if (!$exist) {
+                    $action["main"] = 1;
                     Action::create($action);
-
                 }
                 if ($advertise->actions->count() >= $advertise->click_count) {
                     $advertise->update(['status' => "down"]);
@@ -146,9 +182,9 @@ class HomeController extends Controller
                 return redirect()->to($link);
                 break;
 
-                case "fixpost":
-                    $link = $advertise["landing_link1"];
-                    break;
+            case "fixpost":
+                $link = $advertise["landing_link1"];
+                break;
         }
         return view('advertiser.redirect_add', compact(['link']));
     }
@@ -251,8 +287,7 @@ class HomeController extends Controller
             session()->put("rand", $rnd);
             session()->put("mobile", $mobile);
             $user = new User;
-            $user->send_pattern($mobile, "svr5y3c1ophdnuo", ['code' =>            $rnd]);
-
+            $user->send_pattern($mobile, "svr5y3c1ophdnuo", ['code' => $rnd]);
             return response()->json([
                 'code' => $rnd,
                 'all' => $request->all(),
@@ -302,12 +337,10 @@ class HomeController extends Controller
             session()->put("advertiser", 1);
         }
 
-        if($advertiser==1){
+        if ($advertiser == 1) {
             return redirect()->route("customer.log");;
-
-        }else{
+        } else {
             return redirect()->route("advertiser.log");;
-
         }
 
         return back();;

@@ -39,6 +39,8 @@
                             @endforeach
                         </select>
                     </div>  --}}
+
+
                     <div class="mb-3">
                         <label class="form-label" for="status">وضعیت </label>
                         <select class="form-select" id="status" name="status">
@@ -47,6 +49,20 @@
                                 تایید  </option>
                             <option {{ old("status")=="rejected" ?"selected":"" }} value="rejected"> عدم تایید </option>
                         </select>
+                    </div>
+
+                    <div class=" mb-3">
+                        <div class="form-group">
+                            <label for="site_category">انتخاب دسته بندی</label>
+                            <div class="form-control-wrap">
+                                <select name="cat_id" id="" class="form-control">
+                                    <option value="">یک مورد را انتخاب کنید </option>
+                                    @foreach ( App\Models\Cat::whereActive(1)->get() as $cat )
+                                    <option {{ old("cat_id",$site->cat_id)==$cat->id?"selected":"" }} value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="reason">توضیحات  </label>

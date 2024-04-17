@@ -9,65 +9,18 @@
             @csrf
             @method('post')
 
-            <div class="row mb-4">
-                <div class="ol-lg-12 mb-4">
-                    {{-- <p class="bg bg-outline-danger">
-                        <i class="fa fa-info-circle"></i>
-                        این نوع تبلیغ تنها در پشت پنجره کاربر نمایش داده میشود و وارد کردن لینک کانال روبیکا، تلگرام و پیج اینستاگرام ممنوع است.
-                      </p>  --}}
-                    <p class="bg bg-outline-success">
-                        <i class="fa fa-info-circle"></i>
-                        این نوع تبلیغ فقط در موبایل نمایش داده میشود و برای افزایش نصب اپلیکیشن اندروید مناسب است.
-                    </p>
-                </div>
-                <div class="col-lg-6">
-                    <div class="form-control-wrap">
-                        <input type="text" name="title" class="form-control  form-control-outlined" value="{{ old("title") }}" id="title">
-                        <label class="form-label-outlined" for="title">عنوان </label>
-                        {{-- <span class="info_txt">در حد سه کلمه (مثال : نصب اپ اسنپ)</span>  --}}
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="form-control-wrap">
-                        <input type="text" name="call_to_action" class="form-control  form-control-outlined" value="{{ old("call_to_action") }}" id="call_to_action">
-                        <label class="form-label-outlined" for="call_to_action">پیام اقدام به دعوت</label>
-                    </div>
-                </div>
 
-            </div>
-            <div class="row mb-4">
-                <div class="col-lg-8">
-                    <div class="form-control-wrap">
-                        <input type="text" name="landing_link1" class="form-control  form-control-outlined" value="{{ old("landing_link1") }}" id="landing_link1">
-                        <label class="form-label-outlined" for="landing_link1">لینک صفحه فرود</label>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="form-control-wrap">
-                        <input type="text" name="landing_title1" class="form-control  form-control-outlined" value="{{ old("landing_title1") }}" id="landing_title1">
-                        <label class="form-label-outlined" for="landing_title1">متن دکمه اقدام</label>
-                    </div>
-                </div>
-            </div>
 
+            @include('advertiser.ad_temp.video')
             @include('advertiser.cat_temp')
-            <div class="row">
-
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label class="form-label" for="device">
-
-                            تبلیغ در چه دستگاهی نمایش داده شود ؟
-                        </label>
-                        <div class="form-control-wrap">
-                            <div class="form-control-select">
-                                <select class="form-control" name="device" id="device">
-                                    <option value="">انتخاب کنید </option>
-                                    <option {{ old("device")=="mobile"?"selected":"" }} value="mobile">موبایل</option>
-                                    <option {{ old("device")=="computer"?"selected":"" }} value="computer">کامپیوتر</option>
-                                    <option {{ old("device")=="mobile_computer"?"selected":"" }} value="mobile_computer">موبایل و کامپیوتر</option>
-                                </select>
-                            </div>
+            @include('advertiser.device_temp')
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label class="form-label" for="default-06">آپلود فایل  ویدئو</label>
+                    <div class="form-control-wrap">
+                        <div class="form-file">
+                            <input type="file" id="video1" name="video1" class="form-file-input" accept="video/*">
+                            <label class="form-file-label" for="customFile"></label>
                         </div>
                     </div>
                 </div>

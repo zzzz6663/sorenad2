@@ -50,7 +50,9 @@ class FaqController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|max:256',
+
             'content' => 'required',
+            'type' => 'required',
         ]);
         $user=auth()->user();
         $data['user_id']=$user->id;
@@ -93,6 +95,7 @@ class FaqController extends Controller
         $data = $request->validate([
             'title' => 'required|max:256',
             'content' => 'required',
+            'type' => 'required',
         ]);
         $faq->update($data);
         alert()->success('سوال با موفقیت به روز  شد ');

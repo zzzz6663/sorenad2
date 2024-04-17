@@ -27,8 +27,18 @@ class AdvertiserController extends Controller
     public function faqs(Request $request)
     {
         $user = auth()->user();
-        $faqs = Faq::all();
+
+        $faqs = Faq::query();
+        if($se=session()->get("advertiser")){
+            $faqs->whereType("showman");
+
+        }else{
+            $faqs->whereType("advertiser");
+
+        }
+        $faqs=$faqs->get();
         return view('advertiser.faqs', compact(["user", "faqs"]));
+
     }
 
     public function advertiser_list(Request $request)
@@ -388,7 +398,7 @@ class AdvertiserController extends Controller
                 $data = $request->validate([
                     'title' => "required|max:256",
                     // 'text' => "required|max:256",
-                    'text' => ['required|max:100'],
+                    'text' => 'required|max:100',
                     // 'info' => "required|max:1500",
                     'landing_link1' => "required|url",
                     'count_type' => "required",
@@ -528,6 +538,8 @@ class AdvertiserController extends Controller
             ]);
 
             alert()->success("درخواست شما با موفقیت ثبت شد  ");
+            $user->send_pattern( $user->mobile, "k4qdf4se66hu8ch", ['name' => $user->name()]);
+
             return redirect()->route("advertiser.withdrawal.request");
         }
         return view('advertiser.withdrawal_request', compact(["user", "min_val_checkout"]));

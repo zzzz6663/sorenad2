@@ -183,7 +183,7 @@
 
                                     <li>
 
-                                        <a class="dark-switch no_link" href="#"><em class="icon ni ni-moon"></em><span>حالت تاریک</span></a>
+                                        <a class="dark-switch no_link" href="{{ route("logout") }}"><em class="icon ni ni-moon"></em><span>حالت تاریک</span></a>
                                     </li>
                                     @role('customer')
                                     <li>

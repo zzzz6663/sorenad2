@@ -113,6 +113,9 @@
                                 id
                             </div>
                             <div class="nk-tb-col">
+                                <span class="sub-text">نوع</span>
+                            </div>
+                            <div class="nk-tb-col">
                                 <span class="sub-text">عنوان</span>
                             </div>
 
@@ -135,6 +138,16 @@
                             <div class="nk-tb-col">
                                 {{ $loop->iteration }}
                             </div>
+                            <div class="nk-tb-col">
+                                <div class="">
+                                    <div class="user-name">
+                                        <span class="tb-lead">
+                                            {{ __("arr.".$faq->type) }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="nk-tb-col">
                                 <div class="">
                                     <div class="user-name">

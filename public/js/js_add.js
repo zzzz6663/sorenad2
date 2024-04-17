@@ -32,20 +32,21 @@ function loadDoc2(data) {
     });
  }
 function loadDoc1() {
-    return new Promise((resolve, reject) => {
-        const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4) {
-                if (this.status == 200) {
-                    resolve(JSON.parse(this.responseText));
-                } else {
-                    reject(new Error('Failed to fetch data from API'));
-                }
-            }
-        };
-        xhttp.open("GET", "https://api.db-ip.com/v2/free/self");
-        xhttp.send();
-    });
+    return 1
+    // return new Promise((resolve, reject) => {
+    //     const xhttp = new XMLHttpRequest();
+    //     xhttp.onreadystatechange = function() {
+    //         if (this.readyState == 4) {
+    //             if (this.status == 200) {
+    //                 resolve(JSON.parse(this.responseText));
+    //             } else {
+    //                 reject(new Error('Failed to fetch data from API'));
+    //             }
+    //         }
+    //     };
+    //     xhttp.open("GET", "https://api.db-ip.com/v2/free/self");
+    //     xhttp.send();
+    // });
 }
 
 async function fetchData() {

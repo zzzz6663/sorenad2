@@ -180,6 +180,9 @@ class AdvertiseController extends Controller
         if($advertise->status=="ready_to_confirm"){
             $advertise->update(['status'=>"ready_to_show","confirm"=>Carbon::now()]);
             alert()->success("تبیغ با موفقیت تایید شد ");
+            $advertise->user->send_pattern(  $advertise->user->mobile, "k4qdf4se66hu8ch", ['name' => $advertise->user->name()]);
+            // $advertise->user->send_pattern(  $advertise->user->mobile, "dvykkxdfbv9gj8x", ['name' => $advertise->user->name()]);
+
         }else{
             alert()->warning("این تبلیغ قابل تایید نیست  ");
 

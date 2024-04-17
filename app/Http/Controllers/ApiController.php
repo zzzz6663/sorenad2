@@ -22,6 +22,24 @@ use Laravel\Socialite\Facades\Socialite;
 
 class ApiController extends Controller
 {
+
+    public function getUserIpAddr()
+    {
+        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key) {
+            if (array_key_exists($key, $_SERVER) === true) {
+                foreach (explode(',', $_SERVER[$key]) as $ip) {
+                    $ip = trim($ip); // just to be safe
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
+                        return $ip;
+                    }
+                }
+            }
+        }
+        return request()->ip();
+    }
+
+
+
     public function test(Request $request)
     {
         // return response()->json([
@@ -37,10 +55,10 @@ class ApiController extends Controller
         //     returnd User::all();
         // });
 
-
+        $machin=$request->header('User-Agent');
         $css = response()->make(asset('/css/css_add.css'));
         $css = asset('/css/css_add.css');
-        $ip = $request->ip;
+        $ip = $this->getUserIpAddr();
         $domin = $request->domin;
         $device = $request->device;
         $fixpost_req = $request->fixpost;
@@ -146,6 +164,9 @@ class ApiController extends Controller
                     Action::create($action);
                     if ($advertise->actions->count() >= $advertise->view_count) {
                         $advertise->update(['status' => "down"]);
+
+                        $advertise->user->send_pattern( $$advertise->user->mobile, "3ii278gte7r1cz5", ['name' => $$advertise->user->name()]);
+
                     }
                 }
             }

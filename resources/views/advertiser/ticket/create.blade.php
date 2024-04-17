@@ -35,19 +35,22 @@
                     @role('admin')
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
-                            <label class="form-label" for="customer_id">کد ملی</label>
+                            <label class="form-label" for="customer_id">مشتری</label>
                             <select name="customer_id" class="form-control select2" id="customer_id">
                                 <option value="">انتخاب مشتری</option>
                                 @foreach ( App\Models\User::whereRole("customer")->get() as $customer)
                                 <option {{ old("customer_id")==$customer->id?"selected":"" }} value="{{  $customer->id }}">
                                     {{ $customer->name }}
-                                    {{ $customer->family }}
+                                    {{ $customer->family }}-
+                                    {{ $customer->mobile }}
                                 </option>
 
                                 @endforeach
                             </select>
                         </div>
                     </div>
+
+
 
                     @endrole
 
@@ -57,8 +60,8 @@
                             <label class="form-label" for="default-06">آپلود فایل </label>
                             <div class="form-control-wrap">
                                 <div class="form-file">
-                                    <input type="file"  id="avatar" name="avatar" accept="image/png, image/jpeg">
-                                    <label class="form-file-label" for="avatar"></label>
+                                    <input type="file"  id="attach" name="attach" accept="image/png, image/jpeg">
+                                    <label class="form-file-label" for="attach"></label>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +99,7 @@
 
     <!-- ticket_item -->
     <div class="ticket_item">
-        <div class="ticket_avatar"><img src="/site/images/support.png"></div>
+        <div class="ticket_attach"><img src="/site/images/support.png"></div>
         <div class="ticket_content">
             <p>کاربر گرامی لطفا درخواستهای پشتیبانی خود را از طریق لینک زیر برای ما ارسال کنید.</p>
             <p>همچنین در صورت نیاز می توانید با شماره تلفن 021326546545 تماس بگیرید.</p>

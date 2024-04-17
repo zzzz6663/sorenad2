@@ -147,9 +147,10 @@ class SiteController extends Controller
         if ($request->isMethod("post")) {
             $data = $request->validate([
                 'status' => "required",
+                'cat_id' => "required",
                 'reason' => "required",
             ]);
-            $site->update(['confirm' => Carbon::now(), 'status' => $data['status'],"reason"=>$data['reason']]);
+            $site->update(['confirm' => Carbon::now(), 'status' => $data['status'],"reason"=>$data['reason'],"cat_id"=>$data['cat_id']]);
             if ($data['status'] == "rejected") {
                 $site->user->logs()->create([
                     'type' => "reject_site",
@@ -160,6 +161,9 @@ class SiteController extends Controller
                     'type' => "confirm_site",
                     'site_id' => $site->id,
                 ]);
+                $user= $site->user;
+                $user->send_pattern( $user->mobile, "0h00xubbbf6lobl", ['name' => $user->name()]);
+
             }
             alert()->success('اطلاعات با موفقیت ثبت شد  ');
 

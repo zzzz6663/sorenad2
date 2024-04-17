@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\admin;
+
 use App\Models\User;
 use Illuminate\Http\Request;
 // use App\Notifications\SendKaveCode;
@@ -16,7 +17,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $user=auth()->user();
+        $user = auth()->user();
         $users = User::query();
         if ($request->search) {
             $search = $request->search;
@@ -40,9 +41,9 @@ class UserController extends Controller
             $users->where('created_at', '<', $request->to);
         }
 
-        $users =$users
-        // ->whereRole("customer")
-        ->latest()->paginate(10);
+        $users = $users
+            // ->whereRole("customer")
+            ->latest()->paginate(10);
         return view('admin.user.all', compact(['users']));
     }
 
@@ -81,7 +82,7 @@ class UserController extends Controller
             $avatar = $request->file('avatar');
             $name_img = 'avatar_' . $user->id . '.' . $avatar->getClientOriginalExtension();
             $avatar->move(public_path('/media/avatar/'), $name_img);
-            $user->update(['avatar'=>$name_img]);
+            $user->update(['avatar' => $name_img]);
         }
 
         // اختصاص دادن سطح کاربری
@@ -125,7 +126,7 @@ class UserController extends Controller
         $data = $request->validate([
             'name' => 'required|max:256',
             'family' => 'required|max:256',
-            'mobile' => 'required|max:11|unique:users,mobile,'.$user->id,
+            'mobile' => 'required|max:11|unique:users,mobile,' . $user->id,
             'password' => 'nullable|min:6|max:20',
             // 'region_id' => 'required',
             'avatar' => 'nullable|max:2024',
@@ -137,10 +138,18 @@ class UserController extends Controller
             $avatar = $request->file('avatar');
             $name_img = 'avatar_' . $user->id . '.' . $avatar->getClientOriginalExtension();
             $avatar->move(public_path('/media/users/avatar/'), $name_img);
-            $data['avatar']=$name_img;
+            $data['avatar'] = $name_img;
         }
-        $data['password']=bcrypt($data['password']);
-
+        if ($request->password) {
+            $data['password'] = bcrypt($data['password']);
+        }
+        if ($user->active != $data['active']) {
+            if ($data['active'] == 1) {
+                $user->send_pattern( $user->mobile, "kcyjr0n43u0om49", ['name' => $user->name()]);
+            }else{
+                $user->send_pattern( $user->mobile, "5a5lfxiqp9m08hj", ['name' => $user->name()]);
+            }
+        }
         $user->update($data);
         alert()->success('کاربر با موفقیت به روز  شد ');
         return redirect()->route('user.index');
@@ -158,20 +167,20 @@ class UserController extends Controller
         alert()->success('کاربر با موفقیت حذف شد ');
         return redirect()->route('user.index');
     }
-    public function user_bank_info(User $user,Request $request)
+    public function user_bank_info(User $user, Request $request)
     {
-        if($request->isMethod('post')){
-            $user->update(['confirm_bank_account'=>Carbon::now()]);
+        if ($request->isMethod('post')) {
+            $user->update(['confirm_bank_account' => Carbon::now()]);
             alert()->success("اطلاعات حساب باموفقبت تایید شد ");
             return redirect()->route("user.index");
         }
         return view('admin.user.user_bank_info', compact(['user']));
     }
-    public function charge_wallet(User $user,Request $request)
+    public function charge_wallet(User $user, Request $request)
     {
-        if($request->isMethod('post')){
-            $data=$request->validate([
-                'amount'=>"required"
+        if ($request->isMethod('post')) {
+            $data = $request->validate([
+                'amount' => "required"
             ]);
 
             $transaction = $user->transactions()->create([
@@ -187,5 +196,4 @@ class UserController extends Controller
         }
         return view('admin.user.charge_wallet', compact(['user']));
     }
-
 }

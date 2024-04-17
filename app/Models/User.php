@@ -104,6 +104,9 @@ class User extends Authenticatable
         }
         return "/site/images/avatar.png";
     }
+    public function name(){
+        return $this->name." ".$this->family;
+    }
     public function total_withdrawal(){
         return $this->withdrawals()->whereStatus("admin_confirmed")->sum("amount");
     }
