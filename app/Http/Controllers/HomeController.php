@@ -137,7 +137,9 @@ class HomeController extends Controller
             $action['siter_id'] = $site->user->id;
             $action['site_id'] = $site->id;
             $action['signature'] = $request->signature;
-            $action['ip'] = $request->ip;
+                 // });
+                 $user=new User();
+            $action['ip'] = $user->get_ip();
             if ($site->user->vip) {
                 if ($advertise->count_type == "view") {
                     $action['admin_share'] = $advertise->unit_show - $advertise->unit_vip_show;

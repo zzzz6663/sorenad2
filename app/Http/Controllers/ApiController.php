@@ -23,20 +23,7 @@ use Laravel\Socialite\Facades\Socialite;
 class ApiController extends Controller
 {
 
-    public function getUserIpAddr()
-    {
-        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key) {
-            if (array_key_exists($key, $_SERVER) === true) {
-                foreach (explode(',', $_SERVER[$key]) as $ip) {
-                    $ip = trim($ip); // just to be safe
-                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
-                        return $ip;
-                    }
-                }
-            }
-        }
-        return request()->ip();
-    }
+
 
 
 
@@ -54,11 +41,12 @@ class ApiController extends Controller
         // $users = Cache::rememberForever('users', function () {
         //     returnd User::all();
         // });
+            $user=new User();
+        $ip = $user->get_ip();
 
         $machin=$request->header('User-Agent');
         $css = response()->make(asset('/css/css_add.css'));
         $css = asset('/css/css_add.css');
-        $ip = $this->getUserIpAddr();
         $domin = $request->domin;
         $device = $request->device;
         $fixpost_req = $request->fixpost;
