@@ -72,6 +72,13 @@ class ApiController extends Controller
         });
         $site= $sites->where('site', 'LIKE', "%{$domin}%")->first();
         // $site = Site::where('site', 'LIKE', "%{$domin}%")->whereStatus("confirmed")->first();
+        if(! $site){
+            return response()->json([
+                'all' => $request->all(),
+                'ip' =>  $ip,
+                'site' =>  "not_ok",
+            ]);
+        }
         $site_owner = $site->user;
         $app = null;
         $fixpost = null;;
