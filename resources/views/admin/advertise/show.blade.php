@@ -16,7 +16,7 @@
                                 </h3>
                             </div><!-- /.portlet-title -->
                             <div class="buttons-box position-relative">
-                                @include("admin.add_temp.$advertise->type",['site'=>App\Models\Site::find(18)])
+                                @include("admin.add_temp.$advertise->type",['site'=>App\Models\Site::find(18),['ip',1]])
 
                             </div><!-- /.buttons-box -->
                         </div><!-- /.portlet-heading -->
