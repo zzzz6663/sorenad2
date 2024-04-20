@@ -32,7 +32,7 @@ function loadDoc2(data) {
                 if (this.status == 200) {
                     resolve(JSON.parse(this.responseText));
                 } else {
-                    reject(new Error(oXHR.statusText));
+                    reject(new Error(this.status));
                 }
             }
         };
