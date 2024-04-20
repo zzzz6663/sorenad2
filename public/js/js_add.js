@@ -28,6 +28,8 @@ function loadDoc2(data) {
     return new Promise((resolve, reject) => {
         const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function(oEvent) {
+            console.log(this)
+            console.log(this.readyState)
             if (this.readyState == 4) {
                 console.log(oXHR.statusText)
                 console.log(oXHR)
