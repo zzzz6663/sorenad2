@@ -64,26 +64,27 @@ class Advertise extends Model
         return $this->BelongsToMany(Cat::class);
     }
     public function banner1(){
-        if($this->banner1){
+        if($this->id &&$this->banner1){
             return asset('/media/advertises/'.$this->banner1);
         }
         return false;
     }
 
     public function banner2(){
-        if($this->banner2){
+        if($this->id &&$this->banner2){
             return asset('/media/advertises/'.$this->banner2);
         }
         return false;
     }
     public function icon(){
-        if($this->icon){
+
+        if($this->id && $this->icon){
             return asset('/media/advertises/'.$this->icon);
         }
         return false;
     }
     public function video1(){
-        if($this->icon){
+        if($this->id && $this->video1){
             return asset('/media/advertises/'.$this->video1);
         }
         return false;

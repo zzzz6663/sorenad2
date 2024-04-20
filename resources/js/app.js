@@ -187,7 +187,13 @@ window.onload = function () {
                     const button = this;
                     button.iconElem.classList.add('my-custom-class');
                   }
+
                 });
+                editor.on('change', function () {
+                    // Handle the change event here
+                    $('#s_info').html(tinymce.get("tiny").getContent())
+                    console.log();
+                  });
 
               }
         });
@@ -390,6 +396,90 @@ window.onload = function () {
     //     $(".dropdown.open").toggle();
 
     //  })
+    $('#title').on("keyup change", function (e) {
+        $('#sorenad_title').text($(this).val())
+   })
+    $('#info').on("keyup change", function (e) {
+        $('#sorenad_title').text($(this).val())
+        $('#sorenad_info').text($(this).val())
+
+   })
+    $('#landing_title1').on("keyup change", function (e) {
+        $('#video_sorenad_btn_par').empty()
+        $('#fix_sorenad_btn_par').empty()
+        let val1 = $('#landing_title1').val()
+        if(val1){
+            $('#fix_sorenad_btn_par').append(`
+            <a target="blank" class="sorenad_btn" href="">
+            ${val1}
+              </a>
+            `)
+
+            $('#video_sorenad_btn_par').append(`
+            <a target="blank" class="sorenad_btn" href="">
+            ${val1}
+              </a>
+            `)
+        }
+   })
+
+    $('#call_to_action').on("keyup change", function (e) {
+        console.log(32323)
+        $('#s_call_to_action').text( $('#call_to_action').val())
+   })
+
+
+    $('#bg_color').on("keyup change", function (e) {
+        console.log($('#bg_color').val())
+        $('#fixpost_container').css("background", $('#bg_color').val())
+   })
+
+
+
+
+    $('.landing_title').on("keyup change", function (e) {
+        let val1 = $('#landing_title1').val()
+        $('#sorenad_btn_par').empty()
+        if(val1){
+            $('#sorenad_btn_par').append(`
+            <a target="blank" class="sorenad_btn" href="">
+            ${val1}
+              </a>
+            `)
+        }
+        let val2 = $('#landing_title2').val()
+        if(val2){
+            $('#sorenad_btn_par').append(`
+            <a target="blank" class="sorenad_btn" href="">
+            ${val2}
+              </a>
+            `)
+        }
+
+        let val3 = $('#landing_title3').val()
+        if(val3){
+            $('#sorenad_btn_par').append(`
+            <a target="blank" class="sorenad_btn" href="">
+            ${val3}
+              </a>
+            `)
+        }
+
+
+
+   })
+    $('#icon').on("change", function (e) {
+
+        var file = this.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('sorenad_app_logo').src = e.target.result;
+                // document.getElementById('sorenad_app_logo').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    })
     $('input[name="count_type"]').on("click", function (e) {
         let el=$(this)
        console.log( el.val())

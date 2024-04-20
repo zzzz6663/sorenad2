@@ -32,7 +32,13 @@
     width: 150px!important;
     font-weight: bold;
 }
-
+#fixpost_pop {
+    position: relative;
+}
+#fixpost_pop .soren_ad_mobile{
+    position: absolute;
+    bottom: 0;
+}
 
 /* .nk-sidebar{
     width: 190px;

@@ -3,17 +3,17 @@
         <div class="sorenad_logo_cont">
             <div class="sorenad_logo">
                 {{-- <img class="" src="{{ asset("/site/images/mono.png") }}"> --}}
-                <img class="" src="{{ $advertise->icon() }}">
+                <img class="" id="sorenad_app_logo" src="{{ $advertise->icon() }}">
             </div>
         </div>
         <div class="sorenad_body">
-            <h3 class="sorenad_title">
+            <h3 class="sorenad_title" id="sorenad_title">
                 {{ $advertise->title }}
             </h3>
-            <p>
+            <p id="sorenad_info">
                 {{ $advertise->info }}
             </p>
-            <div class=" sorenad_btn_par">
+            <div class=" sorenad_btn_par" id="sorenad_btn_par">
                 @if($advertise->landing_link1)
                 <a target="blank" class="sorenad_btn" href="{{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["site_id"=>$site->id,"ip"=>$ip,'advertis_id' =>  $advertise->id,"link_number"=>1]) }}">
                     {{ $advertise->landing_title1 }}
@@ -37,8 +37,9 @@
                     <path d="M 10,10 L 30,30 M 30,10 L 10,30" stroke="black" stroke-width="4" /></svg>
             </span>
             <span class="sorenad_base_logo">
-                <a href="https://sorenad.com/">
-                    <img class="" src="{{ asset("/site/images/mono.png") }}">
+                <a href="https://sorenad.com/" >
+
+                    <img class="" id="sorenad_logo" src="{{ asset("/site/images/mono.png") }}">
 
                 </a>
                 </span>

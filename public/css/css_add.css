@@ -99,15 +99,17 @@
     -webkit-box-shadow: 0px 2px 13px 3px rgba(0, 0, 0, 0.25);
     -moz-box-shadow: 0px 2px 13px 3px rgba(0, 0, 0, 0.25);
     box-shadow: 0px 2px 13px 3px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
     vertical-align: middle;
 }
 
 .sorenad_logo img {
     display: inline-block;
-    height: 20px;
+    height: 55px;
     vertical-align: middle;
     position: relative;
-    top: 13px;
+    top: 0px;
+    width: auto;
 }
 
 
@@ -120,3 +122,51 @@
 .soren_ad_mobile p {
     margin-bottom:10px;
 }
+
+.sorenad{
+    text-align: center;
+}
+.smb-10 {
+   margin-bottom: 10px;
+}
+
+video {
+    width: 100%;
+}
+
+/* Always show video controls */
+video::-webkit-media-controls {
+    display: flex !important;
+}
+video::-webkit-media-controls-enclosure {
+    overflow: visible !important;
+}
+
+.sorenad_banner img{
+    border-radius: 15px;
+}
+
+.sorenad_video{
+    border: 1px solid #d2d2d2;
+    border-radius: 15px;
+    overflow: hidden;
+
+}
+
+.sorenad_video .sorenad_btn{
+    width: 100%;
+    background: #6fabf8;
+    color: #fff;
+    border-radius: 0;
+    margin: 0;
+
+
+}
+
+
+@media screen and (min-width: 900px) {
+   #sorenad_fixpost img{
+    width: 50%;
+
+   }
+  }

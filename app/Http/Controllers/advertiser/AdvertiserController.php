@@ -466,6 +466,8 @@ class AdvertiserController extends Controller
                  $data['view_count'] =  $advertise->view_count;
                 $data['limit_daily'] =  $advertise->limit_daily;
                 $data['count_type'] =  $advertise->count_type;
+                $data['landing_title1'] =  $advertise->landing_title1;
+                $data['call_to_action'] =  $advertise->call_to_action;
                 $data['device'] =  $advertise->device;
                 $data['pay_type'] =  $request->pay_type;
                 $data["type"] = "video";
@@ -474,6 +476,8 @@ class AdvertiserController extends Controller
                 $data = $request->validate([
                     'title' => "required|max:256",
                     'landing_link1' => "required|url",
+                    'landing_title1' => "required|max:40",
+                    'call_to_action' => "required|max:100",
                     'count_type' => "required",
                     'click_count' => "required_if:count_type,click",
                     'limit_daily_click' => "required_if:count_type,click",

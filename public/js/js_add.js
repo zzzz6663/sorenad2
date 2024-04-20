@@ -8,6 +8,8 @@ var touchDevice = ('ontouchstart' in document.documentElement);
 let domin = window.location.hostname
 let device = touchDevice ? "mobile" : "desktop"
 var fixpost = document.getElementById("sorenad_fixpost");
+var banner = document.getElementById("sorenad_banner");
+var video = document.getElementById("sorenad_video");
 
 
 function loadDoc2(data) {
@@ -19,6 +21,8 @@ function loadDoc2(data) {
         device: device,
         ip: 1,
         fixpost: document.querySelectorAll("#sorenad_fixpost").length,
+        banner: document.querySelectorAll("#sorenad_banner").length,
+        video: document.querySelectorAll("#sorenad_video").length,
     }
     console.log(info)
     return new Promise((resolve, reject) => {
@@ -55,6 +59,19 @@ function loadDoc1() {
     // });
 }
 
+function isElementInViewport(el) {
+    var rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+
+
+
 async function fetchData() {
     try {
         // const data1 = await loadDoc1();
@@ -77,7 +94,29 @@ async function fetchData() {
         if( res.fixpost){
             console.log("fixpost")
             setTimeout(() => {
+                console.log("sorenad_fixpost")
                 document.getElementById("sorenad_fixpost").innerHTML = res.fixpost;
+            }, 200);
+            setTimeout(() => {
+                var element = document.getElementById('sorenad_fixpost');
+                if (!isElementInViewport(element)) {
+                    console.log("invisible")
+                    var scrollDiv = document.getElementById("sorenad_fixpost").offsetTop;
+window.scrollTo({ top: scrollDiv, behavior: 'smooth'});
+                }
+            }, 2000);
+        }
+        if( res.banner){
+            console.log("banner")
+            setTimeout(() => {
+                document.getElementById("sorenad_banner").innerHTML = res.banner;
+
+            }, 200);
+        }
+        if( res.video){
+            console.log("video")
+            setTimeout(() => {
+                document.getElementById("sorenad_video").innerHTML = res.video;
 
             }, 200);
         }

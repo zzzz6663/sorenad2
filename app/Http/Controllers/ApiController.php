@@ -29,18 +29,7 @@ class ApiController extends Controller
 
     public function test(Request $request)
     {
-        // return response()->json([
-        //     'status' => "noسk",
-        // ]);
 
-
-// echo $res->getStatusCode(); // 200
-// echo $res->getBody(); // { "type": "User", ....
-
-
-        // $users = Cache::rememberForever('users', function () {
-        //     returnd User::all();
-        // });
             $user=new User();
         $ip = $user->get_ip();
 
@@ -50,8 +39,12 @@ class ApiController extends Controller
         $domin = $request->domin;
         $device = $request->device;
         $fixpost_req = $request->fixpost;
+        $banner_req = $request->banner;
+        $video_req = $request->video;
         $app_temp = ("admin.add_temp.app");
         $fixpost_temp = ("admin.add_temp.fixpost");
+        $banner_temp = ("admin.add_temp.banner");
+        $video_temp = ("admin.add_temp.video");
         // $site = Site::find(22);
         // $device = "mobile"
 
@@ -84,7 +77,18 @@ class ApiController extends Controller
             }
         }
 
-
+        if ($banner_req) {
+            $advertise = $this->query($site, $request, "banner",$ip);
+            if ($advertise) {
+                $banner = view($banner_temp, compact(['advertise', "site","ip"]))->render();
+            }
+        }
+        if ($banner_req) {
+            $advertise = $this->query($site, $request, "video",$ip);
+            if ($advertise) {
+                $video = view($video_temp, compact(['advertise', "site","ip"]))->render();
+            }
+        }
         return response()->json([
             'all' => $request->all(),
             'ip' =>  $ip,
@@ -102,94 +106,24 @@ class ApiController extends Controller
             'fixpost_req' => $fixpost_req,
             'app' => $app,
             'fixpost' => $fixpost,
+            'banner' => $banner,
+            'video' => $video,
         ]);
     }
     public function query($site, $request, $type,$ip)
     {
-        // dddggg
         $site_owner = $site->user;
-
-
-        // $advertise=  Cache::get('advertise', function() {
-        //     return Advertise::where('active', 1)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
-        // });
         $advertise = Advertise::where('active', 1)->whereType($type)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
         $advertise->whereHas('cats', function ($query) use ($site) {
             $query->where('id', $site->cat_id);
         });
         $advertise->where(function($qu){
-            // $qu->doesntHave('actions')
             $qu->whereDoesntHave('actions')
             ->orWhereHas("actions", function ($q3) {
                 $q3->whereDate('created_at', '=', now()->toDateString());
-            //     // $q3->whereDate('created_at',"=",  Carbon::today())
-            //     // ->select('advertise_id')->groupBy('advertise_id')->havingRaw('COUNT(*) < advertises.limit_daily');
-            //     $today = now()->toDateString();
-            //     $q3->whereDate('created_at', $today)
-            //     ->selectRaw('advertise_id, COUNT(*) as action_count')
-            //     ->groupBy('advertise_id')
-            //     ->havingRaw('action_count < advertises.limit_daily');
             }, '<', DB::raw('`limit_daily`'));
         });
-
-
-        // $posts = Post::whereHas('comments', function($query) {
-        //     $query->whereDate('created_at', '=', now()->toDateString());
-        // })->where(function($query) {
-        //     $query->where('limit', '<', 5)
-        //           ->orWhereNull('limit');
-        // })->get();
-
-
-        // $posts = Post::whereHas('comments', function($query) {
-        //     $query->whereDate('created_at', '=', now()->toDateString());
-        // }, '<', DB::raw('`limit_daily`'))->get();
-
-        // $posts = Post::whereHas('comments', function($query) {
-        //     $query->whereDate('created_at', '=', now()->toDateString());
-        // }, '<', DB::raw('`limit`'))->get();
-
-//         $today = now()->toDateString();
-
-// $posts = Post::whereHas('comments', function ($query) use ($today) {
-//     $query->whereDate('created_at', $today)
-//           ->selectRaw('post_id, COUNT(*) as comment_count')
-//           ->groupBy('post_id')
-//           ->havingRaw('comment_count < posts.limit');
-// })->get();
-
-
-
-        // $posts = Post::whereHas('comments', function ($query) {
-        //     $query->selectRaw('post_id, COUNT(*) as comment_count')
-        //           ->groupBy('post_id')
-        //           ->havingRaw('comment_count < posts.limit');
-        // })->get();
-
-
-        // $posts = Post::whereHas('comments', function ($query) {
-        //     $query->join('posts', 'posts.id', '=', 'comments.post_id')
-        //           ->select('posts.*')
-        //           ->havingRaw('COUNT(*) < posts.limit');
-        // })->get();
-
-
-//         use App\Models\Post;
-
-// $posts = Post::select('posts.*')
-//     ->leftJoin('comments', 'posts.id', '=', 'comments.post_id')
-//     ->whereDate('posts.created_at', now()->format('Y-m-d'))
-//     ->groupBy('posts.id')
-//     ->havingRaw('COUNT(comments.id) < posts.limit')
-//     ->get();
-
-
-
-
-        $advertise = $advertise
-        ->whereType($type)
-        ->inRandomOrder()
-        ->first();
+        $advertise = $advertise->whereType($type)->inRandomOrder()->first();
         if ($advertise) {
             $advertise_owner = $advertise->user;
             $action['count_type'] = $advertise->count_type;
@@ -223,7 +157,6 @@ class ApiController extends Controller
                     $action['adveriser_share'] = $advertise->unit_normal_click * -1;
                 }
             }
-
             $exist = Action::where('ip', $action['ip'])->where('site_id', $action['site_id'])->where('advertise_id', $action['advertise_id'])->first();
             if (!$exist) {
                 if ($advertise->count_type == "view") {
@@ -231,9 +164,7 @@ class ApiController extends Controller
                     Action::create($action);
                     if ($advertise->actions->count() >= $advertise->view_count) {
                         $advertise->update(['status' => "down"]);
-
                         $advertise->user->send_pattern( $$advertise->user->mobile, "3ii278gte7r1cz5", ['name' => $$advertise->user->name()]);
-
                     }
                 }
             }

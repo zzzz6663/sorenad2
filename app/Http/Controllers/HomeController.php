@@ -35,24 +35,25 @@ class HomeController extends Controller
         return request()->ip();
     }
 
-    public function getUserIpAddr2(){
+    public function getUserIpAddr2()
+    {
         $ipaddress = '';
         if (isset($_SERVER['HTTP_CLIENT_IP']))
             $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-        else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+        else if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
             $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        else if(isset($_SERVER['HTTP_X_FORWARDED']))
+        else if (isset($_SERVER['HTTP_X_FORWARDED']))
             $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+        else if (isset($_SERVER['HTTP_FORWARDED_FOR']))
             $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-        else if(isset($_SERVER['HTTP_FORWARDED']))
+        else if (isset($_SERVER['HTTP_FORWARDED']))
             $ipaddress = $_SERVER['HTTP_FORWARDED'];
-        else if(isset($_SERVER['REMOTE_ADDR']))
+        else if (isset($_SERVER['REMOTE_ADDR']))
             $ipaddress = $_SERVER['REMOTE_ADDR'];
         else
             $ipaddress = 'UNKNOWN';
         return $ipaddress;
-     }
+    }
     public function clear(Request $request)
     {
         dump($this->getUserIpAddr());
@@ -127,7 +128,6 @@ class HomeController extends Controller
     {
         $advertise = Advertise::find($request->advertis_id);
         $site = Site::find($request->site_id);
-
         if ($advertise->count_type == "click") {
             $action['count_type'] = $advertise->count_type;
             $action['advertiser_id'] = $advertise->user->id;
@@ -137,8 +137,8 @@ class HomeController extends Controller
             $action['siter_id'] = $site->user->id;
             $action['site_id'] = $site->id;
             $action['signature'] = $request->signature;
-                 // });
-                 $user=new User();
+            // });
+            $user = new User();
             $action['ip'] = $user->get_ip();
             if ($site->user->vip) {
                 if ($advertise->count_type == "view") {
@@ -183,8 +183,13 @@ class HomeController extends Controller
                 $link = $advertise["landing_link" . $request->link_number];
                 return redirect()->to($link);
                 break;
-
             case "fixpost":
+                $link = $advertise["landing_link1"];
+                break;
+            case "banner":
+                $link = $advertise["landing_link1"];
+                break;
+                   case "video":
                 $link = $advertise["landing_link1"];
                 break;
         }

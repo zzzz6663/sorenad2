@@ -29,7 +29,7 @@
 <div class="row mb-4">
     <div class="col-lg-6">
         <div class="form-control-wrap">
-            <input type="text" name="landing_link1" class="form-control  form-control-outlined" value="{{ old("landing_link1",$advertise->landing_link1) }}" id="landing_link1">
+            <input type="text" name="landing_link1" class="form-control  landing_title  form-control-outlined" value="{{ old("landing_link1",$advertise->landing_link1) }}" id="landing_link1">
             <label class="form-label-outlined" for="landing_link1">
                 لینک دانلود برنامه 1
             </label>
@@ -38,7 +38,7 @@
 
     <div class="col-lg-6">
         <div class="form-control-wrap">
-            <input type="text" name="landing_title1" class="form-control  form-control-outlined" value="{{ old("landing_title1",$advertise->landing_title1) }}" id="landing_title1">
+            <input type="text" name="landing_title1" class="form-control landing_title  form-control-outlined" value="{{ old("landing_title1",$advertise->landing_title1) }}" id="landing_title1">
             <label class="form-label-outlined" for="landing_title1">
                 متن دکمه دانلود1
             </label>
@@ -49,7 +49,7 @@
 <div class="row mb-4">
     <div class="col-lg-6">
         <div class="form-control-wrap">
-            <input type="text" name="landing_link2" class="form-control  form-control-outlined" value="{{ old("landing_link2",$advertise->landing_link2) }}" id="landing_link2">
+            <input type="text" name="landing_link2" class="form-control  landing_title  form-control-outlined" value="{{ old("landing_link2",$advertise->landing_link2) }}" id="landing_link2">
             <label class="form-label-outlined" for="landing_link2">
                 لینک دانلود برنامه 2
             </label>
@@ -58,7 +58,7 @@
 
     <div class="col-lg-6">
         <div class="form-control-wrap">
-            <input type="text" name="landing_title2" class="form-control  form-control-outlined" value="{{ old("landing_title2",$advertise->landing_title2) }}" id="landing_title2">
+            <input type="text" name="landing_title2" class="form-control  landing_title form-control-outlined" value="{{ old("landing_title2",$advertise->landing_title2) }}" id="landing_title2">
             <label class="form-label-outlined" for="landing_title2">
                 متن دکمه دانلود2
             </label>
@@ -71,7 +71,7 @@
 <div class="row mb-4">
     <div class="col-lg-6">
         <div class="form-control-wrap">
-            <input type="text" name="landing_link3" class="form-control  form-control-outlined" value="{{ old("landing_link3",$advertise->landing_link3) }}" id="landing_link3">
+            <input type="text" name="landing_link3" class="form-control landing_title  form-control-outlined" value="{{ old("landing_link3",$advertise->landing_link3) }}" id="landing_link3">
             <label class="form-label-outlined" for="landing_link3">
                 لینک دانلود برنامه 3
             </label>
@@ -80,7 +80,7 @@
 
     <div class="col-lg-6">
         <div class="form-control-wrap">
-            <input type="text" name="landing_title3" class="form-control  form-control-outlined" value="{{ old("landing_title3",$advertise->landing_title3) }}" id="landing_title3">
+            <input type="text" name="landing_title3" class="form-control landing_title  form-control-outlined" value="{{ old("landing_title3",$advertise->landing_title3) }}" id="landing_title3">
             <label class="form-label-outlined" for="landing_title3">
                 متن دکمه دانلود3
             </label>
