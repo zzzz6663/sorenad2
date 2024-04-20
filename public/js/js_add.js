@@ -31,7 +31,7 @@ function loadDoc2(data) {
             console.log(8080)
             console.log(this)
             console.log(this.readyState)
-            console.log(oXHR.statusText)
+            // console.log(this.readyState)
             if (this.readyState == 4) {
                 console.log(oXHR.statusText)
                 console.log(oXHR)
