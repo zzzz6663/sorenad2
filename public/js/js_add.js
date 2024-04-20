@@ -27,12 +27,14 @@ function loadDoc2(data) {
     console.log(info)
     return new Promise((resolve, reject) => {
         const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
+        xhttp.onreadystatechange = function(oEvent) {
             if (this.readyState == 4) {
+                console.log(oXHR.statusText)
+                console.log(oXHR)
                 if (this.status == 200) {
                     resolve(JSON.parse(this.responseText));
                 } else {
-                    reject(new Error('Failed to fetch data from API +loadDoc2'));
+                    reject(new Error(oXHR.statusText));
                 }
             }
         };
