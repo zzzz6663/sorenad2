@@ -29,7 +29,10 @@ class ApiController extends Controller
 
     public function test(Request $request)
     {
-
+        return response()->json([
+            'all' => $request->all(),
+            'site' =>  "notss_ok",
+        ]);
             $user=new User();
         $ip = $user->get_ip();
 
