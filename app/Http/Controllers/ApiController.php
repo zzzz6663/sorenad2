@@ -38,6 +38,10 @@ class ApiController extends Controller
         $css = asset('/css/css_add.css');
         $domin = $request->domin;
         $device = $request->device;
+
+        $fixpost=null;
+        $banner=null;
+       $video=null;
         $fixpost_req = $request->fixpost;
         $banner_req = $request->banner;
         $video_req = $request->video;
