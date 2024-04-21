@@ -57,7 +57,7 @@ class HomeController extends Controller
     public function clear(Request $request)
     {
         dump($this->getUserIpAddr());
-        dd($this->getUserIpAddr2());
+        dump($this->getUserIpAddr2());
 
 
         // $sum=Action::where('active', 1)->update(['active'=>0]);

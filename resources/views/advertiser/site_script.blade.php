@@ -107,7 +107,7 @@
     <div class="card">
         <div class="card-inner">
             <div class="row">
-{{--  ddd  --}}
+{{--  dddss  --}}
                 <div class="col-lg-6 mb-5">
                     <span class="pl-4">
                         کد تبلیغات پست ثابت (مناسب برای باتدا یا انتهای مطالب)
