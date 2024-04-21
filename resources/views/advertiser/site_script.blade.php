@@ -50,7 +50,7 @@
                             </span>
                             <div class="custom-control custom-switch checked">
                                 <input type="text" hidden name="float_app" value="0">
-                                <input type="checkbox" class="custom-control-input"    name="float_app" {{ $user->float_app?"checked":"" }}  id="float_app" value="1">
+                                <input type="checkbox" class="custom-control-input" name="float_app" {{ $user->float_app?"checked":"" }} id="float_app" value="1">
                                 <label class="custom-control-label" for="float_app">تبلیغات شناور نصب اپلیکیشن</label>
                             </div>
                         </div>
@@ -113,9 +113,7 @@
                         کد تبلیغات پست ثابت (مناسب برای باتدا یا انتهای مطالب)
                     </span>
                     <div class="nk-reply-from">
-                       <code>
-                        <div style="color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &quot;Courier New&quot;, monospace; font-size: 14px; line-height: 19px;"><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #d4d4d4;">&lt;</span>div id<span style="color: #d4d4d4;">=</span><span style="color: #ce9178;">"sorenad_fixpost"</span><span style="color: #d4d4d4;">&gt;&lt;/</span>div<span style="color: #d4d4d4;">&gt;</span></div><div></div></div>
-                       </code>
+                        <pre class="code_syntax" style="color:#000020;background:#f6f8ff;"><span class="line_wrapper"> <span style="color:#0057a6; ">&lt;</span><span style="color:#200080; font-weight:bold; ">div</span><span style="color:#474796; "> </span><span style="color:#074726; ">id</span><span style="color:#308080; ">=</span><span style="color:#1060b6; ">"sorenad_fixpost"</span><span style="color:#0057a6; ">&gt;</span><span style="color:#0057a6; ">&lt;/</span><span style="color:#200080; font-weight:bold; ">div</span><span style="color:#0057a6; ">&gt;</span></span></pre>
                         <span data-id="sorenad_fixpost" class="btn btn-success copy_h">کپی </span>
                     </div>
                 </div>
@@ -124,17 +122,21 @@
                         کد تبلیغات بنری سایز (275*180) مناسب ستون کناری
                     </span>
                     <div class="nk-reply-from">
-                        {{ route("home")."/js_add.js" }}
-                        <span data-url="{{ route("home")."/js_add.js" }}" class="btn btn-success copy">کپی </span>
+                        <code>
+                            <pre class="code_syntax" style="color:#000020;background:#f6f8ff;"><span class="line_wrapper"> <span style="color:#0057a6; ">&lt;</span><span style="color:#200080; font-weight:bold; ">div</span><span style="color:#474796; "> </span><span style="color:#074726; ">id</span><span style="color:#308080; ">=</span><span style="color:#1060b6; ">"sorenad_banner"</span><span style="color:#0057a6; ">&gt;</span><span style="color:#0057a6; ">&lt;/</span><span style="color:#200080; font-weight:bold; ">div</span><span style="color:#0057a6; ">&gt;</span></span></pre>
+                        </code>
+                        <span data-id="sorenad_banner" class="btn btn-success copy_h">کپی </span>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-5">
                     <span class="pl-4">
-                        کد باکس تبلیغات متنی مناسب برای ابتدا یا انتهای مطالب یا ستون کناری
+                        کد تبلیغات ویدئو
                     </span>
                     <div class="nk-reply-from">
-                        {{ route("home")."/js_add.js" }}
-                        <span data-url="{{ route("home")."/js_add.js" }}" class="btn btn-success copy">کپی </span>
+                        <code>
+                            <pre class="code_syntax" style="color:#000020;background:#f6f8ff;"><span class="line_wrapper"> <span style="color:#0057a6; ">&lt;</span><span style="color:#200080; font-weight:bold; ">div</span><span style="color:#474796; "> </span><span style="color:#074726; ">id</span><span style="color:#308080; ">=</span><span style="color:#1060b6; ">"sorenad_banner"</span><span style="color:#0057a6; ">&gt;</span><span style="color:#0057a6; ">&lt;/</span><span style="color:#200080; font-weight:bold; ">div</span><span style="color:#0057a6; ">&gt;</span></span></pre>
+                        </code>
+                        <span data-id="sorenad_video" class="btn btn-success copy_h">کپی </span>
                     </div>
                 </div>
 
