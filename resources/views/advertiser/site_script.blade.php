@@ -105,7 +105,7 @@
     <h2 class="nk-block-title fw-normal">اسکریت</h2>
 
     <div class="card">
-        <div class="card-inner">
+        <div class="card-inner"> 
             <div class="row">
 
                 <div class="col-lg-6 mb-5">
