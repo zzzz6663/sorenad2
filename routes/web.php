@@ -47,6 +47,7 @@ Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function
     Route::any('/setting_ads_popup', 'SettingController@setting_ads_popup')->name('setting.ads.popup');
     Route::any('/setting_ads_video', 'SettingController@setting_ads_video')->name('setting.ads.video');
     Route::any('/setting_ads_text', 'SettingController@setting_ads_text')->name('setting.ads.text');
+    Route::any('/setting_ads_chanal', 'SettingController@setting_ads_chanal')->name('setting.ads.chanal');
     Route::any('/site_setting', 'SettingController@site_setting')->name('site.setting');
 
 
@@ -94,6 +95,7 @@ Route::prefix('advertiser')->middleware(['auth',"check_active"])->namespace('adv
     Route::any('/advertiser_new_ad_fixpost/{advertise?}', 'AdvertiserController@advertiser_new_ad_fixpost')->name('advertiser.new.ad.fixpost');
     Route::any('/advertiser_new_ad_text/{advertise?}', 'AdvertiserController@advertiser_new_ad_text')->name('advertiser.new.ad.text');
     Route::any('/advertiser_new_ad_video/{advertise?}', 'AdvertiserController@advertiser_new_ad_video')->name('advertiser.new.ad.video');
+    Route::any('/advertiser_new_ad_chanal/{advertise?}', 'AdvertiserController@advertiser_new_ad_chanal')->name('advertiser.new.ad.chanal');
     Route::get('/advertiser_list', 'AdvertiserController@advertiser_list')->name('advertiser.list');
     Route::get('/advertiser_log', 'AdvertiserController@advertiser_log')->name('advertiser.log');
     Route::post('/advertise_reject/{advertise}', 'AdvertiserController@advertise_reject')->name('advertise.reject');
