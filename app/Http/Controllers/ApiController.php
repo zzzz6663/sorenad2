@@ -87,7 +87,7 @@ class ApiController extends Controller
                 $banner = view($banner_temp, compact(['advertise', "site","ip"]))->render();
             }
         }
-        if ($banner_req) {
+        if ($video_req) {
             $advertise = $this->query($site, $request, "video",$ip);
             if ($advertise) {
                 $video = view($video_temp, compact(['advertise', "site","ip"]))->render();
