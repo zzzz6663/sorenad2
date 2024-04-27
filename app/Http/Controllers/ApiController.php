@@ -120,7 +120,7 @@ class ApiController extends Controller
         $advertise = Advertise::where('active', 1)->whereType($type)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
         // $advertise->whereHas('cats', function ($query) use ($site) {
         //     $query->where('id', $site->cat_id);
-        // });
+        // }); 
         $advertise->where(function($qu){
             $qu->whereDoesntHave('actions')
             ->orWhereHas("actions", function ($q3) {
