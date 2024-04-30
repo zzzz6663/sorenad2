@@ -30,6 +30,10 @@ class ApiController extends Controller
     public function test(Request $request)
     {
 
+
+        // return response()->json([
+        //     'site' =>  "not_ok",
+        // ]);
             $user=new User();
         $ip = $user->get_ip();
 
@@ -39,16 +43,20 @@ class ApiController extends Controller
         $domin = $request->domin;
         $device = $request->device;
 
+        $advertise=null;
         $fixpost=null;
         $banner=null;
        $video=null;
+       $hamsan=null;
         $fixpost_req = $request->fixpost;
         $banner_req = $request->banner;
         $video_req = $request->video;
+        $hamsan_req = $request->hamsan;
         $app_temp = ("admin.add_temp.app");
         $fixpost_temp = ("admin.add_temp.fixpost");
         $banner_temp = ("admin.add_temp.banner");
         $video_temp = ("admin.add_temp.video");
+        $hamsan_temp = ("admin.add_temp.hamsan");
         // $site = Site::find(22);
         // $device = "mobile"
 
@@ -93,6 +101,12 @@ class ApiController extends Controller
                 $video = view($video_temp, compact(['advertise', "site","ip"]))->render();
             }
         }
+        if ($site_owner->hamsan) {
+            $advertise = $this->query($site, $request, "hamsan",$ip);
+            if ($advertise) {
+                $hamsan = view($hamsan_temp, compact(['advertise', "site","ip"]))->render();
+            }
+        }
         return response()->json([
             'all' => $request->all(),
             'ip' =>  $ip,
@@ -112,6 +126,8 @@ class ApiController extends Controller
             'fixpost' => $fixpost,
             'banner' => $banner,
             'video' => $video,
+            'hamsan' => $hamsan,
+            'site' => $site,
         ]);
     }
     public function query($site, $request, $type,$ip)
@@ -121,7 +137,8 @@ class ApiController extends Controller
         $advertise->whereHas('cats', function ($query) use ($site) {
             $query->where('id', $site->cat_id);
         });
-        $advertise->where(function($qu){
+        $advertise
+        ->where(function($qu){
             $qu->whereDoesntHave('actions')
             ->orWhereHas("actions", function ($q3) {
                 $q3->whereDate('created_at', '=', now()->toDateString());

@@ -3,8 +3,6 @@
 <div class="components-preview wide-md mx-auto">
     <div class="card">
         <div class="card-inner">
-
-
             <div class="row">
                 <div class="col-lg-12">
                     <div class="cart">

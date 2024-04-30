@@ -76,8 +76,7 @@ return [
         ],
         'digipay' => [
             'apiOauthUrl' => 'https://api.mydigipay.com/digipay/api/oauth/token',
-            'apiPurchaseUrl' => 'https://api.mydigipay.com/digipay/api/businesses/ticket?type=0',
-            'apiPaymentUrl' => 'https://api.mydigipay.com/digipay/api/purchases/ipg/pay/',
+            'apiPurchaseUrl' => 'https://api.mydigipay.info/digipay/api/tickets/business',
             'apiVerificationUrl' => 'https://api.mydigipay.com/digipay/api/purchases/verify/',
             'username' => 'username',
             'password' => 'password',
@@ -123,7 +122,7 @@ return [
         'jibit' => [
             'apiPaymentUrl' => 'https://napi.jibit.ir/ppg/v3',
             'apiKey' => '',
-            'secretKey' => '',
+            'apiSecret' => '',
            // You can change the token storage path in Laravel like this
            // 'tokenStoragePath' => function_exists('storage_path') ? storage_path('jibit/') : 'jibit/'
             'tokenStoragePath' => 'jibit/',
@@ -193,7 +192,6 @@ return [
             'sandboxApiVerificationUrl' => 'https://sandbox.zarinpal.com/pg/services/WebGate/wsdl',
 
             'mode' => 'normal', // can be normal, sandbox
-            'currency' => '',
             'id' => '', // Specify the email of the PayPal Business account
             'callbackUrl' => 'http://yoursite.com/path/to',
             'description' => 'payment using paypal',

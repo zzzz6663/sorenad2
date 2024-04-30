@@ -1,14 +1,23 @@
-<div class="row mb-5">
-    <div class="col-lg-12">
-        <h5 class="text text-info">
-            تعیین کنید این تبلیغ در چه سایتهایی نمایش داده شود ؟ اگر محصول یا خدمات شما برای تمام اقشار جامعه مناسب است، هیچ دسته بندی را انتخاب نکنید .
-        </h5>
-        <select  name="cats[]" class="custom-control select2" id="" multiple>
+
+    @php
+    $cats=[];
+    if($advertise->id){
+        $cats=$advertise->cats()->pluck("id")->toArray();
+    }
+    @endphp
+
+  <div class="col-lg-6">
+        <label class="form-label" for="cats">    دسته بندی
+
+            <span class="text text-danger">
+                (خالی==همه)
+            </span>
+        </label>
+        <select  name="cats[]" class="custom-control select2" id="cats" multiple>
             <option value=""></option>
             @foreach (App\Models\Cat::whereActive(1)->get() as $cat )
-            <option {{ in_array($cat->id,old("cats",[]))?"selected":"" }} value="{{ $cat->id }}">{{ $cat->name }}</option>
+            <option {{ in_array($cat->id,old("cats",$cats))?"selected":"" }} value="{{ $cat->id }}">{{ $cat->name }}</option>
             @endforeach
-
         </select>
         {{--  <ul class="custom-control-group">
             @foreach (App\Models\Cat::whereActive(1)->get() as $cat )
@@ -21,4 +30,4 @@
             @endforeach
         </ul>  --}}
     </div>
-</div>
+

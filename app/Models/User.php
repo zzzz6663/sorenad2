@@ -39,6 +39,7 @@ class User extends Authenticatable
         'a_mellicode',
         'confirm_bank_account',
         'bank',
+        'hamsan',//تبلیغات همسان
         'back_popup',//پاپ آپ پشت پنجره
         'float_app',//تبلیغات شناور نصب اپلیکیشن
         'show_display_times',//دفعات نمایش پاپ آپ

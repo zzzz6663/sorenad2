@@ -75,6 +75,8 @@ class PayController extends Controller
             case "fixpost":
             case "text":
             case "video":
+            case "chanal":
+            case "hamsan":
                 $advertise = Advertise::find($data['advertise_id']);
                 if ($advertise->count_type == "click") {
                     $price = $user->click_price($type) * $data['click_count'];
@@ -108,7 +110,6 @@ class PayController extends Controller
                         alert()->success("پرداخت با موفیت از کیف پول انجام شد  ");
                         return redirect()->route("advertiser.list");
                     } else {
-
                         $amount -= $user->balance();
                     }
                 }
@@ -207,6 +208,13 @@ class PayController extends Controller
                         case "video":
                             $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
                             break;
+                         case "chanal":
+                            $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                            break;
+
+                            case "hamsan":
+                                $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                                break;
                     }
                 }
 

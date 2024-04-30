@@ -125,7 +125,7 @@
         NioApp.Passcode('.passcode-switch');
     };
 
-    // Toastr Message @v1.0 
+    // Toastr Message @v1.0
     NioApp.Toast = function (msg, ttype, opt) {
         var ttype = (ttype) ? ttype : 'info', msi = '',
             ticon = (ttype === 'info') ? 'ni ni-info-fill' : ((ttype === 'success') ? 'ni ni-check-circle-fill' : ((ttype === 'error') ? 'ni ni-cross-circle-fill' : ((ttype === 'warning') ? 'ni ni-alert-fill' : ''))),
@@ -384,9 +384,9 @@
                     headerTag: ".nk-wizard-head",
                     bodyTag: ".nk-wizard-content",
                     labels: {
-                        finish: "ارسال",
+                        finish: "ذخیره",
                         next: "بعدی",
-                        previous: "قبلی",
+                        previous: "ssss",
                         loading: "در حال بارگذاری ..."
                     },
                     titleTemplate: '<span class="number">0#index#</span> #title#',

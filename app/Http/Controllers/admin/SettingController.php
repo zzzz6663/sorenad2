@@ -312,6 +312,90 @@ class SettingController extends Controller
         ]));
     }
 
+    public function setting_ads_chanal(Request $request){
+        if($request->isMethod("post")){
+            $data=$request->validate([
+                'chanal_advertiser_click'=>"required",
+                'chanal_advertiser_show'=>"required",
+                'chanal_limit_order'=>"required",
+                'chanal_active_site'=>"required",
+                'chanal_user_vip_click'=>"required",
+                'chanal_user_vip_show'=>"required",
+                'chanal_user_normal_click'=>"required",
+                'chanal_user_normal_show'=>"required",
+            ]);
+            foreach($data as $key=>$val){
+                $setting=Setting::whereName( $key)->first();
+                $setting->update(['val'=>$val]);
+
+            }
+            alert()->success("اطلاعات با موفقیت ذخیره شد ");
+            return redirect()->route("setting.ads.chanal");
+        }
+
+        // $setting_ads_chanal=Setting::whereType("setting_ads_chanal")->get();
+        $chanal_advertiser_click=Setting::whereName("chanal_advertiser_click")->first();
+        $chanal_advertiser_show=Setting::whereName("chanal_advertiser_show")->first();
+        $chanal_limit_order=Setting::whereName("chanal_limit_order")->first();
+        $chanal_active_site=Setting::whereName("chanal_active_site")->first();
+        $chanal_user_vip_click=Setting::whereName("chanal_user_vip_click")->first();
+        $chanal_user_vip_show=Setting::whereName("chanal_user_vip_show")->first();
+        $chanal_user_normal_click=Setting::whereName("chanal_user_normal_click")->first();
+        $chanal_user_normal_show=Setting::whereName("chanal_user_normal_show")->first();
+        return view('admin.setting.setting_ads_chanal', compact([
+            "chanal_advertiser_click",
+            "chanal_advertiser_show",
+            "chanal_limit_order",
+            "chanal_active_site",
+            "chanal_user_vip_click",
+            "chanal_user_vip_show",
+            "chanal_user_normal_click",
+            "chanal_user_normal_show",
+        ]));
+    }
+
+    public function setting_ads_hamsan(Request $request){
+        if($request->isMethod("post")){
+            $data=$request->validate([
+                'hamsan_advertiser_click'=>"required",
+                'hamsan_advertiser_show'=>"required",
+                'hamsan_limit_order'=>"required",
+                'hamsan_active_site'=>"required",
+                'hamsan_user_vip_click'=>"required",
+                'hamsan_user_vip_show'=>"required",
+                'hamsan_user_normal_click'=>"required",
+                'hamsan_user_normal_show'=>"required",
+            ]);
+            foreach($data as $key=>$val){
+                $setting=Setting::whereName( $key)->first();
+                $setting->update(['val'=>$val]);
+
+            }
+            alert()->success("اطلاعات با موفقیت ذخیره شد ");
+            return redirect()->route("setting.ads.hamsan");
+        }
+
+        // $setting_ads_hamsan=Setting::whereType("setting_ads_hamsan")->get();
+        $hamsan_advertiser_click=Setting::whereName("hamsan_advertiser_click")->first();
+        $hamsan_advertiser_show=Setting::whereName("hamsan_advertiser_show")->first();
+        $hamsan_limit_order=Setting::whereName("hamsan_limit_order")->first();
+        $hamsan_active_site=Setting::whereName("hamsan_active_site")->first();
+        $hamsan_user_vip_click=Setting::whereName("hamsan_user_vip_click")->first();
+        $hamsan_user_vip_show=Setting::whereName("hamsan_user_vip_show")->first();
+        $hamsan_user_normal_click=Setting::whereName("hamsan_user_normal_click")->first();
+        $hamsan_user_normal_show=Setting::whereName("hamsan_user_normal_show")->first();
+        return view('admin.setting.setting_ads_hamsan', compact([
+            "hamsan_advertiser_click",
+            "hamsan_advertiser_show",
+            "hamsan_limit_order",
+            "hamsan_active_site",
+            "hamsan_user_vip_click",
+            "hamsan_user_vip_show",
+            "hamsan_user_normal_click",
+            "hamsan_user_normal_show",
+        ]));
+    }
+
 
 
 }

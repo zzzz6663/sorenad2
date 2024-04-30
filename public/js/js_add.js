@@ -10,11 +10,16 @@ let device = touchDevice ? "mobile" : "desktop"
 var fixpost = document.getElementById("sorenad_fixpost");
 var banner = document.getElementById("sorenad_banner");
 var video = document.getElementById("sorenad_video");
+var hamsan = document.getElementById("sorenad_hamsan");
 
 
 function loadDoc2(data) {
-    console.log(data )
-    let url ="https://sorenad.runflare.run/api/test"
+    let  url ="https://sorenad.runflare.run/api/test"
+    if(window.location.hostname=="127.0.0.1"){
+
+        url ="http://127.0.0.1:8000/api/test"
+    }
+    console.log(url)
     // let url ="http://127.0.0.1:8000/api/test"
     let info = {
         domin: domin,
@@ -23,6 +28,7 @@ function loadDoc2(data) {
         fixpost: document.querySelectorAll("#sorenad_fixpost").length,
         banner: document.querySelectorAll("#sorenad_banner").length,
         video: document.querySelectorAll("#sorenad_video").length,
+        hamsan: document.querySelectorAll("#sorenad_hamsan").length,
     }
     console.log(info)
     return new Promise((resolve, reject) => {
@@ -32,7 +38,8 @@ function loadDoc2(data) {
                 if (this.status == 200) {
                     resolve(JSON.parse(this.responseText));
                 } else {
-                    reject(new Error(this.status));
+                    // reject(new Error(this.status));
+                    reject(new Error(this.responseText));
                 }
             }
         };
@@ -118,6 +125,28 @@ window.scrollTo({ top: scrollDiv, behavior: 'smooth'});
             setTimeout(() => {
                 document.getElementById("sorenad_video").innerHTML = res.video;
 
+            }, 200);
+        }
+
+
+        if(device=="mobile" && res.app){
+            console.log("app")
+            setTimeout(() => {
+                document.body.innerHTML += res.app;
+                document.querySelector(".sorenad_close").addEventListener('click', function (e) {
+                    this.closest(".sorenad_par").remove()
+                })
+            }, 200);
+        }
+        if( res.hamsan){
+            console.log("hamsan")
+            setTimeout(() => {
+                document.body.innerHTML += res.hamsan;
+                document.querySelector(".icon_soren").addEventListener('click', function (e) {
+                    console.log(80)
+                    this.classList.toggle("s_rotate");
+                    this.closest('.ssoren_cont').querySelector(".soren_ad_hamsab").classList.toggle("sorenad_hams_down");
+                })
             }, 200);
         }
     } catch (error) {

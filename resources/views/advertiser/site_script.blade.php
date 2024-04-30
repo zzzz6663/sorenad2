@@ -30,10 +30,9 @@
                             این کد را در هدر یا فوتر سایت خود قرار دهید.
                         </p>
                     </div>
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-3 col-sm-6">
                         <div class="preview-block">
                             <span class="preview-title overline-title">توضیحات
-
                             </span>
                             <div class="custom-control custom-switch checked">
                                 <input type="text" hidden name="back_popup" value="0">
@@ -43,7 +42,19 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="preview-block">
+                            <span class="preview-title overline-title">توضیحات
+                            </span>
+                            <div class="custom-control custom-switch checked">
+                                <input type="text" hidden name="hamsan" value="0">
+                                <input type="checkbox" class="custom-control-input" name="hamsan" {{ $user->hamsan?"checked":"" }} id="hamsan" value="1">
+                                <label class="custom-control-label" for="hamsan">همسان</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6">
                         <div class="preview-block">
                             <span class="preview-title overline-title">
                                 توضیحات
@@ -57,7 +68,7 @@
                     </div>
 
 
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-3 col-sm-6">
                         <div class="form-group">
                             <label class="form-label" for="default-06">دفعات نمایش پاپ آپ برای هر ip در 24 ساعت</label>
                             <div class="form-control-wrap">
@@ -104,7 +115,7 @@
 
     <h2 class="nk-block-title fw-normal">اسکریت</h2>
 
-    <div class="card">
+    <div class="card" id="scr">
         <div class="card-inner">
             <div class="row">
 {{--  dddss  --}}
@@ -142,11 +153,11 @@
 
                 <div class="col-lg-6 mb-5">
                     <span class="pl-4">
-                        کد تبلیغات پست ثابت (مناسب برای باتدا یا انتهای مطالب)
+                        کد تبلیغات پست ثابت
                     </span>
                     <div class="nk-reply-from">
-                        {{ route("home")."/js_add.js" }}
-                        <span data-url="{{ route("home")."/js_add.js" }}" class="btn btn-success copy">کپی </span>
+                        <pre class="code_syntax" style="color:#000020;background:#f6f8ff;"><span class="line_wrapper"> <span style="color:#0057a6; ">&lt;</span><span style="color:#200080; font-weight:bold; ">div</span><span style="color:#474796; "> </span><span style="color:#074726; ">id</span><span style="color:#308080; ">=</span><span style="color:#1060b6; ">"sorenad_hamsan"</span><span style="color:#0057a6; ">&gt;</span><span style="color:#0057a6; ">&lt;/</span><span style="color:#200080; font-weight:bold; ">div</span><span style="color:#0057a6; ">&gt;</span></span></pre>
+                        <span data-id="sorenad_hamsan" class="btn btn-success copy_h">کپی </span>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-5">

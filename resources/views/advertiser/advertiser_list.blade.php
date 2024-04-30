@@ -78,7 +78,7 @@
                         <span class="tb-sub">{{ $advertise->title }} </span>
                     </div>
                     <div class="nk-tb-col">
-                        <span class="tb-sub">{{(__("arr.". $advertise->type)) }} </span>
+                        <span class="tb-sub">{{(__("advertise_type.". $advertise->type)) }} </span>
                     </div>
                     <div class="nk-tb-col">
                         <span class="tb-sub">{{(__("a_status.". $advertise->status)) }} </span>

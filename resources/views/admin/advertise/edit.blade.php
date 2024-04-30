@@ -25,7 +25,6 @@
             <form action="{{ route("advertise.update" ,$advertise->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('patch')
-
                 <div class="card-body">
                     {{ $advertise->type }}
                     @include("advertiser.ad_temp.".$advertise->type,['advertise'=>$advertise])

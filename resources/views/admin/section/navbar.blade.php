@@ -72,50 +72,12 @@
                         </a>
                     </li>
                     <li class="dropdown chats-dropdown hide-mb-xs">
-                        <a href="#" class="no_link dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                        <a target="_blank" href="https://t.me/sorenadcom" class=" no_link  nk-quick-nav-icon">
                             <div class="icon-status icon-status-na">
-                                <em class="icon ni ni-comments"></em>
+                                <i class="fab fa-telegram"></i>
                             </div>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end">
-                            <div class="dropdown-head">
-                                <span class="sub-title nk-dropdown-title">گفتگوهای اخیر</span>
-                                <a href="#">تنظیمات</a>
-                            </div>
-                            <div class="dropdown-body">
-                                <ul class="chat-list">
-                                    <li class="chat-item">
-                                        <a class="chat-link" href="html/apps-chats.html">
-                                            <div class="chat-media user-avatar">
-                                                <span>م‌م</span>
-                                                <span class="status dot dot-lg dot-gray"></span>
-                                            </div>
-                                            <div class="chat-info">
-                                                <div class="chat-from">
-                                                    <div class="name">مهرداد موسوی</div>
-                                                    <span class="time">الان</span>
-                                                </div>
-                                                <div class="chat-context">
-                                                    <div class="text">
-                                                        شما: لطفا اگه آخرین پیام های من رو دریافت کردید، تایید کنید.
-                                                    </div>
-                                                    <div class="status delivered">
-                                                        <em class="icon ni ni-check-circle-fill"></em>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
 
-                                    <!-- .chat-item -->
-                                </ul>
-                                <!-- .chat-list -->
-                            </div>
-                            <!-- .nk-dropdown-body -->
-                            <div class="dropdown-foot center">
-                                <a href="html/apps-chats.html">مشاهده همه</a>
-                            </div>
-                        </div>
                     </li>
                     @role('customer')
                     <li class="dropdown notification-dropdown">
@@ -183,7 +145,7 @@
 
                                     <li>
 
-                                        <a class="dark-switch no_link" href="{{ route("logout") }}"><em class="icon ni ni-moon"></em><span>حالت تاریک</span></a>
+                                        <a class="dark-switch no_link" href="#"><em class="icon ni ni-moon"></em><span>حالت تاریک</span></a>
                                     </li>
                                     @role('customer')
                                     <li>
@@ -199,10 +161,8 @@
                                     <li>
                                         @if(auth()->user()->vip)
                                         <div class="user_type vip_user alert alert-secondary"> < class="fas fa-user-check"></i>کاربر اختصاصی</div>
-
                                         @else
                                         <div class="user_type normal_user alert alert-secondary"> <i class="far fa-user"></i>کاربر  معمولی</div>
-
                                         @endif
                                     </li>
                                     @endrole
@@ -212,7 +172,7 @@
                             <div class="dropdown-inner">
                                 <ul class="link-list">
                                     <li>
-                                        <a href="#"><em class="icon ni ni-signout"></em><span>خروج</span></a>
+                                        <a href="{{ route("logout") }}"><em class="icon ni ni-signout"></em><span>خروج</span></a>
                                     </li>
                                 </ul>
                             </div>

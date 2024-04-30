@@ -201,6 +201,82 @@ class AdvertiserController extends Controller
             return redirect()->route("send.pay", ['type' => "app", "data" => $data]);
         }
         return view('advertiser.advertiser_new_ad_app', compact(["user", "click", "view", "type","advertise"]));
+    }    public function advertiser_new_ad_hamsan(Request $request, Advertise $advertise)
+    {
+        $user = auth()->user();
+        $click = $user->click_price('hamsan');
+        $view = $user->view_price('hamsan');
+        $type = "hamsan";
+        if ($request->isMethod("post")) {
+
+
+
+            if ($advertise->id) {
+                $data['title'] =  $advertise->title;
+                $data['info'] =  $advertise->info;
+                $data['landing_link1'] =  $advertise->landing_link1;
+                $data['landing_title1'] =  $advertise->landing_title1;
+                $data['landing_link2'] =  $advertise->landing_link2;
+                $data['landing_title2'] =  $advertise->landing_title2;
+                $data['landing_link3'] =  $advertise->landing_link3;
+                $data['landing_title3'] =  $advertise->landing_title3;
+                $data['icon'] =  $advertise->icon;
+                $data['count_type'] =  $advertise->count_type;
+                $data['banner1'] =  $advertise->banner1;
+                 $data['click_count'] =  $advertise->click_count;
+                 $data['view_count'] =  $advertise->view_count;
+                $data['limit_daily_click'] =  $advertise->limit_daily_click;
+                $data['pay_type'] =  $request->pay_type;
+                $data["type"] = "hamsan";
+            } else {
+                $data = $request->validate([
+                    'title' => "required|max:256",
+                    'bt_color' => "required|max:10",
+                    'landing_link1' => "required|url",
+                    'landing_title1' => "required",
+                    'count_type' => "required",
+                    'click_count' => "required_if:count_type,click",
+                    'limit_daily_click' => "required_if:count_type,click",
+                    'view_count' => "required_if:count_type,view",
+                    'limit_daily_view' => "required_if:count_type,view",
+                    'pay_type' => "required",
+                    'cats' => "nullable",
+                ]);
+                $data["type"] = "hamsan";
+                $data["status"] = "created";
+
+                $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
+                $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
+                $data["unit_vip_click"] = $user->setting_cache($type . "_user_vip_click");
+                $data["unit_vip_show"] = $user->setting_cache($type . "_user_vip_show");
+                $data["unit_normal_click"] = $user->setting_cache($type . "_user_normal_click");
+                $data["unit_normal_show"] = $user->setting_cache($type . "_user_normal_show");
+                $data['limit_daily'] = $request->limit_daily_view;
+                if ($request->limit_daily_click) {
+                    $data['limit_daily'] = $request->limit_daily_click;
+                }
+                $advertise = $user->advertises()->create($data);
+
+                if ($request->hasFile('banner1')) {
+                    $banner1 = $request->file('banner1');
+                    $name_img = 'banner1_' . $advertise->id . '.' . $banner1->getClientOriginalExtension();
+                    $banner1->move(public_path('/media/advertises/'), $name_img);
+                    $data['banner1'] = $name_img;
+                }
+
+                $advertise->update($data);
+                if ($request->cats) {
+                    $advertise->cats()->attach($data['cats']);
+                } else {
+                    $advertise->cats()->attach(Cat::whereActive(1)->pluck("id")->toArray());
+                }
+            }
+
+            $data['advertise_id'] =  $advertise->id;
+
+            return redirect()->route("send.pay", ['type' => "hamsan", "data" => $data]);
+        }
+        return view('advertiser.advertiser_new_ad_hamsan', compact(["user", "click", "view", "type","advertise"]));
     }
     public function advertiser_new_ad_banner(Request $request, Advertise $advertise)
     {
@@ -528,71 +604,67 @@ class AdvertiserController extends Controller
 
         $type = "chanal";
         if ($request->isMethod("post")) {
-            // dd($request->all());
 
 
 
             if ($advertise->id) {
                 $data['title'] =  $advertise->title;
+                $data['telegram'] =  $advertise->telegram;
+                $data['ita'] =  $advertise->ita;
+                $data['rubika'] =  $advertise->rubika;
+                $data['bale'] =  $advertise->bale;
+                $data['instagram'] =  $advertise->instagram;
+                $data['info'] =  $advertise->info;
                 $data['landing_link1'] =  $advertise->landing_link1;
                 $data['click_count'] =  $advertise->click_count;
-                 $data['view_count'] =  $advertise->view_count;
-                $data['limit_daily'] =  $advertise->limit_daily;
                 $data['count_type'] =  $advertise->count_type;
-                $data['landing_title1'] =  $advertise->landing_title1;
-                $data['call_to_action'] =  $advertise->call_to_action;
-                $data['device'] =  $advertise->device;
                 $data['pay_type'] =  $request->pay_type;
                 $data["type"] = "chanal";
             } else {
                 // dd($request->all());
                 $data = $request->validate([
                     'title' => "required|max:256",
+                    'telegram' => "nullable",
+                    'ita' => "nullable",
+                    'rubika' => "nullable",
+                    'bale' => "nullable",
+                    'instagram' => "nullable",
+                    'info' => "required",
                     'landing_link1' => "required|url",
-                    'landing_title1' => "required|max:40",
-                    'call_to_action' => "required|max:100",
+                    'landing_title1' => "required",
+                    'landing_link2' => "nullable|url",
+                    'landing_title2' => "nullable",
                     'count_type' => "required",
-                    'click_count' => "required_if:count_type,click",
-                    'limit_daily_click' => "required_if:count_type,click",
-                    'view_count' => "required_if:count_type,view",
-                    'limit_daily_view' => "required_if:count_type,view",
+                    'click_count' => "required",
                     'pay_type' => "required",
-                    'device' => "required",
-                    'video1' => "required",
-                    'cats' => "nullable",
                 ]);
                 $data["type"] = "chanal";
                 $data["status"] = "created";
-
                 $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
                 $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
                 $data["unit_vip_click"] = $user->setting_cache($type . "_user_vip_click");
                 $data["unit_vip_show"] = $user->setting_cache($type . "_user_vip_show");
                 $data["unit_normal_click"] = $user->setting_cache($type . "_user_normal_click");
                 $data["unit_normal_show"] = $user->setting_cache($type . "_user_normal_show");
-                $data['limit_daily'] = $request->limit_daily_view;
-                if ($request->limit_daily_click) {
-                    $data['limit_daily'] = $request->limit_daily_click;
-                }
                 $advertise = $user->advertises()->create($data);
-                if ($request->hasFile('video1')) {
-                    $video1 = $request->file('video1');
-                    $name_img = 'video1_' . $advertise->id . '.' . $video1->getClientOriginalExtension();
-                    $video1->move(public_path('/media/advertises/'), $name_img);
-                    $data['video1'] = $name_img;
+                if ($request->hasFile('attach')) {
+                    $attach = $request->file('attach');
+                    $name_img = 'attach_' . $advertise->id . '.' . $attach->getClientOriginalExtension();
+                    $attach->move(public_path('/media/advertises/'), $name_img);
+                    $data['attach'] = $name_img;
                 }
 
                 $advertise->update($data);
-                if ($request->cats) {
-                    $advertise->cats()->attach($data['cats']);
+                if ($request->groups) {
+                    $advertise->groups()->attach($data['groups']);
                 } else {
-                    $advertise->cats()->attach(Cat::whereActive(1)->pluck("id")->toArray());
+                    $advertise->groups()->attach(Cat::whereActive(1)->pluck("id")->toArray());
                 }
             }
             $data['advertise_id'] =  $advertise->id;
             return redirect()->route("send.pay", ['type' =>     $type, "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_video', compact(["user", "click", "view", "type","advertise"]));
+        return view('advertiser.advertiser_new_ad_chanal', compact(["user", "click", "view", "type","advertise"]));
     }
 
 
@@ -699,6 +771,7 @@ class AdvertiserController extends Controller
             $data = $request->validate([
                 'back_popup' => "nullable",
                 'float_app' => "nullable",
+                'hamsan' => "nullable",
                 'show_display_times' => "required",
             ]);
             $user->update($data);

@@ -109,7 +109,13 @@ window.onload = function () {
     });
 
     $("a").click(function (e) {
-        if (!$(this).hasClass("no_link")) {
+        console.log(222)
+        let el = $(this)
+        let h = el.attr('href')
+
+        console.log(el.hasClass("no_link"))
+
+        if (h.search('#') == -1 && !el.hasClass("no_link")) {
             load_animation()
 
         }
@@ -118,7 +124,7 @@ window.onload = function () {
         const xhr = new XMLHttpRequest();
         xhr.withCredentials = false;
         console.log(window.location.origin)
-        xhr.open('POST',window.location.origin+ '/advertiser/add_tiny_image');
+        xhr.open('POST', window.location.origin + '/advertiser/add_tiny_image');
         xhr.setRequestHeader("X-CSRF-TOKEN", document.head.querySelector('meta[name="csrf-token"]').content);
 
         xhr.upload.onprogress = (e) => {
@@ -127,8 +133,8 @@ window.onload = function () {
 
         xhr.onload = () => {
             if (blobInfo.blob().size > 1024 * 1024) {
-                return reject({message: 'File is too big!', remove: true});
-              }
+                return reject({ message: 'File is too big!', remove: true });
+            }
 
             if (xhr.status === 403) {
                 reject({ message: 'HTTP Error: ' + xhr.status, remove: true });
@@ -151,7 +157,7 @@ window.onload = function () {
         };
 
         xhr.onerror = () => {
-          reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+            reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
         };
 
         const formData = new FormData();
@@ -163,9 +169,9 @@ window.onload = function () {
         console.log(60605)
         tinymce.init({
             selector: '#tiny',
-            language : 'fa',
-            plugins: ["image","emoticons"],
-                   height: 500,
+            language: 'fa',
+            plugins: ["image", "emoticons"],
+            height: 500,
             menubar: false,
             remove_script_host: false,
             convert_urls: false,
@@ -179,91 +185,150 @@ window.onload = function () {
             setup: function (editor) {
                 editor.ui.registry.addIcon('image', 'آپلود تصویر');  // ایجاد آیکون سفارشی برای دکمه image
                 editor.ui.registry.addButton('image', {
-                  icon: 'image',  // استفاده از آیکون ایجاد شده
-                  onAction: function (_) {
-                    editor.execCommand('mceInsertContent', false, '<img src="http://www.example.com/image.jpg">');
-                  },
-                  onPostRender: function() {
-                    const button = this;
-                    button.iconElem.classList.add('my-custom-class');
-                  }
+                    icon: 'image',  // استفاده از آیکون ایجاد شده
+                    onAction: function (_) {
+                        editor.execCommand('mceInsertContent', false, '<img src="http://www.example.com/image.jpg">');
+                    },
+                    onPostRender: function () {
+                        const button = this;
+                        button.iconElem.classList.add('my-custom-class');
+                    }
 
                 });
                 editor.on('change', function () {
                     // Handle the change event here
                     $('#s_info').html(tinymce.get("tiny").getContent())
                     console.log();
-                  });
+                });
 
-              }
+            }
         });
         setTimeout(() => {
-            $('.tox-toolbar__group').children().last().find("button").css("width","150px")
+            $('.tox-toolbar__group').children().last().find("button").css("width", "150px")
 
         }, 1500);
+    }
 
-        // tinymce.init({
-        //     selector: '#tiny',
-        //     height: 500,
-        //     menubar: false,
-        //     plugins: [
-        //             "advlist directionality autolink autosave link image lists charmap print preview hr anchor pagebreak",
-        //             "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-        //             "table contextmenu textcolor paste textcolor"
-        //     ],
-        //     toolbar: 'undo redo | blocks | bold italic backcolor | ' +
-        //       'alignleft aligncenter alignright alignjustify | ' +
-        //       'bullist numlist outdent indent | removeformat | help'
+    if ($('#tiny_text').length) {
+        console.log(60605)
+        tinymce.init({
+            selector: '#tiny_text',
+            language: 'fa',
+            plugins: ["image", "emoticons"],
+            height: 500,
+            menubar: false,
+            remove_script_host: false,
+            convert_urls: false,
+            toolbar: 'emoticons forecolor backcolor |undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent  | color',
 
-        //       ,
-        //       image_title: true,
-        //       automatic_uploads: true,
-        //       file_picker_types: 'image',
-        //       /* and here's our custom image picker*/
-        //       file_picker_callback: function (cb, value, meta) {
-        //         var input = document.createElement('input');
-        //         input.setAttribute('type', 'file');
-        //         input.setAttribute('accept', 'image/*');
+            // without images_upload_url set, Upload tab won't show up
+            // images_upload_url: 'upload.php',
 
-        //         /*
-        //           Note: In modern browsers input[type="file"] is functional without
-        //           even adding it to the DOM, but that might not be the case in some older
-        //           or quirky browsers like IE, so you might want to add it to the DOM
-        //           just in case, and visually hide it. And do not forget do remove it
-        //           once you do not need it anymore.
-        //         */
+            // override default upload handler to simulate successful upload
+            images_upload_handler: image_upload_handler_callback,
+            setup: function (editor) {
+                editor.ui.registry.addIcon('image', 'آپلود تصویر');  // ایجاد آیکون سفارشی برای دکمه image
+                editor.ui.registry.addButton('image', {
+                    icon: 'image',  // استفاده از آیکون ایجاد شده
+                    onAction: function (_) {
+                        editor.execCommand('mceInsertContent', false, '<img src="http://www.example.com/image.jpg">');
+                    },
+                    onPostRender: function () {
+                        const button = this;
+                        button.iconElem.classList.add('my-custom-class');
+                    }
 
-        //         input.onchange = function () {
-        //           var file = this.files[0];
+                });
+                editor.on('change', function () {
+                    // Handle the change event here
+                    $('#s_info').html(tinymce.get("tiny_text").getContent())
+                    console.log();
+                });
 
-        //           var reader = new FileReader();
-        //           reader.onload = function () {
-        //             /*
-        //               Note: Now we need to register the blob in TinyMCEs image blob
-        //               registry. In the next release this part hopefully won't be
-        //               necessary, as we are looking to handle it internally.
-        //             */
-        //             var id = 'blobid' + (new Date()).getTime();
-        //             var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-        //             var base64 = reader.result.split(',')[1];
-        //             var blobInfo = blobCache.create(id, file, base64);
-        //             blobCache.add(blobInfo);
+            }
+        });
+        setTimeout(() => {
+            $('.tox-toolbar__group').children().last().find("button").css("width", "150px")
 
-        //             /* call the callback and populate the Title field with the file name */
-        //             cb(blobInfo.blobUri(), { title: file.name });
-        //           };
-        //           reader.readAsDataURL(file);
-        //         };
-
-        //         input.click();
-        //       },
-        //   });
+        }, 1500);
     }
 
     $('#send_pay').on("click", function (e) {
         $(this).closest("form").submit()
 
     })
+
+
+    $('#attach').on('change', function (event) {
+        let el = $(this)
+        var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'mp4'];
+        let ex = el.val().split('.').pop().toLowerCase()
+        if ($.inArray(ex, fileExtension) == -1) {
+            let me = "فرمت های قابل قبول : " + fileExtension.join(', ')
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "center",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: me
+            });
+            return
+        }
+        if (ex == "mp4") {
+            var video = document.createElement('video');
+            video.controls = true;
+            video.style.maxWidth = '100%';
+            var file = event.target.files[0];
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                video.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+            $('#per_ch_video').slideDown(400)
+            $('#per_ch_video').html(video)
+        } else {
+            $('#per_ch_video').slideDown(400)
+            var img = document.createElement('img');
+            img.style.maxWidth = '100%';
+            var file = event.target.files[0];
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                console.log(event.target.result)
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+            $('#per_ch_video').html(img)
+        }
+
+
+
+
+
+        // var file = event.target.files[0];
+        // console.log(file)
+        // var reader = new FileReader();
+        // el.controls = true;
+
+        // reader.onload = function(event) {
+        //     console.log(1212)
+        //     el.src = event.target.result;
+        // };
+
+        // reader.readAsDataURL(file);
+
+    });
+
+
+
+
     function update_app_price() {
         // let type = $('input[name="count_type"]:checked').val()
         // let val_click = $('#click_count').data("price");
@@ -295,13 +360,34 @@ window.onload = function () {
         // $('.after_tax_price').text(tax + " تومان")
     }
 
+    $('#hamsan').on("change", function (e) {
+        let el = $(this);
+        let val = (el.val());
+        console.log($('#hamsan').is(":checked"))
+        if ($('#hamsan').is(":checked")) {
+            $('#float_app').prop('checked', false);
+            $('#float_app').attr('checked',false)
+            ;
+        }
+    })
+
+    $('#float_app').on("change", function (e) {
+        let el = $(this);
+        let val = (el.val());
+        console.log($('#float_app').is(":checked"))
+        if ($('#float_app').is(":checked")) {
+            $('#hamsan').prop('checked', false);
+            $('#hamsan').attr('checked',false)
+            ;
+        }
+    })
     $('.copy_h').on("click", function (e) {
         let el = $(this);
         let id = (el.data("id"));
 
-       let url=` <div id="${id}"></div>`
+        let url = ` <div id="${id}"></div>`
         navigator.clipboard.writeText(url).then(
-            function() {
+            function () {
                 Swal.fire({
                     toast: true,
                     position: "top-center",
@@ -309,18 +395,18 @@ window.onload = function () {
                     showConfirmButton: false,
                     timer: 2500,
                     timerProgressBar: true,
-                  });
+                });
             },
-            function() {
+            function () {
             }
-          )
-       })
+        )
+    })
     $('.copy').on("click", function (e) {
         let el = $(this);
         let url = (el.data("url"));
-        url=`<script  src="${url}"></script>`
+        url = `<script  src="${url}"></script>`
         navigator.clipboard.writeText(url).then(
-            function() {
+            function () {
                 Swal.fire({
                     toast: true,
                     position: "top-center",
@@ -328,34 +414,50 @@ window.onload = function () {
                     showConfirmButton: false,
                     timer: 2500,
                     timerProgressBar: true,
-                  });
+                });
             },
-            function() {
+            function () {
             }
-          )
-       })
+        )
+    })
     $('#click_count').on("change keyup", function (e) {
         let el = $(this);
         let price = Number(el.data("price"));
         let val = Number(el.val());
-        val*=price
+        val *= price
         let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
         $('.totoal_price_click').text(num)
         let tax = Math.floor(val + ((4.5 * val) / 100))
-         tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
-         $('.totoal_price').text(num + " تومان")
+        if (tax > 2000000) {
+            console.log(tax)
+
+            $('#pay_chanal').slideDown(400)
+        } else {
+            $('#pay_chanal').slideUp(400)
+        }
+        tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+        $('.totoal_price').text(num + " تومان")
         $('.after_tax_price').text(tax + " تومان")
     })
+    if ($('#pay_chanal').length) {
+        let p = $('#pay_chanal').data("p")
+        if (p > 2000000) {
+            console.log(p)
+            $('#pay_chanal').slideDown(400)
+        } else {
+            $('#pay_chanal').slideUp(400)
+        }
+    }
     $('.remove_faq').on("click", function (e) {
         let el = $(this);
         let id = (el.data("id"));
 
-        $.ajax('/admin/faq/'+id, {
+        $.ajax('/admin/faq/' + id, {
             headers: {
                 'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
             },
             type: 'post',
-            data:{_method:"delete"},
+            data: { _method: "delete" },
             datatype: 'json',
             success: function (data) {
                 console.log(data)
@@ -376,14 +478,17 @@ window.onload = function () {
         let el = $(this);
         let price = Number(el.data("price"));
         let val = Number(el.val());
-        val*=price
+        val *= price
         let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
         $('.totoal_price_view').text(num)
         let tax = Math.floor(val + ((4.5 * val) / 100))
-         tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
-         $('.totoal_price').text(num + " تومان")
+        tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+        $('.totoal_price').text(num + " تومان")
         $('.after_tax_price').text(tax + " تومان")
     })
+    if ($('a[href*="finish"]').length) {
+        $('a[href*="finish"]').slideUp(400)
+    }
 
 
     // $('.dropdown-toggle').on("click", function (e) {
@@ -396,19 +501,75 @@ window.onload = function () {
     //     $(".dropdown.open").toggle();
 
     //  })
+    $('.countable').keypress(function (event) {
+        let el = $(this)
+        let max = el.data("m")
+        let length = el.val().length
+        if (Number(max) == Number(length)) {
+            console.log(80)
+            event.preventDefault()
+        }
+        el.closest(".form-control-wrap").find(".count").html(`
+        ${max}/
+        <span class="count_d">${length}</span>
+        `)
+
+    })
     $('#title').on("keyup change", function (e) {
         $('#sorenad_title').text($(this).val())
-   })
+        $('#title_p').text($(this).val())
+    })
     $('#info').on("keyup change", function (e) {
         $('#sorenad_title').text($(this).val())
         $('#sorenad_info').text($(this).val())
 
-   })
+    })
+
+    $('#landing_link2').on("keyup change", function (e) {
+        let val1 = $('#landing_link2').val()
+        if (val1) {
+            $('#landing_link2_p').html(`
+            ${val1}
+            `)
+        }
+    })
+    $('#landing_link1').on("keyup change", function (e) {
+        let val1 = $('#landing_link1').val()
+        if (val1) {
+            $('#landing_link1_p').html(`
+            ${val1}
+            `)
+        }
+    })
+    $('#landing_title2').on("keyup change mouseup", function (e) {
+        let val1 = $('#landing_title2').val()
+        $('#landing_title2_p').html(`
+        ${val1}
+        `)
+    })
+
+
+    // $('#bt_color').on("keyup change", function (e) {
+    //     console.log($(this).val())
+    //     $('#landing_title1_p').css("background",$(this).val())
+
+    //  })
+
+    $('#bt_color').on("keyup change click", function (e) {
+
+        console.log(666)
+        console.log($('#bt_color').val())
+        $('#landing_title1_p').css("background", $('#bt_color').val())
+    })
+
+
+
     $('#landing_title1').on("keyup change", function (e) {
         $('#video_sorenad_btn_par').empty()
         $('#fix_sorenad_btn_par').empty()
         let val1 = $('#landing_title1').val()
-        if(val1){
+        console.log(val1)
+        if (val1) {
             $('#fix_sorenad_btn_par').append(`
             <a target="blank" class="sorenad_btn" href="">
             ${val1}
@@ -420,19 +581,25 @@ window.onload = function () {
             ${val1}
               </a>
             `)
+
+            $('#landing_title1_p').html(`
+            ${val1}
+            `)
+
         }
-   })
+
+    })
 
     $('#call_to_action').on("keyup change", function (e) {
         console.log(32323)
-        $('#s_call_to_action').text( $('#call_to_action').val())
-   })
+        $('#s_call_to_action').text($('#call_to_action').val())
+    })
 
 
     $('#bg_color').on("keyup change", function (e) {
         console.log($('#bg_color').val())
         $('#fixpost_container').css("background", $('#bg_color').val())
-   })
+    })
 
 
 
@@ -440,7 +607,7 @@ window.onload = function () {
     $('.landing_title').on("keyup change", function (e) {
         let val1 = $('#landing_title1').val()
         $('#sorenad_btn_par').empty()
-        if(val1){
+        if (val1) {
             $('#sorenad_btn_par').append(`
             <a target="blank" class="sorenad_btn" href="">
             ${val1}
@@ -448,16 +615,18 @@ window.onload = function () {
             `)
         }
         let val2 = $('#landing_title2').val()
-        if(val2){
+        if (val2) {
             $('#sorenad_btn_par').append(`
             <a target="blank" class="sorenad_btn" href="">
             ${val2}
               </a>
             `)
+
+
         }
 
         let val3 = $('#landing_title3').val()
-        if(val3){
+        if (val3) {
             $('#sorenad_btn_par').append(`
             <a target="blank" class="sorenad_btn" href="">
             ${val3}
@@ -467,13 +636,27 @@ window.onload = function () {
 
 
 
-   })
-    $('#icon').on("change", function (e) {
 
+
+
+    })
+
+    $('#banner1').on("change", function (e) {
         var file = this.files[0];
         if (file) {
             var reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
+                document.getElementById('banner1_p').src = e.target.result;
+                // document.getElementById('sorenad_app_logo').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    })
+    $('#icon').on("change", function (e) {
+        var file = this.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
                 document.getElementById('sorenad_app_logo').src = e.target.result;
                 // document.getElementById('sorenad_app_logo').style.display = 'block';
             };
@@ -481,20 +664,20 @@ window.onload = function () {
         }
     })
     $('input[name="count_type"]').on("click", function (e) {
-        let el=$(this)
-       console.log( el.val())
-       if( el.val()=="click"){
-        $('.click_inp').removeAttr('disabled');
-        $('.view_inp').attr('disabled', 'disabled');;
-       }else{
-        $('.view_inp').removeAttr('disabled');
-        $('.click_inp').attr('disabled', 'disabled');;
-       }
-       $('.cal_p').val("")
-       $('.totoal_price_view').text("")
-       $('.totoal_price_click').text("")
-       $('.totoal_price').text(0 + " تومان")
-       $('.after_tax_price').text(0 + " تومان")
+        let el = $(this)
+        console.log(el.val())
+        if (el.val() == "click") {
+            $('.click_inp').removeAttr('disabled');
+            $('.view_inp').attr('disabled', 'disabled');;
+        } else {
+            $('.view_inp').removeAttr('disabled');
+            $('.click_inp').attr('disabled', 'disabled');;
+        }
+        $('.cal_p').val("")
+        $('.totoal_price_view').text("")
+        $('.totoal_price_click').text("")
+        $('.totoal_price').text(0 + " تومان")
+        $('.after_tax_price').text(0 + " تومان")
     })
     $('.per_price').on("click", function (e) {
         let el = $(this);
@@ -526,12 +709,12 @@ window.onload = function () {
         $('.after_tax_price').text(tax + " تومان")
     })
 
-    $('.add_active').change(function(){
-    // $('.add_active').on("change", function (e) {
+    $('.add_active').change(function () {
+        // $('.add_active').on("change", function (e) {
         let el = $(this);
         let id = el.data("id");
         load_animation()
-        $.ajax('/advertiser/add_active/'+id, {
+        $.ajax('/advertiser/add_active/' + id, {
             headers: {
                 'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
             },
@@ -540,7 +723,7 @@ window.onload = function () {
             success: function (data) {
                 console.log(data)
                 stop_animation()
-                $('label[for="add_active' + id + '"]').text(data.active?"فعال ":"غیر فعال");
+                $('label[for="add_active' + id + '"]').text(data.active ? "فعال " : "غیر فعال");
 
             },
             error: function (request, status, error) {
@@ -548,7 +731,7 @@ window.onload = function () {
                 stop_animation()
             }
         })
-   })
+    })
     $('.number_format').on("keyup change", function (e) {
         let el = $(this);
         let val = el.val();
@@ -612,24 +795,24 @@ window.onload = function () {
     //     $('.tooltiper').tooltipster();
     // }
     $(document).on('click', '.confirm_reject', function (event) {
-        let el =$(this)
+        let el = $(this)
         Swal.fire({
             title: "در صورت تایید تبلیغ برای همیشه غیر فعال شده و باقیمانده شارژ به حساب شما باز میگردد?",
             showDenyButton: true,
             showCancelButton: true,
             confirmButtonText: "تایید",
             denyButtonText: `ی خیال`
-          }).then((result) => {
+        }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 el.closest('form').submit()
             } else if (result.isDenied) {
             }
-          });
+        });
 
     });
     $(document).on('change', 'input[name="priod"]', function (event) {
-        let el =$(this)
+        let el = $(this)
         console.log(el.val())
         $(".date-picker").val('')
     });
@@ -639,17 +822,17 @@ window.onload = function () {
         $('input[name="priod"]').removeAttr("checked");
     });
     $(document).on('change', '#file_select', function (event) {
-        let el=$(this)
+        let el = $(this)
         var filename = el.val().split('\\').pop();
         $('.file_name').text(filename)
     });
     $(document).on('change', '#file_select', function (event) {
-        let el=$(this)
+        let el = $(this)
         var filename = el.val().split('\\').pop();
         $('.file_name').text(filename)
     });
     $(document).on('click', '.form_close', function (event) {
-        let el=$(this)
+        let el = $(this)
         console.log(12)
         el.closest("form").submit()
     });

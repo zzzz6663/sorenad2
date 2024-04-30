@@ -10,6 +10,7 @@ use App\Models\Advertise;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
+use Barryvdh\Debugbar\Facades\Debugbar;
 
 class AdvertiseController extends Controller
 {
@@ -20,8 +21,10 @@ class AdvertiseController extends Controller
      */
     public function index(Request $request)
     {
+
         $user = auth()->user();
         $advertises = Advertise::query();
+        // $advertises-> with(['actions']);
         if ($request->search) {
             $search = $request->search;
             $advertises->where('name', 'LIKE', "%{$search}%")
@@ -49,6 +52,7 @@ class AdvertiseController extends Controller
             // ->whereRole("customer")
             ->latest()->paginate(30);
         $customers = User::whereRole("customer")->get();
+
         return view('admin.advertise.all', compact(['advertises', "customers"]));
     }
 
@@ -135,7 +139,32 @@ class AdvertiseController extends Controller
         // dd($request->all());
 
         switch ($advertise->type) {
-            case "fixpost":
+            case "hamsan":
+                $data = $request->validate([
+                    'title' => "required|max:256",
+                    'bt_color' => "required|max:10",
+                    'landing_link1' => "required|url",
+                    'landing_title1' => "required",
+                    'cats' => "nullable",
+                ]);
+                break;
+       case "chanal":
+                $data = $request->validate([
+                    'title' => "required|max:256",
+                    'telegram' => "nullable",
+                    'ita' => "nullable",
+                    'rubika' => "nullable",
+                    'bale' => "nullable",
+                    'instagram' => "nullable",
+                    'info' => "required",
+                    'landing_link1' => "required|url",
+                    'landing_title1' => "required",
+                    'landing_link2' => "nullable|url",
+                    'landing_title2' => "nullable",
+                ]);
+                break;
+
+
                 $data = $request->validate([
                     "title" => "required",
                     "info" => "required",
@@ -218,6 +247,23 @@ class AdvertiseController extends Controller
             $video1->move(public_path('/media/advertises/'), $name_img);
             $data['video1'] = $name_img;
         }
+
+        if ($request->hasFile('attach')) {
+            $attach = $request->file('attach');
+            $name_img = 'attach_' . $advertise->id . '.' . $attach->getClientOriginalExtension();
+            $attach->move(public_path('/media/advertises/'), $name_img);
+            $data['attach'] = $name_img;
+        }
+
+        if ($request->cats) {
+            $advertise->cats()->sync($request->cats);
+        }
+   if ($request->groups) {
+            $advertise->groups()->sync($request->groups);
+        }
+
+
+
         $advertise->update($data);
         alert()->success('تبلیغ با موفقیت به روز  شد ');
         return redirect()->route('advertise.index');

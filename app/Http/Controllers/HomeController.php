@@ -56,6 +56,9 @@ class HomeController extends Controller
     }
     public function clear(Request $request)
     {
+
+        $ads=Advertise::with(['actions'])->latest()->get();
+        dd(  $ads);
         dump($this->getUserIpAddr());
         dump($this->getUserIpAddr2());
 
@@ -177,7 +180,6 @@ class HomeController extends Controller
                 }
             }
         }
-
         switch ($advertise->type) {
             case "app":
                 $link = $advertise["landing_link" . $request->link_number];
@@ -192,6 +194,10 @@ class HomeController extends Controller
                    case "video":
                 $link = $advertise["landing_link1"];
                 break;
+
+                case "hamsan":
+                    $link = $advertise["landing_link1"];
+                    break;
         }
         return view('advertiser.redirect_add', compact(['link']));
     }

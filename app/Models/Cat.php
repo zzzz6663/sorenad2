@@ -12,7 +12,6 @@ class Cat extends Model
         'user_id',
         'active',
         'name',
-
     ];
 
     public function advertises(){

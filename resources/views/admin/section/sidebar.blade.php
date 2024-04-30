@@ -261,9 +261,22 @@
                                                         <span class="nk-menu-text">
                                                             تبلیغات متنی
                                                         </span>
-
                                                     </a></li>
 
+
+                                                    <li class="nk-menu-item {{ Route::currentRouteName()=="setting.ads.chanal"?"active":"" }}">
+                                                        <a class="nk-menu-link" href="{{ route("setting.ads.chanal") }}">
+                                                            <span class="nk-menu-chanal">
+                                                                تبلیغات کانال
+                                                            </span>
+                                                        </a></li>
+
+                                                    <li class="nk-menu-item {{ Route::currentRouteName()=="setting.ads.hamsan"?"active":"" }}">
+                                                        <a class="nk-menu-link" href="{{ route("setting.ads.hamsan") }}">
+                                                            <span class="nk-menu-hamsan">
+                                                                تبلیغات همسان
+                                                            </span>
+                                                        </a></li>
 
 
 
@@ -303,7 +316,24 @@
                                                 <span class="nk-menu-icon">
                                                     <i class="fas fa-stream"></i>
                                                 </span>
-                                                <span class="nk-menu-text">دسته بندی </span>
+                                                <span class="nk-menu-text">
+                                                    دسته بندی
+                                                    آگهی
+
+
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="nk-menu-item   {{ Route::currentRouteName()=="group.index"?"active":"" }}">
+                                            <a href="{{ route("group.index") }}" class="nk-menu-link  ">
+                                                <span class="nk-menu-icon">
+                                                    <i class="fas fa-layer-group"></i>
+                                                </span>
+                                                <span class="nk-menu-text">
+                                                    دسته بندی
+                                                    کانال
+
+                                                </span>
                                             </a>
                                         </li>
                                         <li class="nk-menu-item   {{ Route::currentRouteName()=="faq.index"?"active":"" }}">
@@ -515,6 +545,26 @@
                                                     </a>
                                                 </li>
                                                 @endif
+                                                @if( $chanal_active_site=App\Models\Setting::whereName("chanal_active_site")->first()->val)
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.chanal"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.ad.chanal") }}">
+                                                        <span class="nk-menu-text">
+                                                            تبلیغات کانال ها
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                @endif
+                                                @if( $hamsan_active_site=App\Models\Setting::whereName("hamsan_active_site")->first()->val)
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.hamsan"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.ad.hamsan") }}">
+                                                        <span class="nk-menu-text">
+                                                            تبلیغات   همسان
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                @endif
+
+
                                             </ul>
                                             <!-- .nk-menu-sub -->
                                         </li>

@@ -48,6 +48,7 @@ Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function
     Route::any('/setting_ads_video', 'SettingController@setting_ads_video')->name('setting.ads.video');
     Route::any('/setting_ads_text', 'SettingController@setting_ads_text')->name('setting.ads.text');
     Route::any('/setting_ads_chanal', 'SettingController@setting_ads_chanal')->name('setting.ads.chanal');
+    Route::any('/setting_ads_hamsan', 'SettingController@setting_ads_hamsan')->name('setting.ads.hamsan');
     Route::any('/site_setting', 'SettingController@site_setting')->name('site.setting');
 
 
@@ -59,6 +60,7 @@ Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function
     Route::resource('user', 'UserController')->middleware(['role:admin']);;;
     Route::resource('faq', 'FaqController')->middleware(['role:admin']);;;
     Route::resource('cat', 'CatController')->middleware(['role:admin']);;;
+    Route::resource('group', 'GroupController')->middleware(['role:admin']);;;
     Route::resource('site', 'SiteController')->middleware(['role:admin']);;;
     Route::resource('ticket', 'TicketController')->middleware(['role:admin']);;;;;;
     Route::resource('transaction', 'TransactionController')->middleware(['role:admin']);;;;;;
@@ -96,6 +98,7 @@ Route::prefix('advertiser')->middleware(['auth',"check_active"])->namespace('adv
     Route::any('/advertiser_new_ad_text/{advertise?}', 'AdvertiserController@advertiser_new_ad_text')->name('advertiser.new.ad.text');
     Route::any('/advertiser_new_ad_video/{advertise?}', 'AdvertiserController@advertiser_new_ad_video')->name('advertiser.new.ad.video');
     Route::any('/advertiser_new_ad_chanal/{advertise?}', 'AdvertiserController@advertiser_new_ad_chanal')->name('advertiser.new.ad.chanal');
+    Route::any('/advertiser_new_ad_hamsan/{advertise?}', 'AdvertiserController@advertiser_new_ad_hamsan')->name('advertiser.new.ad.hamsan');
     Route::get('/advertiser_list', 'AdvertiserController@advertiser_list')->name('advertiser.list');
     Route::get('/advertiser_log', 'AdvertiserController@advertiser_log')->name('advertiser.log');
     Route::post('/advertise_reject/{advertise}', 'AdvertiserController@advertise_reject')->name('advertise.reject');

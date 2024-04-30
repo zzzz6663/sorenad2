@@ -1,108 +1,7 @@
-{{--
-<div class="row mb-4">
-    <div class="col-lg-12">
-        <h5 class="text text-secondary">
-            مدل قیمت گذاری
-        </h5>
-        <div class="row mb-5">
-            <div class="col-lg-4">
-                <div class="custom-control custom-checkbox custom-control-pro no-control">
-                    <input type="radio" id="cpc_paymethod" class="custom-control-input" name="count_type" {{ old("count_type")=="click"?"checked":"" }} value="click">
-                    <label class="custom-control-label " for="cpc_paymethod">
-                        <div class="text text-primary">
-                            <i class="fas fa-mouse-pointer "></i>
-                            <span>
-                                هزینه به ازای هر کلیک (CPC)
-                            </span>
-                        </div>
-                        <br>
-                        <span>هزینه هر کلیک
-                            {{ $user->click_price($type) }}
-                            تومان</span>
-                    </label>
-                </div>
 
-            </div>
-            <div class="col-lg-4">
-                <div class="form-control-wrap">
-                    <input type="number" name="click_count" id="click_count" class="form-control  form-control-outlined cal_p" value="{{ old("click_count") }}" data-price="{{ $click }}" id="click_count">
-                    <label class="form-label-outlined" for="landing_link3">
-                        تعداد کلیک
-                    </label>
-                    <span class="input-group-text totoal_price_click ">
-                        {{ number_format(old("click_count")*$click ) }}
-                        تومان
-                    </span>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="form-control-wrap">
-                    <input type="number" name="limit_daily_click" id="limit_daily_click" class="form-control  form-control-outlined cal_p" value="{{ old("limit_daily_click") }}" id="limit_daily_click">
-                    <label class="form-label-outlined" for="limit_daily_click">
-                        محدودیت تعداد
-                        کلیک
-                    </label>
-                    <span class="input-group-text   ">
-                        <span class="info_txt">
-                            <span>برای بی نهایت خالی بگذارید </span>
-                        </span>
-                    </span>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="row mb-5">
-            <div class="col-lg-4">
-                <div class="custom-control custom-checkbox custom-control-pro no-control">
-                    <input type="radio" id="cpv_paymethod" class="custom-control-input" name="count_type" {{ old("count_type")=="view"?"checked":"" }} value="view">
-                    <label class="custom-control-label " for="cpv_paymethod">
-                        <div class="text text-primary">
-                            <i class="fas fa-mouse-pointer "></i>
-                            <span>
-                                هزینه به ازای هر بازدید (CPV)
-                            </span>
-                        </div>
-                        <br>
-                        <span>هزینه هر نمایش
-                            {{ $user->view_price() }}
-                            تومان</span>
-                    </label>
-                </div>
-
-            </div>
-            <div class="col-lg-4">
-                <div class="form-control-wrap">
-                    <input type="number" name="view_count" id="view_count" class="form-control  form-control-outlined cal_p" value="{{ old("view_count") }}" data-price="{{ $view }}" id="view_count">
-                    <label class="form-label-outlined" for="landing_link3">
-                        تعداد نمایش
-                    </label>
-                    <span class="input-group-text totoal_price_view ">
-                        {{ number_format(old("view_count")*$view ) }}
-                        تومان
-                    </span>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="form-control-wrap">
-                    <input type="number" name="limit_daily_view" id="limit_daily_view" class="form-control  form-control-outlined cal_p" value="{{ old("limit_daily_view") }}" id="limit_daily_view">
-                    <label class="form-label-outlined" for="limit_daily_view">
-                        محدودیت تعداد
-                        نمایش
-                    </label>
-                    <span class="input-group-text   ">
-                        <span class="info_txt">
-                            <span>برای بی نهایت خالی بگذارید </span>
-                        </span>
-                    </span>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>  --}}
 @php
 $tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first()->val;
+$p_ch=0
 @endphp
 
 <div class="row mb-4">
@@ -127,10 +26,9 @@ $tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first
                             تومان</span>
                     </label>
                 </div>
-
             </div>
             <div class="col-lg-4">
-                <div class="form-control-wrap">
+                <div class="form-control-wrap {{  $type=="chanal"?"focused":""}} ">
                     <input type="number" name="click_count" id="click_count" class="form-control click_inp  form-control-outlined cal_p" {{ old("click_count")?"":"disabled" }} value="{{ old("click_count") }}" data-price="{{ $click }}" id="click_count">
                     <label class="form-label-outlined" for="click_count">
                         تعداد کلیک
@@ -141,11 +39,11 @@ $tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first
                     </span>
                 </div>
             </div>
+            @if($type!="chanal")
             <div class="col-lg-4">
-                <div class="form-control-wrap">
+                <div class="form-control-wrap ">
                     <input type="number" name="limit_daily_click" id="limit_daily_click" class="form-control click_inp  form-control-outlined cal_p" {{ old("click_count")?"":"disabled" }} value="{{ old("limit_daily_click") }}" id="limit_daily_click">
                     <label class="form-label-outlined" for="limit_daily_click">
-
                         محدودیت تعداد کلیک این تبلیغ در روز
                     </label>
                     <span class="input-group-text   ">
@@ -156,8 +54,9 @@ $tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first
                 </div>
 
             </div>
+            @endif
         </div>
-
+        @if($type!="chanal")
         <div class="row mb-5">
             <div class="col-lg-4">
                 <div class="custom-control custom-checkbox custom-control-pro no-control">
@@ -205,6 +104,8 @@ $tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first
 
             </div>
         </div>
+        @endif
+
     </div>
 </div>
 <div class="row mb-3  card-inner card-bordered">
@@ -229,7 +130,7 @@ $tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first
             قیمت نهایی:
             <span class="after_tax_price">
                 @if(old("count_type")=="click")
-                {{(number_format( (old("click_count")*$click)+ (( old("click_count")*$click*$tax_percent_page_ad)/100)))." تومان" }}
+                {{(number_format($p_ch= (old("click_count")*$click)+ (( old("click_count")*$click*$tax_percent_page_ad)/100)))." تومان" }}
                 @endif
                 @if(old("count_type")=="view")
                 {{(number_format( (old("view_count")*$view)+ (( old("view_count")*$view*$tax_percent_page_ad)/100)))." تومان" }}
@@ -242,7 +143,7 @@ $tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first
             </span>
         </h4>
         @endif
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" id="{{  $type=="chanal"?"pay_chanal":""}}" data-p="{{$p_ch}}" style="display: {{  $type=="chanal"?"none":""}}">
             <i class="fas fa-shopping-cart"></i>
             پرداخت
         </button>
@@ -250,7 +151,7 @@ $tax_percent_page_ad=App\Models\Setting::whereName("tax_percent_page_ad")->first
     <div class="col-lg-6">
         <span>انتخاب روش پرداخت:</span>
 
-        <ul class="custom-control-group custom-control-vertical w-100">
+        <ul class="custom-control-group custom-control-vertical w-100 ">
             <li>
                 <div class="custom-control custom-control-sm custom-radio custom-control-pro checked">
                     <input type="radio" id="acc_money" class="custom-control-input" name="pay_type" {{ old("pay_type")=="acc_money"?"checked":"" }} value="acc_money">

@@ -68,3 +68,47 @@
     overflow: auto;
 }
 }
+
+.actions ul li a
+{
+    padding: 10px 30px!important;
+}
+.borde1{
+    border: 1px solid #c4c4c4;
+    border-radius: 10px;
+    padding: 10px;
+    background: #ebeeee;
+}
+
+.btn_full{
+    width: 100%;
+    display: inline-block;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    color: #fff;
+    background: red;
+    text-align: center;
+}
+#scr .nk-reply-from{
+    display: block;
+
+}
+.box_p{
+    width: 70%;
+    margin: 0 auto;
+    border: 1px solid #e1e1e1;
+}
+
+.form-control-wrap{
+    position: relative;
+}
+
+.count{
+    position: absolute;
+    left: 10px;
+    top: 9px;
+
+}
+.box_p{
+    background: #fff;
+}

@@ -70,6 +70,31 @@ return [
     'text_user_normal_show' => 'تنظیم نرخ هر نمایش کاربر معمولی ',
 
 
+    'chanal_title' => ' تنظیمات تبلیغات کانال',
+    'chanal_active_site' => ' فعال کردن تبلیغ در سایت',
+    'chanal_advertiser_click' => ' تنظیم نرخ هر کلیک تبلیغ دهنده',
+    'chanal_advertiser_show' => ' تنظیم نرخ هر نمایش تبلیغ دهنده',
+    'chanal_limit_order' => ' تنظیم محدودیت سفارش',
+    'chanal_user_vip_click' => 'تنظیم نرخ هر کلیک کاربر vip ',
+    'chanal_user_vip_show' => 'تنظیم نرخ هر نمایش کاربر vip ',
+    'chanal_user_normal_click' => 'تنظیم نرخ هر کلیک کاربر معمولی ',
+    'chanal_user_normal_show' => 'تنظیم نرخ هر نمایش کاربر معمولی ',
+
+
+
+
+
+    'hamsan_title' => ' تنظیمات تبلیغات همسان',
+    'hamsan_active_site' => ' فعال کردن تبلیغ در سایت',
+    'hamsan_advertiser_click' => ' تنظیم نرخ هر کلیک تبلیغ دهنده',
+    'hamsan_advertiser_show' => ' تنظیم نرخ هر نمایش تبلیغ دهنده',
+    'hamsan_limit_order' => ' تنظیم محدودیت سفارش',
+    'hamsan_user_vip_click' => 'تنظیم نرخ هر کلیک کاربر vip ',
+    'hamsan_user_vip_show' => 'تنظیم نرخ هر نمایش کاربر vip ',
+    'hamsan_user_normal_click' => 'تنظیم نرخ هر کلیک کاربر معمولی ',
+    'hamsan_user_normal_show' => 'تنظیم نرخ هر نمایش کاربر معمولی ',
+
+
 
 
 
@@ -79,7 +104,7 @@ return [
     'repeat_pass_admin' => 'تکرار رمز عبور ',
     'min_val_charge' => 'حداقل موجودی شارژ ',
     '' => ' ',
- 
+
 ];
 
 ?>

@@ -162,11 +162,98 @@ video::-webkit-media-controls-enclosure {
 
 
 }
+.btn_full{
+    width: 100%;
+    display: inline-block;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    color: #fff;
+    background: red;
+    text-align: center;
+}
+.soren_ad_hamsab{
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+    height: 108px;
 
+}
+.s_rotate svg{
+    -webkit-transform: rotateX(180deg);
+    transform: rotateX(180deg);
+}
+ .ssoren_cont{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(0, 0, 0,.4);
+    padding: 15px 0;
+    box-sizing: border-box;
+    z-index: 999999999999999999999999999999999999;
+}
+.icon_soren{
+    position: absolute;
+    left: 10px;
+    top: -46px;
+    background-color: rgb(0, 0, 0,.4);
+    padding: 10px 20px;
+    padding-bottom: 0;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    z-index: 99999999998;
+
+}
+.soren_ad_hamsab{
+    transition: all .3s;
+}
+.sorenad_ham_body{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    background-color: #ffff;
+    padding: 30px 10px;
+    border-radius: 15px;
+    opacity: 1;
+}
+
+
+.sorenad_ham_body img{
+    height: 40px;
+}
+.sorenad_ham_body .sorenad_title{
+    vertical-align: middle;
+    line-height: 45px;
+}
+.sorenad_ham_body .btn_full {
+    border-radius: 10px;
+    display: inline-block;
+    padding: 15px 30px;
+    text-decoration: none;
+}
+.sorenad_ham_body h3{
+   margin: 0!important;
+}
+.soren_han_container .sorenad_ham_img{
+    /* display: flex; */
+}
+.sorenad_hams_down{
+    transition: all .3s;
+height: 0!important;
+}
+
+/*
+#main div:nth-of-type(1) {flex-grow: 1;}
+#main div:nth-of-type(2) {flex-grow: 3;}
+#main div:nth-of-type(3) {flex-grow: 1;}
+#main div:nth-of-type(4) {flex-grow: 1;}
+#main div:nth-of-type(5) {flex-grow: 1;} */
 
 @media screen and (min-width: 900px) {
    #sorenad_fixpost img{
     width: 50%;
 
+   }
+   .soren_ad_hamsab{
+    width: 100%;
    }
   }

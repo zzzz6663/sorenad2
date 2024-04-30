@@ -198,6 +198,8 @@ return [
         // niklasravnsborg\LaravelPdf\PdfServiceProvider::class
         // Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class
 	// niklasravnsborg\LaravelPdf\PdfServiceProvider::class
+    Barryvdh\Debugbar\ServiceProvider::class,
+
 
 
     ],
@@ -219,6 +221,7 @@ return [
         // 'PDF' => Barryvdh\DomPDF\Facade::class,
         // 'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class
     //  'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class
+    'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
 
 
     ])->toArray(),

@@ -47,7 +47,15 @@ class Advertise extends Model
         'unit_vip_click',//قیمت در  لحظه ثبت
         'dispay_count',//تعداد نمایش کلی
         'bg_color',//رتگ بک گراند
+        'bt_color',//رتگ بک گراند bt
         'display',//نمایش کلی برای وضعیت کلیک
+        'attach',//
+        'ita' ,
+        'rubika' ,
+        'bale' ,
+        'instagram' ,
+
+
     ];
     public function user(){
         return $this->belongsTo(User::class);
@@ -62,6 +70,10 @@ class Advertise extends Model
     }
     public function cats(){
         return $this->BelongsToMany(Cat::class);
+    }
+
+    public function groups(){
+        return $this->BelongsToMany(Group::class);
     }
     public function banner1(){
         if($this->id &&$this->banner1){
@@ -86,6 +98,13 @@ class Advertise extends Model
     public function video1(){
         if($this->id && $this->video1){
             return asset('/media/advertises/'.$this->video1);
+        }
+        return false;
+    }
+
+    public function attach(){
+        if($this->id && $this->attach){
+            return asset('/media/advertises/'.$this->attach);
         }
         return false;
     }

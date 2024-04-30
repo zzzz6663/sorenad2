@@ -440,7 +440,7 @@
           headerTag: ".nk-wizard-head",
           bodyTag: ".nk-wizard-content",
           labels: {
-            finish: "ارسال",
+            finish: "",
             next: "بعدی",
             previous: "قبلی",
             loading: "در حال بارگذاری ..."
@@ -465,7 +465,8 @@
             return $self_id.valid();
           },
           onFinished: function onFinished(event, currentIndex) {
-            window.location.href = "#";
+            $(this).closest("form").submit()
+            // window.location.href = "#";
           }
         }).validate({
           errorElement: "span",
@@ -477,6 +478,8 @@
       });
     }
   };
+
+  
 
   // DataTable @1.1
   NioApp.DataTable = function (elm, opt) {
