@@ -1,6 +1,12 @@
 
+
+
+
+
+
+
 <div class="nk-wizard-head">
-    <h5>مرحله 1</h5>
+    <h5>هدفمندسازی تبلیغ</h5>
 </div>
 <div class="nk-wizard-content">
     <div class="row gy-3">
@@ -55,21 +61,13 @@
 
 
 <div class="nk-wizard-head">
-    <h5>مرحله 2</h5>
+    <h5>طراحی تبلیغ</h5>
 </div>
 <div class="nk-wizard-content">
     <div class="row gy-3 mb-4">
         <div class="col-md-12 mb-4">
             <ul class="alert alert-warning alert-icon mb-4">
-                <li class="">
-                    تذکر 1
-                </li>
-                <li class="">
-                    تذکر 2
-                </li>
-                <li class="">
-                    تذکر 3
-                </li>
+               {!! $chanal_setting1 !!}
             </ul>
         </div>
         <div class="row mb-4">
@@ -130,7 +128,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label class="form-label" for="title">محتوا</label>
-                <div class="form-control-wrap">
+                <div class="form-control-wrap" id="tiny_text_w">
                     <textarea class="form-control no-resize" required name="info" required id="tiny_text">{{ old("info" ,$advertise->info) }}</textarea>
                 </div>
             </div>
@@ -188,31 +186,23 @@
         </div>
     </div>
 </div>
+
+
+
 <div class="nk-wizard-head">
-    <h5>مرحله 3</h5>
+    <h5>  بودجه بندی</h5>
 </div>
 <div class="nk-wizard-content">
     <div class="row gy-3">
         <div class="col-md-12">
             <ul class="alert alert-warning alert-icon">
-                <li class="">
-                    تذکر 1
-                </li>
-                <li class="">
-                    تذکر 2
-                </li>
-                <li class="">
-                    تذکر 3
-                </li>
+                {!! $chanal_setting2 !!}
             </ul>
         </div>
-
-
     </div>
     <br>
     <br>
     @if(auth()->user()->role=="customer")
-
     @include('advertiser.price_temp')
     @endif
 </div>

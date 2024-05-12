@@ -26,15 +26,15 @@ class PayController extends Controller
         $advertise_id = null;
         // dd($request->all());
 
-        $min_val_charge=Setting::whereName("min_val_charge")->first();
+        $min_val_charge = Setting::whereName("min_val_charge")->first();
         switch ($type) {
             case "charge":
                 if ($amount < $min_val_charge->val) {
-                    alert()->warning(' حداقل مبلغ صد هزار  تومان میباشد  ');
+                    toast()->warning(' حداقل مبلغ صد هزار  تومان میباشد  ');
                     return back();
                 }
                 if ($amount % 100000 != 0) {
-                    alert()->warning('  مبلغ باید مضربی از  صد هزار  تومان میباشد  ');
+                    toast()->warning('  مبلغ باید مضربی از  صد هزار  تومان میباشد  ');
                     return back();
                 }
                 break;
@@ -48,7 +48,7 @@ class PayController extends Controller
                 // $data['remian'] = $amount;
                 // $data['payed'] = 0;
                 $advertise = Advertise::find($data['advertise_id']);
-                $advertise->update(['tax'=>$amount,'price'=>$price,'active'=>1]);
+                $advertise->update(['tax' => $amount, 'price' => $price, 'active' => 1]);
                 $advertise_id = $advertise->id;
                 if ($data['pay_type'] == "acc_money") {
                     if ($user->balance() > $amount) {
@@ -62,7 +62,7 @@ class PayController extends Controller
 
                         ]);
                         $advertise->update(['payed' => 1, "status" => "ready_to_confirm",     'active' => "1",]);
-                        alert()->success("پرداخت با موفیت از کیف پول انجام شد  ");
+                        toast()->success("پرداخت با موفیت از کیف پول انجام شد  ");
                         return redirect()->route("advertiser.list");
                     } else {
                         $amount -= $user->balance();
@@ -75,7 +75,6 @@ class PayController extends Controller
             case "fixpost":
             case "text":
             case "video":
-            case "chanal":
             case "hamsan":
                 $advertise = Advertise::find($data['advertise_id']);
                 if ($advertise->count_type == "click") {
@@ -87,15 +86,13 @@ class PayController extends Controller
                     $price = $user->view_price($type) * $data['view_count'];
                     $amount = floor($price + (($price * $user->tax_percent()) / 100));
                 }
-
-
                 $pay_type = $data["pay_type"];
                 // $data['status'] = "created";
                 // $data['price'] = $amount;
                 // $data['remian'] = $amount;
                 // $data['payed'] = 0;
                 $advertise_id = $advertise->id;
-                $advertise->update(['price'=>$amount,'active'=>1]);
+                $advertise->update(['price' => $amount, 'active' => 1]);
                 if ($data['pay_type'] == "acc_money") {
                     if ($user->balance() > $amount) {
                         $transaction = $user->transactions()->create([
@@ -107,12 +104,38 @@ class PayController extends Controller
                             'status' => "payed",
                         ]);
                         $advertise->update(['payed' => 1, "status" => "ready_to_confirm",   'active' => "1"]);
-                        alert()->success("پرداخت با موفیت از کیف پول انجام شد  ");
+                        toast()->success("پرداخت با موفیت از کیف پول انجام شد  ");
                         return redirect()->route("advertiser.list");
                     } else {
                         $amount -= $user->balance();
                     }
                 }
+                break;
+            case "chanal":
+                $advertise = Advertise::find($data['advertise_id']);
+                $price = $data['unit_click']* $data['click_count'];
+                $amount = floor($price + (($price * $user->tax_percent()) / 100));
+
+                $advertise_id = $advertise->id;
+                $advertise->update(['price' => $amount, 'active' => 1]);
+                if ($data['pay_type'] == "acc_money") {
+                    if ($user->balance() > $amount) {
+                        $transaction = $user->transactions()->create([
+                            'amount' => -1 * $amount,
+                            'transactionId' => $advertise_id . "777",
+                            'type' => "withdraw_wallet_for_ad",
+                            'pay_type' => $pay_type,
+                            'advertise_id' => $advertise_id,
+                            'status' => "payed",
+                        ]);
+                        $advertise->update(['payed' => 1, "status" => "ready_to_confirm",   'active' => "1"]);
+                        toast()->success("پرداخت با موفیت از کیف پول انجام شد  ");
+                        return redirect()->route("advertiser.list");
+                    } else {
+                        $amount -= $user->balance();
+                    }
+                }
+
                 break;
         }
         $invoice = (new Invoice);
@@ -156,7 +179,7 @@ class PayController extends Controller
         $amount = (int)$transaction->amount;
         // $amount = 10000;
         if (!$transaction) {
-            alert()->error('پرداخت با مشکل مواجه شد');
+            toast()->error('پرداخت با مشکل مواجه شد');
             return redirect()->route('client', ['route' => route("serial.result")]);
         }
 
@@ -177,7 +200,7 @@ class PayController extends Controller
 
                 if ($transaction->pay_type == "bank_pay") {
                     $user->transactions()->create([
-                        'amount' => -1 * ($transaction->amount ),
+                        'amount' => -1 * ($transaction->amount),
                         'transactionId' => $transaction->advertise_id . "777",
                         'type' => "withdraw_wallet_for_ad",
                         'pay_type' => $transaction->pay_type,
@@ -186,7 +209,7 @@ class PayController extends Controller
                     ]);
                 }
 
-                if($transaction->advertise){
+                if ($transaction->advertise) {
                     switch ($transaction->advertise->type) {
                         case "charge":
                             break;
@@ -208,13 +231,13 @@ class PayController extends Controller
                         case "video":
                             $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
                             break;
-                         case "chanal":
+                        case "chanal":
                             $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
                             break;
 
-                            case "hamsan":
-                                $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
-                                break;
+                        case "hamsan":
+                            $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                            break;
                     }
                 }
 
@@ -229,14 +252,14 @@ class PayController extends Controller
                 We can catch the exception to handle invalid payments.
                 getMessage method, returns a suitable message that can be used in user interface.
              **/
-            alert()->warning('پرداخت با مشکل موجه شد ');
+            toast()->warning('پرداخت با مشکل موجه شد ');
             return redirect()->route("result.pay", $transaction->id);
             // echo $exception->getMessage();
         }
         if ($transaction->status == 'payed') {
-            alert()->success('پرداخت با موفقیت انجام  شد ');
+            toast()->success('پرداخت با موفقیت انجام  شد ');
         } else {
-            alert()->warning('پرداخت انجام نشد ');
+            toast()->warning('پرداخت انجام نشد ');
         }
         return redirect()->route("result.pay", $transaction->id);
     }

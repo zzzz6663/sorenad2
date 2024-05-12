@@ -55,7 +55,7 @@ class CatController extends Controller
         $user=auth()->user();
         $data['user_id']=$user->id;
        cat::create($data);
-        alert()->success('دسته بندی  با موفقیت ساخته شد ');
+        toast()->success('دسته بندی  با موفقیت ساخته شد ');
         return redirect()->route('cat.index');
     }
 
@@ -95,7 +95,7 @@ class CatController extends Controller
             'active' => 'required',
         ]);
         $cat->update($data);
-        alert()->success('دسته بندی  با موفقیت به روز  شد ');
+        toast()->success('دسته بندی  با موفقیت به روز  شد ');
         return redirect()->route('cat.index');
     }
 
@@ -108,7 +108,7 @@ class CatController extends Controller
     public function destroy(cat $cat)
     {
         $cat->delete();
-        alert()->success('دسته بندی  با موفقیت حذف شد ');
+        toast()->success('دسته بندی  با موفقیت حذف شد ');
         return redirect()->route('cat.index');
     }
   public function active_cat(cat $cat)
@@ -119,7 +119,7 @@ class CatController extends Controller
         $cat->restore();
         // cat::onlyTrashed()->where('id', $cat->id)->restore();
 
-        alert()->success('دسته بندی  با موفقیت فعال شد ');
+        toast()->success('دسته بندی  با موفقیت فعال شد ');
         return redirect()->route('cat.index');
     }
 

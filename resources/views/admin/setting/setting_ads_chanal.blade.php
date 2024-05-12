@@ -23,72 +23,60 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
-                            <label for="chanal_advertiser_click">
-                                                            {{ __("setting.chanal_advertiser_click") }}
+                            <label for="chanal_advertiser_atlist_count">
+                                حداقل تعداد کلیک
+
                             </label>
                             <div class="form-control-wrap">
-                                <input type="text" id="chanal_advertiser_click" name="chanal_advertiser_click" class="number_format form-control" value="{{ old("chanal_advertiser_click",$chanal_advertiser_click->val) }}">
+                                <input type="text" id="chanal_advertiser_atlist_count" name="chanal_advertiser_atlist_count" class="number_format form-control" value="{{ old("chanal_advertiser_atlist_count",$chanal_advertiser_atlist_count->val) }}">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
-                            <label for="chanal_advertiser_show">
-                                                            {{ __("setting.chanal_advertiser_show") }}
+                            <label for="chanal_advertiser_atlist_price">
+                                حداقل قیمت کلیک
+
                             </label>
                             <div class="form-control-wrap">
-                                <input type="text" id="chanal_advertiser_show" name="chanal_advertiser_show" class="number_format form-control" value="{{ old("chanal_advertiser_show",$chanal_advertiser_show->val) }}">
+                                <input type="text" id="chanal_advertiser_atlist_price" name="chanal_advertiser_atlist_price" class="number_format form-control" value="{{ old("chanal_advertiser_atlist_price",$chanal_advertiser_atlist_price->val) }}">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
-                            <label for="chanal_limit_order">
-                                                            {{ __("setting.chanal_limit_order") }}
+                            <label for="chanal_advertiser_aercent">
+                                درصد سورن
+
                             </label>
                             <div class="form-control-wrap">
-                                <input type="text" id="chanal_limit_order" name="chanal_limit_order" class="number_format form-control" value="{{ old("chanal_limit_order",$chanal_limit_order->val) }}">
+                                <input type="text" id="chanal_advertiser_percent" name="chanal_advertiser_percent" class="number_format form-control" value="{{ old("chanal_advertiser_percent",$chanal_advertiser_percent->val) }}">
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-12 mb-4">
+                        <h5>
+                            تنظیمات اول
+                        </h5>
                         <div class="form-group">
-                            <label for="chanal_user_vip_click">
-                                                            {{ __("setting.chanal_user_vip_click") }}
-                            </label>
-                            <div class="form-control-wrap">
-                                <input type="text" id="chanal_user_vip_click" name="chanal_user_vip_click" class="number_format form-control" value="{{ old("chanal_user_vip_click",$chanal_user_vip_click->val) }}">
-                            </div>
+                            <textarea name="chanal_setting1" id=""  class="edit_area form-control"  cols="30" rows="10">{{ old("chanal_setting1",$chanal_setting1->val) }}</textarea>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-12 mb-4">
+                        <h5>
+                            تنظیمات دوم
+                        </h5>
                         <div class="form-group">
-                            <label for="chanal_user_vip_show">
-                                                            {{ __("setting.chanal_user_vip_show") }}
-                            </label>
-                            <div class="form-control-wrap">
-                                <input type="text" id="chanal_user_vip_show" name="chanal_user_vip_show" class="number_format form-control" value="{{ old("chanal_user_vip_show",$chanal_user_vip_show->val) }}">
-                            </div>
+                            <textarea name="chanal_setting2" id=""  class="edit_area form-control"  cols="30" rows="10">{{ old("chanal_setting2",$chanal_setting2->val) }}</textarea>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+
+                    <div class="col-md-12 mb-4">
+                        <h5>
+                            تنظیمات سوم
+                        </h5>
                         <div class="form-group">
-                            <label for="chanal_user_normal_click">
-                                                            {{ __("setting.chanal_user_normal_click") }}
-                            </label>
-                            <div class="form-control-wrap">
-                                <input type="text" id="chanal_user_normal_click" name="chanal_user_normal_click" class="number_format form-control" value="{{ old("chanal_user_normal_click",$chanal_user_normal_click->val) }}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="form-group">
-                            <label for="chanal_user_normal_show">
-                                                            {{ __("setting.chanal_user_normal_show") }}
-                            </label>
-                            <div class="form-control-wrap">
-                                <input type="text" id="chanal_user_normal_show" name="chanal_user_normal_show" class="number_format form-control" value="{{ old("chanal_user_normal_show",$chanal_user_normal_show->val) }}">
-                            </div>
+                            <textarea name="chanal_setting3" id=""  class="edit_area form-control"  cols="30" rows="10">{{ old("chanal_setting3",$chanal_setting3->val) }}</textarea>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -98,12 +86,7 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
-
-
     </div>
 
 </form>

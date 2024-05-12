@@ -1,4 +1,4 @@
-@extends('main.manager')
+request("social")@extends('main.manager')
 @section('content')
 
     <div class="components-preview wide-md mx-auto">

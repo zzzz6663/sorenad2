@@ -431,7 +431,12 @@
                                                 <span class="nk-menu-text">دامنه های من </span>
                                             </a>
                                         </li>
-
+                                        <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.chanals"?"active":"" }}">
+                                            <a href="{{ route("advertiser.chanals") }}" class="nk-menu-link  ">
+                                                <span class="nk-menu-icon"><i class="fas fa-chart-line"></i></span>
+                                                <span class="nk-menu-text"> کانال های من  </span>
+                                            </a>
+                                        </li>
                                         <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.log"?"active":"" }}">
                                             <a href="{{ route("advertiser.log") }}" class="nk-menu-link  ">
                                                 <span class="nk-menu-icon"><i class="fas fa-chart-line"></i></span>
@@ -450,6 +455,17 @@
                                                     <i class="fas fa-code"></i>
                                                 </span>
                                                 <span class="nk-menu-text">دریافت کد تبلیغ </span>
+                                            </a>
+                                        </li>
+
+                                        <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.chanal.script"?"active":"" }}">
+                                            <a href="{{ route("advertiser.chanal.script") }}" class="nk-menu-link  ">
+                                                <span class="nk-menu-icon">
+                                                    <i class="fas fa-code"></i>
+                                                </span>
+                                                <span class="nk-menu-text">دریافت  تبلیغ
+برای کانال
+                                                </span>
                                             </a>
                                         </li>
                                         @else
@@ -580,6 +596,8 @@
                                                 <span class="nk-menu-text">آمار </span>
                                             </a>
                                         </li>
+
+
                                         @endif
 
 

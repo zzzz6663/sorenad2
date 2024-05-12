@@ -28,7 +28,7 @@
 .text-align-right{
     text-align: right;
 }
-.tox-toolbar__group:last-child .tox-tbtn{
+#tiny_text_w .tox-toolbar__group:last-child .tox-tbtn{
     width: 150px!important;
     font-weight: bold;
 }

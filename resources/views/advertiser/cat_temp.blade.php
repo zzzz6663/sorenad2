@@ -19,6 +19,10 @@
             <option {{ in_array($cat->id,old("cats",$cats))?"selected":"" }} value="{{ $cat->id }}">{{ $cat->name }}</option>
             @endforeach
         </select>
+        <p class="text text-warning">
+            اگر تبلیغات شما مناسب برای همه دسته بندی ها می باشد،
+این بخش را خالی بگذارید.
+        </p>
         {{--  <ul class="custom-control-group">
             @foreach (App\Models\Cat::whereActive(1)->get() as $cat )
             <li>

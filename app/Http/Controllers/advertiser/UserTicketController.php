@@ -78,7 +78,7 @@ class UserTicketController extends Controller
             $answer->update(['attach' => $name_img]);
         }
 
-        alert()->success('سوال با موفقیت ساخته شد ');
+        toast()->success('سوال با موفقیت ساخته شد ');
         return redirect()->route('userticket.index');
     }
 
@@ -120,7 +120,7 @@ class UserTicketController extends Controller
             'content' => 'required',
         ]);
         $faq->update($data);
-        alert()->success('سوال با موفقیت به روز  شد ');
+        toast()->success('سوال با موفقیت به روز  شد ');
         return redirect()->route('faq.index');
     }
 
@@ -133,13 +133,13 @@ class UserTicketController extends Controller
     public function destroy(faq $faq)
     {
         $faq->delete();
-        alert()->success('سوال با موفقیت حذف شد ');
+        toast()->success('سوال با موفقیت حذف شد ');
         return redirect()->route('faq.index');
     }
     public function close_ticket(Ticket $ticket ,Request $request)
     {
         $ticket->update(['status'=>"close"]);
-        alert()->success("تیکت با موفقیت بسته شد");
+        toast()->success("تیکت با موفقیت بسته شد");
         return back();
 
     }
@@ -174,7 +174,7 @@ class UserTicketController extends Controller
             'type'=>"new_answer",
             'answer_id'=> $answer->id,
         ]);
-        alert()->success('جواب با موفقیت ثبت شد ');
+        toast()->success('جواب با موفقیت ثبت شد ');
         return redirect()->route('userticket.show',$ticket->id);
     }
 }

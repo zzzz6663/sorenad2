@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Action;
 use App\Models\Course;
 use App\Models\Section;
+use App\Models\Setting;
 use App\Models\Advertise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,10 +58,10 @@ class HomeController extends Controller
     public function clear(Request $request)
     {
 
-        $ads=Advertise::with(['actions'])->latest()->get();
-        dd(  $ads);
-        dump($this->getUserIpAddr());
-        dump($this->getUserIpAddr2());
+        // $ads=Advertise::with(['actions'])->latest()->get();
+        // dd(  $ads);
+        // dump($this->getUserIpAddr());
+        // dump($this->getUserIpAddr2());
 
 
         // $sum=Action::where('active', 1)->update(['active'=>0]);
@@ -102,9 +103,10 @@ class HomeController extends Controller
 
         // $now = Carbon::now()->format("H:i:s");
         // // dd($now);
-        // $invitedUser = new User;
+        $invitedUser = new User;
         // ($invitedUser->send_pattern("09373699317", "svr5y3c1ophdnuo",['code'=>123]));
         // ($invitedUser->send_sms("09373699317", "تست"));
+        $invitedUser->send_pattern( '09373699317', "4lm4k11nj3mgv8h", ['name' => "sss",'title' => "ddd"]);
 
         // Auth::loginUsingId(1, 'true');
         Artisan::call('cache:clear');
@@ -129,9 +131,11 @@ class HomeController extends Controller
 
     public function redirect_add(Request  $request)
     {
+        $user = new User();
+        $action['ip'] = $user->get_ip();
         $advertise = Advertise::find($request->advertis_id);
         $site = Site::find($request->site_id);
-        if ($advertise->count_type == "click") {
+        if ($advertise->count_type == "click" && $advertise->type!="chanal") {
             $action['count_type'] = $advertise->count_type;
             $action['advertiser_id'] = $advertise->user->id;
             $action['advertise_id'] = $advertise->id;
@@ -141,8 +145,7 @@ class HomeController extends Controller
             $action['site_id'] = $site->id;
             $action['signature'] = $request->signature;
             // });
-            $user = new User();
-            $action['ip'] = $user->get_ip();
+
             if ($site->user->vip) {
                 if ($advertise->count_type == "view") {
                     $action['admin_share'] = $advertise->unit_show - $advertise->unit_vip_show;
@@ -179,8 +182,37 @@ class HomeController extends Controller
                     $advertise->update(['status' => "down"]);
                 }
             }
+        }else{
+
+            $data['chanal_advertiser_percent']=Setting::whereName("chanal_advertiser_percent")->first()->val;
+            $action['ip'] = $user->get_ip();
+
+            $action['count_type'] = $advertise->count_type;
+            $action['unit_click'] = $advertise->unit_click;
+            $action['advertiser_id'] = $advertise->user->id;
+            $action['advertise_id'] = $advertise->id;
+            $action['type'] = $advertise->type;
+            $action['signature'] = $request->signature;
+
+            $action['admin_share'] = (  $action['unit_click']*$data['chanal_advertiser_percent'])/100;
+            $action['site_share'] =    $action['unit_click']-  $action['admin_share'];
+            $action['adveriser_share'] =  $action['unit_click'] * -1;
+
+
+            $chanal_owner=User::find( $request->owner);
+            $action['site_id']=  $chanal_owner->id;
+            $exist = Action::where('ip', $action['ip'])->where('site_id', $action['site_id'])->where('advertise_id', $action['advertise_id'])->first();
+            if (!$exist) {
+                $action["main"] = 1;
+                Action::create($action);
+            }
+            if ($advertise->actions->count() >= $advertise->click_count) {
+                $advertise->update(['status' => "down"]);
+             $advertise->user->send_pattern( '09373699317', "4lm4k11nj3mgv8h", ['name' =>  $advertise->user->name(),'title' =>  $advertise->title]);
+            }
         }
         switch ($advertise->type) {
+            case "chanal":
             case "app":
                 $link = $advertise["landing_link" . $request->link_number];
                 return redirect()->to($link);
@@ -194,10 +226,9 @@ class HomeController extends Controller
                    case "video":
                 $link = $advertise["landing_link1"];
                 break;
-
                 case "hamsan":
                     $link = $advertise["landing_link1"];
-                    break;
+             break;
         }
         return view('advertiser.redirect_add', compact(['link']));
     }
@@ -237,12 +268,12 @@ class HomeController extends Controller
                 //                    'password'=>'123456'
                 //                ]);
 
-                alert()->error('     ابتدا ثبت نام کنید ');
+                  toast()->error('     ابتدا ثبت نام کنید ');
                 return back();
             }
         } catch (\Exception $e) {
             //
-            alert()->error('ارتباط با گوگل برقرار نشد ');
+              toast()->error('ارتباط با گوگل برقرار نشد ');
             return back();
         }
     }
@@ -256,7 +287,6 @@ class HomeController extends Controller
         } else {
             $route = "advertiser.faqs";
         }
-        alert()->success("وود با موفقیت انجام شد ");
         return redirect()->route($route);
     }
     public function index()
@@ -322,7 +352,7 @@ class HomeController extends Controller
             $data['password'] = bcrypt($data['password']);
             $user = User::create($data);
             $user->assignRole("customer");
-            alert()->success("حساب شما با موفقیت ثبت شد ");
+              toast()->success("حساب شما با موفقیت ثبت شد ");
             return redirect()->route("login");
         }
         // if (Hash::check($request->password, $exist_user->password)) {
@@ -369,15 +399,15 @@ class HomeController extends Controller
         //    $user->assignRole('admin')
         // dd(Hash::check($request->password, $user->password));
         if (!$user) {
-            alert()->error('   اطلاعات ارسال شده صحیح نمی باشد');
+              toast()->error('   اطلاعات ارسال شده صحیح نمی باشد');
             return back();
         }
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user, true);
-            alert()->success('   ورود با موفقیت انجام شد');
+              toast()->success('   ورود با موفقیت انجام شد');
             return redirect()->route('redirect');
         } else {
-            alert()->error('   اطلاعات ارسال شده صحیح نمی باشد');
+              toast()->error('   اطلاعات ارسال شده صحیح نمی باشد');
             return back();
         }
     }

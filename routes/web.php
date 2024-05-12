@@ -88,7 +88,9 @@ Route::prefix('advertiser')->middleware(['auth',"check_active"])->namespace('adv
     Route::any('/bank_info', 'AdvertiserController@bank_info')->name('advertiser.bank.info');
     Route::get('/faqs', 'AdvertiserController@faqs')->name('advertiser.faqs');
     Route::any('/sites', 'AdvertiserController@sites')->name('advertiser.sites');
+    Route::any('/chanals', 'AdvertiserController@chanals')->name('advertiser.chanals');
     Route::any('/site_script', 'AdvertiserController@site_script')->name('advertiser.site.script');
+    Route::any('/chanal_script', 'AdvertiserController@chanal_script')->name('advertiser.chanal.script');
     Route::any('/update_site/{site}', 'AdvertiserController@update_site')->name('advertiser.update.site');
     Route::any('/withdrawal_request', 'AdvertiserController@withdrawal_request')->name('advertiser.withdrawal.request');
     Route::any('/advertiser_new_ad_popup/{advertise?}', 'AdvertiserController@advertiser_new_ad_popup')->name('advertiser.new.ad.popup');

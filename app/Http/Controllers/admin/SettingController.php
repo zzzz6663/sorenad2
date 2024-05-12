@@ -28,7 +28,7 @@ class SettingController extends Controller
                 $setting->update(['val'=>$val]);
                 cache()->put($key, $val);
             }
-            alert()->success("اطلاعات با موفقیت ذخیره شد ");
+            toast()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("setting.ads.app");
         }
 
@@ -72,7 +72,7 @@ class SettingController extends Controller
                 cache()->put($key, $val);
 
             }
-            alert()->success("اطلاعات با موفقیت ذخیره شد ");
+            toast()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("setting.ads.banner");
         }
 
@@ -115,7 +115,7 @@ class SettingController extends Controller
                 cache()->put($key, $val);
 
             }
-            alert()->success("اطلاعات با موفقیت ذخیره شد ");
+            toast()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("setting.ads.fixpost");
         }
 
@@ -158,7 +158,7 @@ class SettingController extends Controller
                 cache()->put($key, $val);
 
             }
-            alert()->success("اطلاعات با موفقیت ذخیره شد ");
+            toast()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("setting.ads.popup");
         }
 
@@ -201,7 +201,7 @@ class SettingController extends Controller
                 cache()->put($key, $val);
 
             }
-            alert()->success("اطلاعات با موفقیت ذخیره شد ");
+            toast()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("setting.ads.video");
         }
 
@@ -242,7 +242,7 @@ class SettingController extends Controller
                 'repeat_pass_admin'=>"nullable",
             ]);
             if($request->change_pass_admin && ($request->change_pass_admin!=$request->repeat_pass_admin)){
-                alert()->warning("پسورد وتکرار آن مطابقت ندارد");
+                toast()->warning("پسورد وتکرار آن مطابقت ندارد");
                 return redirect()->route("site.setting");
 
             }
@@ -255,7 +255,7 @@ class SettingController extends Controller
             $min_val_checkout->update([
                 'val'=>$data['min_val_checkout']
             ]);
-            alert()->success("اطلاعات با موفقیت ذخیره شد ");
+            toast()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("site.setting");
 
         }
@@ -287,7 +287,7 @@ class SettingController extends Controller
                 $setting->update(['val'=>$val]);
 
             }
-            alert()->success("اطلاعات با موفقیت ذخیره شد ");
+            toast()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("setting.ads.text");
         }
 
@@ -315,42 +315,39 @@ class SettingController extends Controller
     public function setting_ads_chanal(Request $request){
         if($request->isMethod("post")){
             $data=$request->validate([
-                'chanal_advertiser_click'=>"required",
-                'chanal_advertiser_show'=>"required",
-                'chanal_limit_order'=>"required",
                 'chanal_active_site'=>"required",
-                'chanal_user_vip_click'=>"required",
-                'chanal_user_vip_show'=>"required",
-                'chanal_user_normal_click'=>"required",
-                'chanal_user_normal_show'=>"required",
+                'chanal_advertiser_atlist_price'=>"required",
+                'chanal_advertiser_atlist_count'=>"required",
+                'chanal_advertiser_percent'=>"required",
+                'chanal_setting1'=>"nullable",
+                'chanal_setting2'=>"nullable",
+                'chanal_setting3'=>"nullable",
             ]);
             foreach($data as $key=>$val){
                 $setting=Setting::whereName( $key)->first();
                 $setting->update(['val'=>$val]);
 
             }
-            alert()->success("اطلاعات با موفقیت ذخیره شد ");
+            toast()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("setting.ads.chanal");
         }
 
-        // $setting_ads_chanal=Setting::whereType("setting_ads_chanal")->get();
-        $chanal_advertiser_click=Setting::whereName("chanal_advertiser_click")->first();
-        $chanal_advertiser_show=Setting::whereName("chanal_advertiser_show")->first();
-        $chanal_limit_order=Setting::whereName("chanal_limit_order")->first();
+        // $setting_ads_text=Setting::whereType("setting_ads_text")->get();
+        $chanal_setting1=Setting::whereName("chanal_setting1")->first();
+        $chanal_setting2=Setting::whereName("chanal_setting2")->first();
+        $chanal_setting3=Setting::whereName("chanal_setting3")->first();
         $chanal_active_site=Setting::whereName("chanal_active_site")->first();
-        $chanal_user_vip_click=Setting::whereName("chanal_user_vip_click")->first();
-        $chanal_user_vip_show=Setting::whereName("chanal_user_vip_show")->first();
-        $chanal_user_normal_click=Setting::whereName("chanal_user_normal_click")->first();
-        $chanal_user_normal_show=Setting::whereName("chanal_user_normal_show")->first();
+        $chanal_advertiser_atlist_price=Setting::whereName("chanal_advertiser_atlist_price")->first();
+        $chanal_advertiser_atlist_count=Setting::whereName("chanal_advertiser_atlist_count")->first();
+        $chanal_advertiser_percent=Setting::whereName("chanal_advertiser_percent")->first();
         return view('admin.setting.setting_ads_chanal', compact([
-            "chanal_advertiser_click",
-            "chanal_advertiser_show",
-            "chanal_limit_order",
+            "chanal_setting1",
+            "chanal_setting2",
+            "chanal_setting3",
             "chanal_active_site",
-            "chanal_user_vip_click",
-            "chanal_user_vip_show",
-            "chanal_user_normal_click",
-            "chanal_user_normal_show",
+            "chanal_advertiser_atlist_price",
+            "chanal_advertiser_atlist_count",
+            "chanal_advertiser_percent",
         ]));
     }
 
@@ -371,7 +368,7 @@ class SettingController extends Controller
                 $setting->update(['val'=>$val]);
 
             }
-            alert()->success("اطلاعات با موفقیت ذخیره شد ");
+            toast()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("setting.ads.hamsan");
         }
 

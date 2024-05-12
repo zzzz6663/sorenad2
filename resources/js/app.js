@@ -1,5 +1,5 @@
 import './bootstrap';
-
+let admin_tax=4.5
 
 function stop_animation() {
     if ($('.modal-mask').length) {
@@ -345,8 +345,8 @@ window.onload = function () {
         // let total_view = view_count
         // val_view *= total_view
 
-        // let tax = Math.floor(val + ((4.5 * val) / 100))
-        // console.log((4.5 * val) / 100)
+        // let tax = Math.floor(val + ((admin_tax * val) / 100))
+        // console.log((admin_tax * val) / 100)
         // console.log(tax)
         // let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
         // tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
@@ -371,6 +371,10 @@ window.onload = function () {
         }
     })
 
+    $('.submit_form').on("change", function (e) {
+        let el = $(this);
+        el.closest("form").submit()
+       })
     $('#float_app').on("change", function (e) {
         let el = $(this);
         let val = (el.val());
@@ -380,6 +384,27 @@ window.onload = function () {
             $('#hamsan').attr('checked',false)
             ;
         }
+    })
+    $('.copy_c').on("click", function (e) {
+        let el = $(this);
+       let txt= el.closest(".content").find(".txt").text()
+       console.log(txt)
+
+
+        navigator.clipboard.writeText(txt).then(
+            function () {
+                Swal.fire({
+                    toast: true,
+                    position: "top-center",
+                    text: "متن  کپی شد !",
+                    showConfirmButton: false,
+                    timer: 2500,
+                    timerProgressBar: true,
+                });
+            },
+            function () {
+            }
+        )
     })
     $('.copy_h').on("click", function (e) {
         let el = $(this);
@@ -420,17 +445,41 @@ window.onload = function () {
             }
         )
     })
+    $('#price_suggestion').on("change keyup", function (e) {
+        let el = $(this);
+        let val=   Number( $('#click_count').val()) * Number(el.val())
+        console.log(val)
+        let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+        $('.totoal_price').text(num)
+
+        let tax = Math.floor(val + ((admin_tax * val) / 100))
+        if (tax > 2000000) {
+            console.log(tax)
+            $('#pay_chanal').slideDown(400)
+        } else {
+            $('#pay_chanal').slideUp(400)
+        }
+        tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+        $('.totoal_price').text(num + " تومان")
+        $('.after_tax_price').text(tax + " تومان")
+
+
+
+
+      })
     $('#click_count').on("change keyup", function (e) {
         let el = $(this);
         let price = Number(el.data("price"));
+        if($('#pay_chanal').length){
+            price = $('#price_suggestion').val();
+        }
         let val = Number(el.val());
         val *= price
         let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
         $('.totoal_price_click').text(num)
-        let tax = Math.floor(val + ((4.5 * val) / 100))
+        let tax = Math.floor(val + ((admin_tax * val) / 100))
         if (tax > 2000000) {
             console.log(tax)
-
             $('#pay_chanal').slideDown(400)
         } else {
             $('#pay_chanal').slideUp(400)
@@ -481,7 +530,7 @@ window.onload = function () {
         val *= price
         let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
         $('.totoal_price_view').text(num)
-        let tax = Math.floor(val + ((4.5 * val) / 100))
+        let tax = Math.floor(val + ((admin_tax * val) / 100))
         tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
         $('.totoal_price').text(num + " تومان")
         $('.after_tax_price').text(tax + " تومان")
@@ -699,8 +748,8 @@ window.onload = function () {
         let val = Number(el.val());
         let price = Number($('#price').val());
         val *= price
-        let tax = Math.floor(val + ((4.5 * val) / 100))
-        console.log((4.5 * val) / 100)
+        let tax = Math.floor(val + ((admin_tax * val) / 100))
+        console.log((admin_tax * val) / 100)
         console.log(tax)
         let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
         tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
@@ -945,6 +994,84 @@ window.onload = function () {
     });
 
 
+
+
+
+    if ($(".edit_area").length) {
+        console.log("sss")
+
+        let element = $(this)
+        let translate = $(this).data('translate')
+        let direction = $(this).data('direction')
+
+
+        let mc = tinymce.init({
+            height: "300",
+            selector: '.edit_area',
+            toolbar_mode: 'Wrap',
+            menubar: true,
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            width: '100%',
+            statusbar: true,
+            directionality: 'rtl',
+            content_css: '/css/tiny.css',
+            // forced_root_block : 'p',
+            // forced_root_block_attrs: {
+            //     'class': 'myclass',
+            //     'data-something': 'my data'
+            //   },
+            // readonly  :1,
+
+            contextmenu: "paste",
+            forced_root_block: 'div',
+            plugins: [
+                'textcolor', 'advlist', 'autolink', 'lineheight',
+                'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+                'fullscreen', 'insertdatetime', 'media', 'table', 'help', 'wordcount', 'directionality'
+            ],
+            toolbar: "ltr rtl lineheight select  backcolor aligncenter  alignleft alignnone alignright alignjustify bold italic copy cut fontsizeselect paste formatselect undo redo bullist numlist  outdent indent removeformat ",
+            // language : "fa_IR",
+            lineheight_formats: "8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 22pt 24pt 26pt 36pt",
+
+            theme: "silver",
+
+            image_title: true,
+            automatic_uploads: true,
+            images_upload_url: '/admin/upload_image_tiny_mc',
+            file_picker_types: 'image',
+            file_picker_callback: function (cb, value, meta) {
+                console.log(12144);
+                console.log(meta);
+                console.log(value);
+                var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+                input.onchange = function () {
+                    var file = this.files[0];
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function () {
+                        var id = 'blobid' + (new Date()).getTime();
+                        var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                        var base64 = reader.result.split(',')[1];
+                        var blobInfo = blobCache.create(id, file, base64);
+                        blobCache.add(blobInfo);
+                        cb(blobInfo.blobUri(), { title: file.name });
+                    };
+                };
+                input.click();
+            },
+            setup: function (editor) {
+                editor.on('keyup change click', function (e) {
+
+                });
+            }
+
+        });
+
+
+
+    }
 
 
 

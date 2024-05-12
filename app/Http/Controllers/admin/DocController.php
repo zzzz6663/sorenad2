@@ -89,7 +89,7 @@ class DocController extends Controller
 
         }
 
-        alert()->success('سند با موفقیت ساخته شد ');
+        toast()->success('سند با موفقیت ساخته شد ');
         return redirect()->route('doc.index');
     }
 
@@ -157,7 +157,7 @@ class DocController extends Controller
         $doc->update(['attach'=>$name_img]);
 
         }
-        alert()->success('سند با موفقیت به روز  شد ');
+        toast()->success('سند با موفقیت به روز  شد ');
         return redirect()->route('doc.index');
     }
 
@@ -170,7 +170,7 @@ class DocController extends Controller
     public function destroy(Doc $doc)
     {
         $doc->delete();
-        alert()->success('سند با موفقیت حذف شد ');
+        toast()->success('سند با موفقیت حذف شد ');
         return redirect()->route('doc.index');
     }
 

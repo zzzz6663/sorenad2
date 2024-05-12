@@ -86,7 +86,7 @@ class WithdrawalController extends Controller
 
         // اختصاص دادن سطح کاربری
         $user->assignRole($data['role']);
-        alert()->success('کاربر با موفقیت ساخته شد ');
+        toast()->success('کاربر با موفقیت ساخته شد ');
         return redirect()->route('user.index');
     }
 
@@ -145,7 +145,7 @@ class WithdrawalController extends Controller
             'type'=>"confirm_withdrawal",
             'withdrawal_id'=> $withdrawal->id,
         ]);
-        alert()->success('درخواست  با موفقیت به روز  شد ');
+        toast()->success('درخواست  با موفقیت به روز  شد ');
         return redirect()->route('withdrawal.index');
     }
 
@@ -158,14 +158,14 @@ class WithdrawalController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        alert()->success('کاربر با موفقیت حذف شد ');
+        toast()->success('کاربر با موفقیت حذف شد ');
         return redirect()->route('user.index');
     }
     public function user_bank_info(User $user,Request $request)
     {
         if($request->isMethod('post')){
             $user->update(['confirm_bank_account'=>Carbon::now()]);
-            alert()->success("اطلاعات حساب باموفقبت تایید شد ");
+            toast()->success("اطلاعات حساب باموفقبت تایید شد ");
             return redirect()->route("user.index");
         }
         return view('admin.user.user_bank_info', compact(['user']));

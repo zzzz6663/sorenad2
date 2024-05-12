@@ -17,4 +17,7 @@ class Group extends Model
     public function advertises(){
         return $this->BelongsToMany(Advertise::class);
     }
+     public function chanals(){
+        return $this->hasMany(Chanal::class);
+    }
 }

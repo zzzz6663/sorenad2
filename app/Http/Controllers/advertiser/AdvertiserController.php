@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
 use App\Http\Controllers\Controller;
 use App\Models\Cat;
+use App\Models\Chanal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
@@ -598,8 +599,14 @@ class AdvertiserController extends Controller
     public function advertiser_new_ad_chanal(Request $request, Advertise $advertise)
     {
         $user = auth()->user();
-        $click = $user->click_price("chanal");
-        $view = $user->view_price("chanal");
+
+        $chanal_advertiser_atlist_count=Setting::whereName("chanal_advertiser_atlist_count")->first()->val;
+        $chanal_advertiser_atlist_price=Setting::whereName("chanal_advertiser_atlist_price")->first()->val;
+        $min_sugestion_price=$user->setting_cache("chanal_advertiser_atlist_price");
+        $min_click=$user->setting_cache("chanal_advertiser_atlist_count");
+        $chanal_setting1=Setting::whereName("chanal_setting1")->first()->val;
+        $chanal_setting2=Setting::whereName("chanal_setting2")->first()->val;
+        $chanal_setting3=Setting::whereName("chanal_setting3")->first()->val;
 
 
         $type = "chanal";
@@ -634,18 +641,23 @@ class AdvertiserController extends Controller
                     'landing_title1' => "required",
                     'landing_link2' => "nullable|url",
                     'landing_title2' => "nullable",
-                    'count_type' => "required",
-                    'click_count' => "required",
+
+                    'price_suggestion' => "required|integer|min:".$min_sugestion_price,
+                    'click_count' => "required|integer|min:".$min_click,
+                    'pay_type' => "required",
                     'pay_type' => "required",
                 ]);
                 $data["type"] = "chanal";
                 $data["status"] = "created";
-                $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
-                $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
-                $data["unit_vip_click"] = $user->setting_cache($type . "_user_vip_click");
-                $data["unit_vip_show"] = $user->setting_cache($type . "_user_vip_show");
-                $data["unit_normal_click"] = $user->setting_cache($type . "_user_normal_click");
-                $data["unit_normal_show"] = $user->setting_cache($type . "_user_normal_show");
+                $data["count_type"] = "click";
+                $data["unit_click"] = $data['price_suggestion'];
+                // $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
+                // $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
+                $data["unit_vip_click"] = $data['price_suggestion'];
+                $data["unit_normal_click"] = $data['price_suggestion'];
+                // $data["unit_vip_show"] = $user->setting_cache($type . "_user_vip_show");
+                // $data["unit_normal_click"] = $user->setting_cache($type . "_user_normal_click");
+                // $data["unit_normal_show"] = $user->setting_cache($type . "_user_normal_show");
                 $advertise = $user->advertises()->create($data);
                 if ($request->hasFile('attach')) {
                     $attach = $request->file('attach');
@@ -664,7 +676,7 @@ class AdvertiserController extends Controller
             $data['advertise_id'] =  $advertise->id;
             return redirect()->route("send.pay", ['type' =>     $type, "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_chanal', compact(["user", "click", "view", "type","advertise"]));
+        return view('advertiser.advertiser_new_ad_chanal', compact(['chanal_setting1','chanal_setting2',"min_click","min_sugestion_price","user", "chanal_advertiser_atlist_count", "chanal_advertiser_atlist_price", "type","advertise"]));
     }
 
 
@@ -690,7 +702,7 @@ class AdvertiserController extends Controller
                 'track' => $withdrawal->id + 1000,
             ]);
 
-            alert()->success("درخواست شما با موفقیت ثبت شد  ");
+            toast()->success("درخواست شما با موفقیت ثبت شد  ");
             $user->send_pattern( $user->mobile, "k4qdf4se66hu8ch", ['name' => $user->name()]);
 
             return redirect()->route("advertiser.withdrawal.request");
@@ -718,7 +730,7 @@ class AdvertiserController extends Controller
 
 
             $user->update($data);
-            alert()->success("اطلاعات با موفقیت ثبت شد ");
+            toast()->success("اطلاعات با موفقیت ثبت شد ");
             return redirect()->route("advertiser.profile");
         }
 
@@ -742,7 +754,7 @@ class AdvertiserController extends Controller
             ]);
             $data['password'] = bcrypt($data['password']);
             $user->update($data);
-            alert()->success("اطلاعات با موفقیت ثبت شد ");
+            toast()->success("اطلاعات با موفقیت ثبت شد ");
             return redirect()->route("advertiser.change.password");
         }
 
@@ -775,10 +787,64 @@ class AdvertiserController extends Controller
                 'show_display_times' => "required",
             ]);
             $user->update($data);
-            alert()->success("اطلاعات باموفقیت ذخیره شد ");
+            toast()->success("اطلاعات باموفقیت ذخیره شد ");
             return redirect()->route("advertiser.site.script");
         }
         return view('advertiser.site_script', compact(["user"]));
+    }
+    public function chanal_script(Request $request)
+    {
+        $user = auth()->user();
+        $chanal_setting3=Setting::whereName("chanal_setting3")->first();
+        if ($request->isMethod("post")) {
+            $data = $request->validate([
+                'back_popup' => "nullable",
+                'float_app' => "nullable",
+                'hamsan' => "nullable",
+                'show_display_times' => "required",
+            ]);
+            $user->update($data);
+            toast()->success("اطلاعات باموفقیت ذخیره شد ");
+            return redirect()->route("advertiser.site.script");
+        }
+        $advertises =Advertise::query();
+        $advertises ->whereType("chanal")->whereStatus("ready_to_show");
+        if($request->time){
+            $advertises->orderBy('id', $request->time);
+        }
+
+        if($request->benefit){
+            $advertises->orderBy('unit_click', $request->benefit);
+        }
+        if($request->group_id){
+            $advertises->whereHas('groups',function($qu) use($request){
+                $qu->where('group_id', $request->group_id);
+
+            });
+        }
+        if($request->socials){
+            $socials=$request->socials;
+            if( in_array("instagram",request("socials",[]))){
+                $advertises->whereRaw('instagram = "" ');
+
+            }
+            if( in_array("ita",request("socials",[]))){
+                $advertises->whereRaw('ita = "" ');
+            }
+            if( in_array("rubika",request("socials",[]))){
+
+                $advertises->whereRaw('rubika = "" ');
+            }
+            if( in_array("bale",request("socials",[]))){
+                $advertises->whereRaw('bale = "" ');
+            }
+            if( in_array("telegram",request("socials",[]))){
+                $advertises->whereRaw('telegram = "" ');
+            }
+        }
+        // dd($request->all());
+        $advertises=$advertises ->get();
+        return view('advertiser.chanal_script', compact(["user","chanal_setting3","advertises"]));
     }
     public function sites(Request $request)
     {
@@ -797,12 +863,38 @@ class AdvertiserController extends Controller
             ]);
             $data['status'] = "created";
             $user->sites()->create($data);
-            alert()->success("سایت با موفقیت اضافه شد");
+            toast()->success("سایت با موفقیت اضافه شد");
             return redirect()->route("advertiser.sites");
         }
 
         $sites = $user->sites;
         return view('advertiser.sites', compact(["user", "sites"]));
+    }
+    public function chanals(Request $request)
+    {
+        $user = auth()->user();
+        // dd( $user);
+        // dd($request->all());
+        if ($request->isMethod("post")) {
+            $data = $request->validate([
+                'name' => "required|min:5|max:30",
+                'url' =>   array(
+                    'required',
+                    'max:100',
+                    'unique:chanals,url',
+                    'regex:/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i'
+                ),
+                'members' => "required",
+                'group_id' => "required",
+            ]);
+            $data['status'] = "created";
+            $user->chanals()->create($data);
+            toast()->success("کانال با موفقیت اضافه شد");
+            return redirect()->route("advertiser.chanals");
+        }
+
+        $chanals = $user->chanals;
+        return view('advertiser.chanals', compact(["user", "chanals"]));
     }
     public function update_site(Request $request, Site $site)
     {
@@ -820,12 +912,35 @@ class AdvertiserController extends Controller
             $data['status'] = "created";
             $data['confirm'] = null;
             $site->update($data);
-            alert()->success("سایت با موفقیت اضافه شد");
+            toast()->success("سایت با موفقیت اضافه شد");
             return redirect()->route("advertiser.sites");
         }
 
         $sites = $user->sites;
         return view('advertiser.update_site', compact(["user", "site"]));
+    }
+    public function update_chanal(Request $request, Chanal $chanal)
+    {
+        $user = auth()->user();
+        if ($request->isMethod("post")) {
+            $data = $request->validate([
+                'name' => "required|min:5|max:30",
+                'url' =>   array(
+                    'required',
+                    'max:100',
+                    'unique:chanals,url',
+                    'regex:/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i'
+                ),
+                'members' => "required",
+                'group_id' => "required",
+            ]);
+            $chanal->update($data);
+            toast()->success("کانال با موفقیت اضافه شد");
+            return redirect()->route("advertiser.chanals");
+        }
+
+        $chanals = $user->chanals;
+        return view('advertiser.update_chanal', compact(["user", "chanal"]));
     }
     public function bank_info(Request $request)
     {
@@ -840,7 +955,7 @@ class AdvertiserController extends Controller
             ]);
             $data['confirm_bank_account'] = null;
             $user->update($data);
-            alert()->success("اطلاعات با موفقیت ثبت شد ");
+            toast()->success("اطلاعات با موفقیت ثبت شد ");
             return redirect()->route("advertiser.bank.info");
         }
         return view('advertiser.bank_info', compact(["user"]));
@@ -848,7 +963,7 @@ class AdvertiserController extends Controller
     public function advertise_reject(Request $request, Advertise $advertise)
     {
         if ($advertise->status != "ready_to_show") {
-            alert()->warning('این عملیات ممکن نیست');
+            toast()->warning('این عملیات ممکن نیست');
             return back();
         }
 
@@ -876,7 +991,7 @@ class AdvertiserController extends Controller
             'advertise_id' => $advertise->id,
             'status' => "payed",
         ]);
-        alert()->success("شارژ با موفقیت به حساب شما برگشت");
+        toast()->success("شارژ با موفقیت به حساب شما برگشت");
         return back();
     }
     public function advertiser_log(Request $request)

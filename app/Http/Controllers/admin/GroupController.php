@@ -55,7 +55,7 @@ class GroupController extends Controller
         $user=auth()->user();
         $data['user_id']=$user->id;
        Group::create($data);
-        alert()->success('دسته بندی  با موفقیت ساخته شد ');
+        toast()->success('دسته بندی  با موفقیت ساخته شد ');
         return redirect()->route('group.index');
     }
 
@@ -95,7 +95,7 @@ class GroupController extends Controller
             'active' => 'required',
         ]);
         $group->update($data);
-        alert()->success('دسته بندی  با موفقیت به روز  شد ');
+        toast()->success('دسته بندی  با موفقیت به روز  شد ');
         return redirect()->route('group.index');
     }
 
@@ -108,7 +108,7 @@ class GroupController extends Controller
     public function destroy(Group $group)
     {
         $group->delete();
-        alert()->success('دسته بندی  با موفقیت حذف شد ');
+        toast()->success('دسته بندی  با موفقیت حذف شد ');
         return redirect()->route('group.index');
     }
   public function active_group(Group $group)
@@ -119,7 +119,7 @@ class GroupController extends Controller
         $group->restore();
         // group::onlyTrashed()->where('id', $group->id)->restore();
 
-        alert()->success('دسته بندی  با موفقیت فعال شد ');
+        toast()->success('دسته بندی  با موفقیت فعال شد ');
         return redirect()->route('group.index');
     }
 

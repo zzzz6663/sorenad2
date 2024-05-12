@@ -96,7 +96,7 @@ class AdvertiseController extends Controller
 
         // اختصاص دادن سطح کاربری
         $user->assignRole($data['role']);
-        alert()->success('کاربر با موفقیت ساخته شد ');
+          toast()->success('کاربر با موفقیت ساخته شد ');
         return redirect()->route('user.index');
     }
 
@@ -265,7 +265,7 @@ class AdvertiseController extends Controller
 
 
         $advertise->update($data);
-        alert()->success('تبلیغ با موفقیت به روز  شد ');
+          toast()->success('تبلیغ با موفقیت به روز  شد ');
         return redirect()->route('advertise.index');
     }
 
@@ -278,19 +278,19 @@ class AdvertiseController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        alert()->success('کاربر با موفقیت حذف شد ');
+          toast()->success('کاربر با موفقیت حذف شد ');
         return redirect()->route('user.index');
     }
     public function advertise_confirm(Advertise $advertise, Request $request)
     {
         if ($advertise->status == "ready_to_confirm") {
             $advertise->update(['status' => "ready_to_show", "confirm" => Carbon::now()]);
-            alert()->success("تبیغ با موفقیت تایید شد ");
+              toast()->success("تبلیغ با موفقیت تایید شد ");
             $advertise->user->send_pattern($advertise->user->mobile, "k4qdf4se66hu8ch", ['name' => $advertise->user->name()]);
             // $advertise->user->send_pattern(  $advertise->user->mobile, "dvykkxdfbv9gj8x", ['name' => $advertise->user->name()]);
             // Cache::put('advertise', Advertise::where('active', 1)->where("confirm", "!=", "null")->whereStatus("ready_to_show"));
         } else {
-            alert()->warning("این تبلیغ قابل تایید نیست  ");
+              toast()->warning("این تبلیغ قابل تایید نیست  ");
         }
         return redirect()->route("advertise.index");
     }

@@ -85,7 +85,7 @@ class SiteController extends Controller
         $user = auth()->user();
         $data['user_id'] = $user->id;
         site::create($data);
-        alert()->success('دسته بندی  با موفقیت ساخته شد ');
+        toast()->success('دسته بندی  با موفقیت ساخته شد ');
         return redirect()->route('site.index');
     }
 
@@ -125,7 +125,7 @@ class SiteController extends Controller
             'active' => 'required',
         ]);
         $site->update($data);
-        alert()->success('دسته بندی  با موفقیت به روز  شد ');
+        toast()->success('دسته بندی  با موفقیت به روز  شد ');
         return redirect()->route('site.index');
     }
 
@@ -138,7 +138,7 @@ class SiteController extends Controller
     public function destroy(site $site)
     {
         $site->delete();
-        alert()->success('دسته بندی  با موفقیت حذف شد ');
+        toast()->success('دسته بندی  با موفقیت حذف شد ');
         return redirect()->route('site.index');
     }
     public function site_confirm(Site $site, Request $request)
@@ -166,7 +166,7 @@ class SiteController extends Controller
                 $user->send_pattern( $user->mobile, "0h00xubbbf6lobl", ['name' => $user->name()]);
 
             }
-            alert()->success('اطلاعات با موفقیت ثبت شد  ');
+            toast()->success('اطلاعات با موفقیت ثبت شد  ');
             Cache::put('sites', Site::whereStatus("confirmed"));
             return redirect()->route('site.index');
         }

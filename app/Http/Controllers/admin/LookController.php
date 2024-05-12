@@ -115,7 +115,7 @@ class LookController extends Controller
              $gg= $visit->attaches()->create(['user_id'=>$user->id,"name"=>$name_img]);
             }
         }
-        alert()->success('بازدید با موفقیت ساخته شد ');
+        toast()->success('بازدید با موفقیت ساخته شد ');
         return redirect()->route('look.index');
     }
 
@@ -212,7 +212,7 @@ class LookController extends Controller
             }
         }
         $look->update($data);
-        alert()->success('بازدید با موفقیت به روز  شد ');
+        toast()->success('بازدید با موفقیت به روز  شد ');
         return redirect()->route('look.index');
 
 
@@ -227,7 +227,7 @@ class LookController extends Controller
     public function destroy(look $look)
     {
         $look->delete();
-        alert()->success('بازدید با موفقیت حذف شد ');
+        toast()->success('بازدید با موفقیت حذف شد ');
         return redirect()->route('look.index');
     }
     public function look_note(Look $look,Request $request)
@@ -238,7 +238,7 @@ class LookController extends Controller
             ]);
             $data['status']="noted";
             $look->update($data);
-            alert()->success('یادداشت با موفقیت ثبت شد ');
+            toast()->success('یادداشت با موفقیت ثبت شد ');
             return redirect()->route('look.index');
         }
         return view('admin.look.look_note', compact(['look']));

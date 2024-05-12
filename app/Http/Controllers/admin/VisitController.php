@@ -258,7 +258,7 @@ class VisitController extends Controller
              $gg= $visit->attaches()->create(['user_id'=>$user->id,"name"=>$name_img]);
             }
         }
-        alert()->success('بازدید با موفقیت ساخته شد ');
+        toast()->success('بازدید با موفقیت ساخته شد ');
         return redirect()->route('visit.index');
     }
 
@@ -499,7 +499,7 @@ class VisitController extends Controller
         }
 
         $visit->update($data);
-        alert()->success('بازدید با موفقیت به روز  شد ');
+        toast()->success('بازدید با موفقیت به روز  شد ');
         return redirect()->route('visit.index');
     }
 
@@ -512,7 +512,7 @@ class VisitController extends Controller
     public function destroy(visit $visit)
     {
         $visit->delete();
-        alert()->success('بازدید با موفقیت حذف شد ');
+        toast()->success('بازدید با موفقیت حذف شد ');
         return redirect()->route('visit.index');
     }
     public function visit_note(Visit $visit,Request $request)
@@ -523,7 +523,7 @@ class VisitController extends Controller
             ]);
             $data['status']="noted";
             $visit->update($data);
-            alert()->success('یادداشت با موفقیت ثبت شد ');
+            toast()->success('یادداشت با موفقیت ثبت شد ');
             return redirect()->route('visit.index');
         }
         return view('admin.visit.visit_note', compact(['visit']));
@@ -536,7 +536,7 @@ class VisitController extends Controller
         $visit->restore();
         // visit::onlyTrashed()->where('id', $visit->id)->restore();
 
-        alert()->success('بازدید با موفقیت فعال شد ');
+        toast()->success('بازدید با موفقیت فعال شد ');
         return redirect()->route('visit.index');
     }
 

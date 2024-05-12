@@ -57,7 +57,7 @@ class FaqController extends Controller
         $user=auth()->user();
         $data['user_id']=$user->id;
        faq::create($data);
-        alert()->success('سوال با موفقیت ساخته شد ');
+        toast()->success('سوال با موفقیت ساخته شد ');
         return redirect()->route('faq.index');
     }
 
@@ -98,7 +98,7 @@ class FaqController extends Controller
             'type' => 'required',
         ]);
         $faq->update($data);
-        alert()->success('سوال با موفقیت به روز  شد ');
+        toast()->success('سوال با موفقیت به روز  شد ');
         return redirect()->route('faq.index');
     }
 
@@ -124,7 +124,7 @@ class FaqController extends Controller
         $faq->restore();
         // faq::onlyTrashed()->where('id', $faq->id)->restore();
 
-        alert()->success('سوال با موفقیت فعال شد ');
+        toast()->success('سوال با موفقیت فعال شد ');
         return redirect()->route('faq.index');
     }
 

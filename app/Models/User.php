@@ -86,6 +86,9 @@ class User extends Authenticatable
     public function sites(){
         return $this->hasMany(Site::class);
     }
+    public function chanals(){
+        return $this->hasMany(Chanal::class);
+    }
     public function logs(){
         return $this->hasMany(Log::class);
     }
@@ -232,7 +235,7 @@ class User extends Authenticatable
 		// 			);
 
 		$handler = curl_init($url);
-		curl_setopt($handler, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($handler, CURLOPT_CUSTOMREQUEST, "POST");#
 		curl_setopt($handler, CURLOPT_POSTFIELDS, $param);
 		curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
 		$response2 = curl_exec($handler);
