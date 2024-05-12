@@ -245,7 +245,7 @@ class HomeController extends Controller
         return Socialite::driver('google')->stateless()->redirect();
     }
     public function gcallback()
-    {
+    {     
         try {
             $goo = Socialite::driver('google')->stateless()->user();
             $user = User::whereEmail($goo->email)->first();
