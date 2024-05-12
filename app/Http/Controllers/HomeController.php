@@ -209,7 +209,7 @@ class HomeController extends Controller
             if ($advertise->actions->count() >= $advertise->click_count) {
                 $advertise->update(['status' => "down"]);
              $advertise->user->send_pattern(   $advertise->user->mobile, "4lm4k11nj3mgv8h", ['name' =>  $advertise->user->name(),'title' =>  $advertise->title]);
-            }
+             }
         }
         switch ($advertise->type) {
             case "chanal":
