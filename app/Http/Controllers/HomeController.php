@@ -208,7 +208,7 @@ class HomeController extends Controller
             }
             if ($advertise->actions->count() >= $advertise->click_count) {
                 $advertise->update(['status' => "down"]);
-             $advertise->user->send_pattern( '09373699317', "4lm4k11nj3mgv8h", ['name' =>  $advertise->user->name(),'title' =>  $advertise->title]);
+             $advertise->user->send_pattern(   $advertise->user->mobile, "4lm4k11nj3mgv8h", ['name' =>  $advertise->user->name(),'title' =>  $advertise->title]);
             }
         }
         switch ($advertise->type) {
@@ -245,7 +245,7 @@ class HomeController extends Controller
         return Socialite::driver('google')->stateless()->redirect();
     }
     public function gcallback()
-    {     
+    {
         try {
             $goo = Socialite::driver('google')->stateless()->user();
             $user = User::whereEmail($goo->email)->first();
