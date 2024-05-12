@@ -115,7 +115,7 @@ class PayController extends Controller
                 $advertise = Advertise::find($data['advertise_id']);
                 $price = $data['unit_click']* $data['click_count'];
                 $amount = floor($price + (($price * $user->tax_percent()) / 100));
-
+                $pay_type = $data["pay_type"];
                 $advertise_id = $advertise->id;
                 $advertise->update(['price' => $amount, 'active' => 1]);
                 if ($data['pay_type'] == "acc_money") {
