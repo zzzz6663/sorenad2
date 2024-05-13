@@ -162,11 +162,12 @@
                 </div>
                 <div class="col-lg-6 mb-5">
                     <span class="pl-4">
-                        کد تبلیغات بنری سایز (275*180) مناسب ستون کناری
+                   کد تبلیغات متنی
                     </span>
                     <div class="nk-reply-from">
-                        {{ route("home")."/js_add.js" }}
-                        <span data-url="{{ route("home")."/js_add.js" }}" class="btn btn-success copy">کپی </span>
+                        <pre class="code_syntax" style="color:#000020;background:#f6f8ff;"><span class="line_wrapper"><span style="color:#0057a6; ">&lt;</span><span style="color:#200080; font-weight:bold; ">div</span><span style="color:#474796; "> </span><span style="color:#074726; ">id</span><span style="color:#308080; ">=</span><span style="color:#1060b6; ">"sorenad_text"</span><span style="color:#0057a6; ">&gt;</span><span style="color:#0057a6; ">&lt;/</span><span style="color:#200080; font-weight:bold; ">div</span><span style="color:#0057a6; ">&gt;</span></span>
+                            <span class="line_wrapper"></span></pre>
+                        <span data-id="sorenad_text" class="btn btn-success copy_h">کپی </span>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-5">

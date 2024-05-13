@@ -178,12 +178,12 @@ class HomeController extends Controller
                     $action["main"] = 1;
                     Action::create($action);
                 }
-                if ($advertise->actions->count() >= $advertise->click_count) {
+                if ($advertise->actions->count() >= $advertise->order_count) {
                     $advertise->update(['status' => "down"]);
                 }
             }
         }else{
-
+           if( $advertise->type=="chanal"){
             $data['chanal_advertiser_percent']=Setting::whereName("chanal_advertiser_percent")->first()->val;
             $action['ip'] = $user->get_ip();
 
@@ -206,10 +206,11 @@ class HomeController extends Controller
                 $action["main"] = 1;
                 Action::create($action);
             }
-            if ($advertise->actions->count() >= $advertise->click_count) {
+            if ($advertise->actions->count() >= $advertise->order_count) {
                 $advertise->update(['status' => "down"]);
              $advertise->user->send_pattern(   $advertise->user->mobile, "4lm4k11nj3mgv8h", ['name' =>  $advertise->user->name(),'title' =>  $advertise->title]);
              }
+           }
         }
         switch ($advertise->type) {
             case "chanal":
@@ -220,6 +221,9 @@ class HomeController extends Controller
             case "fixpost":
                 $link = $advertise["landing_link1"];
                 break;
+                case "text":
+                    $link = $advertise["landing_link1"];
+                    break;
             case "banner":
                 $link = $advertise["landing_link1"];
                 break;

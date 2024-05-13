@@ -28,6 +28,17 @@
                 <div class="card-body">
                     {{ $advertise->type }}
                     @include("advertiser.ad_temp.".$advertise->type,['advertise'=>$advertise])
+                    <br>
+                    <div class="form-control-wrap">
+                        <div class="form-control-select">
+                            <label for=""></label>
+                            <select class="form-control" name="confirm" id="confirm">
+                                <option value="">انتخاب کنید </option>
+                                <option {{ old("confirm",$advertise->confirm)==null?"selected":"" }} value="">غیر فعال</option>
+                                <option {{ old("confirm",$advertise->confirm)!=null?"selected":"" }} value="{{ Carbon\Carbon::now() }}"> فعال</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <br>
                 <br>

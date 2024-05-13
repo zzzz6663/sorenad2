@@ -104,7 +104,7 @@
                             تعداد کلیک درخواستی:
                         </span>
                         <span class="content">
-                            {{ $advertise->click_count}}
+                            {{ $advertise->order_count}}
                         </span>
                     </div>
                     <div class="col-lg-3 text-align-right mb-2">
@@ -140,7 +140,7 @@
                             :
                         </span>
                         <span class="content">
-                            {{$advertise->click_count- $advertise->actions->count()}}
+                            {{$advertise->order_count- $advertise->actions->count()}}
                         </span>
                     </div>
                     @endif
@@ -150,7 +150,7 @@
                             تعداد نمایش:
                         </span>
                         <span class="content">
-                            {{ $advertise->view_count}}
+                            {{ $advertise->order_count}}
                         </span>
                     </div>
                     <div class="col-lg-3 text-align-right mb-2">
@@ -186,7 +186,7 @@
                             :
                         </span>
                         <span class="content">
-                            {{$advertise->view_count- $advertise->actions->count()}}
+                            {{$advertise->order_count- $advertise->actions->count()}}
                         </span>
                     </div>
                     @endif

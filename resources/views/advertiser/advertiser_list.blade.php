@@ -109,7 +109,6 @@
                     </div>
                 </div>
                 @endforeach
-
             </div>
         </div>
         <!-- .card -->

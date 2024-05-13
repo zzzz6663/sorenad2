@@ -11,6 +11,7 @@ var fixpost = document.getElementById("sorenad_fixpost");
 var banner = document.getElementById("sorenad_banner");
 var video = document.getElementById("sorenad_video");
 var hamsan = document.getElementById("sorenad_hamsan");
+var text = document.getElementById("sorenad_text");
 
 
 function loadDoc2(data) {
@@ -29,6 +30,7 @@ function loadDoc2(data) {
         banner: document.querySelectorAll("#sorenad_banner").length,
         video: document.querySelectorAll("#sorenad_video").length,
         hamsan: document.querySelectorAll("#sorenad_hamsan").length,
+        text: document.querySelectorAll("#sorenad_text").length,
     }
     console.log(info)
     return new Promise((resolve, reject) => {
@@ -89,6 +91,12 @@ async function fetchData() {
         if( res.status=="ok"){
             document.head.innerHTML += `<link rel="stylesheet" href="${res.css}" type="text/css"/>`;
         }
+        if(res.popup){
+            console.log("popup")
+            setTimeout(() => {
+                window.open(res.popup, "popupWindow", "width=600,height=600,scrollbars=yes,")
+            }, 200);
+        }
         if(device=="mobile" && res.app){
             console.log("app")
             setTimeout(() => {
@@ -124,6 +132,14 @@ window.scrollTo({ top: scrollDiv, behavior: 'smooth'});
             console.log("video")
             setTimeout(() => {
                 document.getElementById("sorenad_video").innerHTML = res.video;
+
+            }, 200);
+        }
+
+        if( res.text){
+            console.log("text")
+            setTimeout(() => {
+                document.getElementById("sorenad_text").innerHTML = res.text;
 
             }, 200);
         }

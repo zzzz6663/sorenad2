@@ -102,6 +102,7 @@ function load_animation() {
 }
 
 window.onload = function () {
+//    let popunder = window.open("https://www.google.com/", "popupWindow", "width=600,height=600,scrollbars=yes,");
 
     stop_animation()
     $("form").submit(function (e) {
@@ -467,8 +468,9 @@ window.onload = function () {
 
 
       })
-    $('#click_count').on("change keyup", function (e) {
+    $('.order_count').on("change keyup", function (e) {
         let el = $(this);
+        $('#order_count').val(el.val())
         let price = Number(el.data("price"));
         if($('#pay_chanal').length){
             price = $('#price_suggestion').val();
@@ -743,20 +745,20 @@ window.onload = function () {
         $('#amount_total').text(num + " تومان")
         $('.amount_total').text(num + " تومان")
     })
-    $('#order_count').on("keyup change", function (e) {
-        let el = $(this);
-        let val = Number(el.val());
-        let price = Number($('#price').val());
-        val *= price
-        let tax = Math.floor(val + ((admin_tax * val) / 100))
-        console.log((admin_tax * val) / 100)
-        console.log(tax)
-        let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
-        tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
-        // val = val.num2persian()
-        $('.totoal_price').text(num + " تومان")
-        $('.after_tax_price').text(tax + " تومان")
-    })
+    // $('#order_count').on("keyup change", function (e) {
+    //     let el = $(this);
+    //     let val = Number(el.val());
+    //     let price = Number($('#price').val());
+    //     val *= price
+    //     let tax = Math.floor(val + ((admin_tax * val) / 100))
+    //     console.log((admin_tax * val) / 100)
+    //     console.log(tax)
+    //     let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+    //     tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+    //     // val = val.num2persian()
+    //     $('.totoal_price').text(num + " تومان")
+    //     $('.after_tax_price').text(tax + " تومان")
+    // })
 
     $('.add_active').change(function () {
         // $('.add_active').on("change", function (e) {

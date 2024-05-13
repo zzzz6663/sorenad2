@@ -241,6 +241,46 @@ video::-webkit-media-controls-enclosure {
 height: 0!important;
 }
 
+.d-flexj{
+    display: flex;
+    justify-content: space-between;
+    
+}
+.sorenad_text {
+    max-width: 100%;
+    overflow: hidden;
+}
+.sorenad_text ul {
+    list-style: none;
+    border-radius: 15px;
+    background: #defae6;
+margin: 0;
+    border: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.sorenad_text ul li{
+    padding: 10px 30px;
+    text-align: right;
+
+}
+.sorenad_text ul li:nth-child(odd){
+    background: #deedf3;
+}
+
+.sorenad_text ul li a:hover{
+    right: 10px;;
+    color: #6fabf8;
+}
+.sorenad_text ul li a{
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    transition: all .3s;
+    position: relative;
+    right: 0;
+}
+
 /*
 #main div:nth-of-type(1) {flex-grow: 1;}
 #main div:nth-of-type(2) {flex-grow: 3;}

@@ -44,7 +44,7 @@ return new class extends Migration
             $table->string("text",100)->default(0)->nullable();
             $table->integer("click_count")->nullable();
             $table->timestamp("confirm")->nullable();
-            $table->integer("view_count")->nullable();
+            $table->integer("order_count")->nullable();
             $table->integer("show_display_ad_perday")->nullable();
             $table->timestamps();
         });

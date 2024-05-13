@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\advertiser;
 
 use Carbon\Carbon;
+use App\Models\Cat;
 use App\Models\Faq;
 use App\Models\Site;
 use App\Models\User;
+use App\Models\Group;
 use App\Models\Action;
+use App\Models\Chanal;
 use App\Models\Course;
 use App\Models\Section;
 use App\Models\Setting;
@@ -15,8 +18,6 @@ use App\Models\Advertise;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
 use App\Http\Controllers\Controller;
-use App\Models\Cat;
-use App\Models\Chanal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
@@ -57,7 +58,7 @@ class AdvertiserController extends Controller
         if ($request->isMethod("post")) {
             // dd($request->ssall());
             if ($advertise->id) {
-                $data['view_count'] =  $advertise->view_count;
+                $data['order_count'] =  $advertise->order_count;
                 $data['landing_link1'] =  $advertise->landing_link1;
                 $data['limit_daily'] =  $advertise->limit_daily;
                 $data['title'] =  $advertise->title;
@@ -66,16 +67,16 @@ class AdvertiserController extends Controller
                 $data["type"] = "popup";
             } else {
                 $data = $request->validate([
-                    'view_count' => "required|integer|min:1000",
+                    'order_count' => "required|integer|min:1000",
                     'landing_link1' => "required|url",
-                    'limit_daily_view' => "required",
+                    'limit_daily_view' => "nullable",
                     'title' => "required",
                     'device' => "required",
                     'pay_type' => "required",
                 ]);
                 $data["type"] = "popup";
                 $data["status"] = "created";
-
+                $data["count_type"] = "view";
                 $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
                 $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
                 $data["unit_vip_click"] = $user->setting_cache($type . "_user_vip_click");
@@ -131,8 +132,8 @@ class AdvertiserController extends Controller
                 $data['icon'] =  $advertise->icon;
                 $data['count_type'] =  $advertise->count_type;
                 $data['banner1'] =  $advertise->banner1;
-                 $data['click_count'] =  $advertise->click_count;
-                 $data['view_count'] =  $advertise->view_count;
+                 $data['order_count'] =  $advertise->order_count;
+                 $data['order_count'] =  $advertise->order_count;
                 $data['limit_daily_click'] =  $advertise->limit_daily_click;
                 $data['pay_type'] =  $request->pay_type;
                 $data["type"] = "app";
@@ -151,10 +152,10 @@ class AdvertiserController extends Controller
                     // 'banner1' => "required",
                     'count_type' => "required",
 
-                    'click_count' => "required_if:count_type,click",
-                    'limit_daily_click' => "required_if:count_type,click",
-                    'view_count' => "required_if:count_type,view",
-                    'limit_daily_view' => "required_if:count_type,view",
+
+                    'limit_daily_click' => "nullable",
+                    'order_count' => "required_if:count_type,view",
+                    'limit_daily_view' => "nullable",
                     'pay_type' => "required",
                     // 'icon' => "required|mimes:jpg,png,jpeg,gif|max:200|dimensions:width=32,height=32",
                     // 'banner1' => "required|mimes:jpg,png,jpeg,gif|max:200|dimensions:width=554,height=276",
@@ -224,8 +225,8 @@ class AdvertiserController extends Controller
                 $data['icon'] =  $advertise->icon;
                 $data['count_type'] =  $advertise->count_type;
                 $data['banner1'] =  $advertise->banner1;
-                 $data['click_count'] =  $advertise->click_count;
-                 $data['view_count'] =  $advertise->view_count;
+                 $data['order_count'] =  $advertise->order_count;
+                 $data['order_count'] =  $advertise->order_count;
                 $data['limit_daily_click'] =  $advertise->limit_daily_click;
                 $data['pay_type'] =  $request->pay_type;
                 $data["type"] = "hamsan";
@@ -236,10 +237,10 @@ class AdvertiserController extends Controller
                     'landing_link1' => "required|url",
                     'landing_title1' => "required",
                     'count_type' => "required",
-                    'click_count' => "required_if:count_type,click",
-                    'limit_daily_click' => "required_if:count_type,click",
-                    'view_count' => "required_if:count_type,view",
-                    'limit_daily_view' => "required_if:count_type,view",
+
+                    'limit_daily_click' => "nullable",
+                    'order_count' => "required_if:count_type,view",
+                    'limit_daily_view' => "nullable",
                     'pay_type' => "required",
                     'cats' => "nullable",
                 ]);
@@ -293,9 +294,9 @@ class AdvertiserController extends Controller
                 $data['banner1'] =  $advertise->banner1;
                 $data['banner2'] =  $advertise->banner2;
 
-                $data['click_count'] =  $advertise->click_count;
+                $data['order_count'] =  $advertise->order_count;
 
-                $data['view_count'] =  $advertise->view_count;
+                $data['order_count'] =  $advertise->order_count;
                 $data['limit_daily'] =  $advertise->limit_daily;
 
 
@@ -310,10 +311,10 @@ class AdvertiserController extends Controller
                     'banner1' => "required",
                     'banner2' => "nullable",
                     'count_type' => "required",
-                    'click_count' => "required_if:count_type,click",
-                    'limit_daily_click' => "required_if:count_type,click",
-                    'view_count' => "required_if:count_type,view",
-                    'limit_daily_view' => "required_if:count_type,view",
+
+                    'limit_daily_click' => "nullable",
+                    'order_count' => "required",
+                    'limit_daily_view' => "nullable",
                     'pay_type' => "required",
                     'cats' => "nullable",
                 ]);
@@ -381,9 +382,9 @@ class AdvertiserController extends Controller
                 $data['count_type'] =  $advertise->count_type;
                 // $data['banner1'] =  $advertise->banner1;
 
-                $data['click_count'] =  $advertise->click_count;
+                $data['order_count'] =  $advertise->order_count;
 
-                $data['view_count'] =  $advertise->view_count;
+                $data['order_count'] =  $advertise->order_count;
                 $data['limit_daily'] =  $advertise->limit_daily;
                 $data['device'] =  $advertise->device;
                 $data['bg_color'] =  $advertise->bg_color;
@@ -399,10 +400,10 @@ class AdvertiserController extends Controller
                     'bg_color' => "required",
                     // 'banner1' => "required",
                     'count_type' => "required",
-                    'click_count' => "required_if:count_type,click",
-                    'limit_daily_click' => "required_if:count_type,click",
-                    'view_count' => "required_if:count_type,view",
-                    'limit_daily_view' => "required_if:count_type,view",
+
+                    'limit_daily_click' => "nullable",
+                    'order_count' => "required_if:count_type,view",
+                    'limit_daily_view' => "nullable",
                     'pay_type' => "required",
                     'device' => "required",
                     'cats' => "nullable",
@@ -460,8 +461,8 @@ class AdvertiserController extends Controller
                 $data['title'] =  $advertise->title;
                 $data['text'] =  $advertise->text;
                 $data['landing_link1'] =  $advertise->landing_link1;
-                $data['click_count'] =  $advertise->click_count;
-                 $data['view_count'] =  $advertise->view_count;
+                $data['order_count'] =  $advertise->order_count;
+                 $data['order_count'] =  $advertise->order_count;
                 $data['limit_daily'] =  $advertise->limit_daily;
                 $data['device'] =  $advertise->device;
                 $data['pay_type'] =  $request->pay_type;
@@ -475,10 +476,10 @@ class AdvertiserController extends Controller
                     // 'info' => "required|max:1500",
                     'landing_link1' => "required|url",
                     'count_type' => "required",
-                    'click_count' => "required_if:count_type,click",
-                    'limit_daily_click' => "required_if:count_type,click",
-                    'view_count' => "required_if:count_type,view",
-                    'limit_daily_view' => "required_if:count_type,view",
+
+                    'limit_daily_click' => "nullable",
+                    'order_count' => "required_if:count_type,view",
+                    'limit_daily_view' => "nullable",
                     'pay_type' => "required",
                     'device' => "required",
                     'cats' => "nullable",
@@ -535,8 +536,8 @@ class AdvertiserController extends Controller
             if ($advertise->id) {
                 $data['title'] =  $advertise->title;
                 $data['landing_link1'] =  $advertise->landing_link1;
-                $data['click_count'] =  $advertise->click_count;
-                 $data['view_count'] =  $advertise->view_count;
+                $data['order_count'] =  $advertise->order_count;
+                 $data['order_count'] =  $advertise->order_count;
                 $data['limit_daily'] =  $advertise->limit_daily;
                 $data['count_type'] =  $advertise->count_type;
                 $data['landing_title1'] =  $advertise->landing_title1;
@@ -552,10 +553,10 @@ class AdvertiserController extends Controller
                     'landing_title1' => "required|max:40",
                     'call_to_action' => "required|max:100",
                     'count_type' => "required",
-                    'click_count' => "required_if:count_type,click",
-                    'limit_daily_click' => "required_if:count_type,click",
-                    'view_count' => "required_if:count_type,view",
-                    'limit_daily_view' => "required_if:count_type,view",
+
+                    'limit_daily_click' => "nullable",
+                    'order_count' => "required_if:count_type,view",
+                    'limit_daily_view' => "nullable",
                     'pay_type' => "required",
                     'device' => "required",
                     'video1' => "required",
@@ -623,7 +624,7 @@ class AdvertiserController extends Controller
                 $data['instagram'] =  $advertise->instagram;
                 $data['info'] =  $advertise->info;
                 $data['landing_link1'] =  $advertise->landing_link1;
-                $data['click_count'] =  $advertise->click_count;
+                $data['order_count'] =  $advertise->order_count;
                 $data['count_type'] =  $advertise->count_type;
                 $data['pay_type'] =  $request->pay_type;
                 $data["type"] = "chanal";
@@ -643,9 +644,10 @@ class AdvertiserController extends Controller
                     'landing_title2' => "nullable",
 
                     'price_suggestion' => "required|integer|min:".$min_sugestion_price,
-                    'click_count' => "required|integer|min:".$min_click,
+                    'order_count' => "required|integer|min:".$min_click,
                     'pay_type' => "required",
                     'pay_type' => "required",
+                    'groups' => "nullable",
                 ]);
                 $data["type"] = "chanal";
                 $data["status"] = "created";
@@ -667,10 +669,10 @@ class AdvertiserController extends Controller
                 }
 
                 $advertise->update($data);
-                if ($request->groups) {
+                if (isset($data['groups'])) {
                     $advertise->groups()->attach($data['groups']);
                 } else {
-                    $advertise->groups()->attach(Cat::whereActive(1)->pluck("id")->toArray());
+                    $advertise->groups()->attach(Group::whereActive(1)->pluck("id")->toArray());
                 }
             }
             $data['advertise_id'] =  $advertise->id;
@@ -970,12 +972,12 @@ class AdvertiserController extends Controller
         $advertise->update(['status' => 'down']);
 
         if ($advertise->count_type == "view") {
-            $data['count'] = $advertise->view_count;
+            $data['count'] = $advertise->order_count;
             $data['unit'] = $advertise->unit_show;
         }
 
         if ($advertise->count_type == "click") {
-            $data['count'] = $advertise->click_count;
+            $data['count'] = $advertise->order_count;
             $data['unit'] = $advertise->unit_click;
         }
         $data['total'] = $advertise->actions()->where("main", 1)->count();

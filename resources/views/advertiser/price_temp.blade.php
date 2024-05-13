@@ -18,7 +18,7 @@ $final= (old("click_count")* old("price_suggestion"))     +((old("click_count")*
     chanal_advertiser_atlist_price  --}}
     <div class="col-lg-4">
         <div class="form-control-wrap {{  $type=="chanal"?"focused":""}} ">
-            <input type="number" name="click_count" id="click_count" min="{{ $min_click }}" required class="form-control click_inp  form-control-outlined cal_p" value="{{ old("click_count") }}" data-price="{{ $chanal_advertiser_atlist_price }}" id="click_count">
+            <input type="number" name="click_count" id="click_count" min="{{ $min_click }}" required class="form-control click_inp order_count  form-control-outlined cal_p" value="{{ old("click_count") }}" data-price="{{ $chanal_advertiser_atlist_price }}" id="click_count">
             <label class="form-label-outlined" for="click_count">
                 تعداد کلیک
             </label>
@@ -68,7 +68,7 @@ $final= (old("click_count")* old("price_suggestion"))     +((old("click_count")*
             </div>
             <div class="col-lg-4">
                 <div class="form-control-wrap {{  $type=="chanal"?"focused":""}} ">
-                    <input type="number" name="click_count" id="click_count" class="form-control click_inp  form-control-outlined cal_p" {{ old("click_count")?"":"disabled" }} value="{{ old("click_count") }}" data-price="{{ $click }}" id="click_count">
+                    <input type="number" name="click_count" id="click_count" class="form-control click_inp order_count form-control-outlined cal_p" {{ old("click_count")?"":"disabled" }} value="{{ old("click_count") }}" data-price="{{ $click }}" id="click_count">
                     <label class="form-label-outlined" for="click_count">
                         تعداد کلیک
                     </label>
@@ -114,7 +114,7 @@ $final= (old("click_count")* old("price_suggestion"))     +((old("click_count")*
             </div>
             <div class="col-lg-4">
                 <div class="form-control-wrap">
-                    <input type="number" name="view_count" id="view_count" class="form-control view_inp form-control-outlined cal_p" {{ old("view_count")?"":"disabled" }} value="{{ old("view_count") }}" data-price="{{ $view }}" id="view_count">
+                    <input type="number" name="view_count" id="view_count" class="form-control order_count view_inp form-control-outlined cal_p" {{ old("view_count")?"":"disabled" }} value="{{ old("view_count") }}" data-price="{{ $view }}" id="view_count">
                     <label class="form-label-outlined" for="view_count">
                         تعداد نمایش
                     </label>
@@ -145,7 +145,7 @@ $final= (old("click_count")* old("price_suggestion"))     +((old("click_count")*
     </div>
 </div>
 @endif
-
+<input type="text" name="order_count" id="order_count" hidden value="{{ old("order_count") }}">
 <div class="row mb-3  card-inner card-bordered">
     <div class="col-lg-6">
         <h4 class="text ">مجموع هزینه : <span class="totoal_price">

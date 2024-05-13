@@ -31,13 +31,13 @@
     <div class="col-lg-6">
         <input type="text"   id="price" value="{{ $price }}" hidden>
         <div class="form-control-wrap">
-            <input type="number" name="view_count" class="form-control  form-control-outlined" id="view_count" data-price="{{ $price }}"  value="{{ old("view_count") }}" placeholder="">
-            <label class="form-label-outlined" for="view_count">
+            <input type="number" name="order_count" class="form-control  form-control-outlined" id="order_count" data-price="{{ $price }}"  value="{{ old("order_count") }}" placeholder="">
+            <label class="form-label-outlined" for="order_count">
                 تعداد سفارش
                 ( حداقل سفارش 10000 عدد)
             </label>
             <span class="input-group-text totoal_price">
-                {{number_format( old("view_count")*$price)." تومان" }}
+                {{number_format( old("order_count")*$price)." تومان" }}
             </span>
         </div>
     </div>

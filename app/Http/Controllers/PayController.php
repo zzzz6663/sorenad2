@@ -39,7 +39,7 @@ class PayController extends Controller
                 }
                 break;
             case "popup":
-                $price = $user->view_price($type) * $data['view_count'];
+                $price = $user->view_price($type) * $data['order_count'];
                 $amount = floor($price + (($price * $user->tax_percent()) / 100));
 
                 $pay_type = $data["pay_type"];
@@ -78,12 +78,12 @@ class PayController extends Controller
             case "hamsan":
                 $advertise = Advertise::find($data['advertise_id']);
                 if ($advertise->count_type == "click") {
-                    $price = $user->click_price($type) * $data['click_count'];
+                    $price = $user->click_price($type) * $data['order_count'];
                     $amount = floor($price + (($price * $user->tax_percent()) / 100));
                 }
 
                 if ($advertise->count_type == "view") {
-                    $price = $user->view_price($type) * $data['view_count'];
+                    $price = $user->view_price($type) * $data['order_count'];
                     $amount = floor($price + (($price * $user->tax_percent()) / 100));
                 }
                 $pay_type = $data["pay_type"];
@@ -113,7 +113,7 @@ class PayController extends Controller
                 break;
             case "chanal":
                 $advertise = Advertise::find($data['advertise_id']);
-                $price = $data['unit_click']* $data['click_count'];
+                $price = $data['unit_click']* $data['order_count'];
                 $amount = floor($price + (($price * $user->tax_percent()) / 100));
                 $pay_type = $data["pay_type"];
                 $advertise_id = $advertise->id;

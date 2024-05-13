@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Site;
 // use App\Notifications\SendKaveCode;
 use App\Models\User;
+use App\Models\Setting;
 use App\Models\Advertise;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -119,11 +120,13 @@ class AdvertiseController extends Controller
      */
     public function edit(Request $request, Advertise $advertise)
     {
-
+        $chanal_setting1=Setting::whereName("chanal_setting1")->first()->val;
+        $chanal_setting2=Setting::whereName("chanal_setting2")->first()->val;
+        $chanal_setting3=Setting::whereName("chanal_setting3")->first()->val;
 
         $site = Site::latest()->first();
         $price = 0;
-        return view('admin.advertise.edit', compact(['advertise', "site", "price"]));
+        return view('admin.advertise.edit', compact(['advertise', "site", "price","chanal_setting1","chanal_setting2", "chanal_setting3"]));
     }
 
     /**
@@ -263,7 +266,7 @@ class AdvertiseController extends Controller
         }
 
 
-
+        $data['confirm']=$request->confirm;
         $advertise->update($data);
           toast()->success('تبلیغ با موفقیت به روز  شد ');
         return redirect()->route('advertise.index');
