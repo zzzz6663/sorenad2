@@ -166,9 +166,9 @@ class ApiController extends Controller
         $advertise
             ->where(function ($qu) use ($type, $ip,$site_id) {
                 if ($type == "popup") {
-                    $qu->whereDoesntHave('actions')
-                        ->orWhereHas("actions", function ($q3) use ( $ip,$site_id) {
-                            $q3->where('ip',"!=", $ip)->where('site_id',"!=", $site_id)->whereDate('created_at', '!=', Carbon::today());
+                    // $qu->whereDoesntHave('actions')
+                    $qu  ->whereDoesntHave("actions", function ($q3) use ( $ip,$site_id) {
+                        $q3->where('ip', $ip)->where('site_id', $site_id)->whereDate('created_at', Carbon::today());
                         });
                 } else {
                     $qu->whereDoesntHave('actions')

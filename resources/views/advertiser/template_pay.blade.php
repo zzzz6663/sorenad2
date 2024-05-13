@@ -1,15 +1,15 @@
 <div class="row mb-3  card-inner card-bordered">
     <div class="col-lg-6">
-        <p>مجموع هزینه : <span class="totoal_price">{{number_format( old("order_count")*$price)." تومان" }}</span></p>
+        <p>مجموع هزینه : <span class="totoal_price">{{number_format( old("view_count")*$price)." تومان" }}</span></p>
         <p>
             4.5 درصد مالیات بر ارزش افزوده:
         </p>
         <h4 class="text-primary">قیمت نهایی:
             <span class="after_tax_price">
-        @if( old("order_count"))
+        @if( old("view_count"))
         <h4>
             قیمت نهایی:
-            <span class="after_tax_price">{{(number_format( (old("order_count")*$price)+ (( old("order_count")*$price*4.5)/100)))." تومان" }}</span> </h4>
+            <span class="after_tax_price">{{(number_format( (old("view_count")*$price)+ (( old("view_count")*$price*4.5)/100)))." تومان" }}</span> </h4>
         @endif
         </span> </h4>
         <button class="btn btn-primary">

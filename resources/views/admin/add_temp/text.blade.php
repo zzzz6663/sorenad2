@@ -1,3 +1,6 @@
+
+@if($advertise->count() > 0)
+
 <div class="sorenad_text sorenad s-w-100 sorenad_par">
     <div class="soren_ad_container_txt">
         <div class="">
@@ -27,3 +30,4 @@
         </div>
     </div>
 </div>
+@endif
