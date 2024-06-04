@@ -145,6 +145,7 @@ class HomeController extends Controller
         // $user->assignRole("admin");
         // $user->assignRole("admin");.
         // return redirect()->route('redirect');
+        // return redirect()->route('redirect');
 
         return 12;
     }
