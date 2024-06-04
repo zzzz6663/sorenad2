@@ -322,9 +322,10 @@ class HomeController extends Controller
         Artisan::call('cache:clear');
         Artisan::call('route:cache');
         Artisan::call('config:cache');
-        Artisan::call('view:clear'); 
+        Artisan::call('view:clear');
         Artisan::call('optimize:clear');
         Artisan::call('config:clear');
+        // 
         return redirect()->route("login");
         return view('site.index', compact(['']));
     }

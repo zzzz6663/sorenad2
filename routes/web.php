@@ -16,6 +16,7 @@ Route::prefix('ads')->group(function () {
     Route::get('/redirect_add', 'HomeController@redirect_add')->middleware('signed')->name('redirect.add');
 
 });
+// 
 Route::get('/css_add', 'HomeController@css_add')->name('css_add');
 Route::get('/clear', 'HomeController@clear')->name('clear');
 Route::get('/', 'HomeController@index')->name('home');
