@@ -18,7 +18,7 @@ class PayController extends Controller
     public function  send_pay(Request  $request,Advertise $advertise)
     {
         $user = auth()->user();
-        $via = 'sep';
+        $via = 'saman';
         $type = $request->type;
         $amount = $request->amount;
         $pay_type = $request->pay_type;
