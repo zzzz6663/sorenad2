@@ -1,11 +1,12 @@
 import './bootstrap';
-let admin_tax=4.5
+let admin_tax = 4.5
 
 function stop_animation() {
     if ($('.modal-mask').length) {
         $('.modal-mask').remove()
     }
 }
+console.log(5)
 function load_animation() {
     var loading = new Loading({
 
@@ -102,7 +103,7 @@ function load_animation() {
 }
 
 window.onload = function () {
-//    let popunder = window.open("https://www.google.com/", "popupWindow", "width=600,height=600,scrollbars=yes,");
+    //    let popunder = window.open("https://www.google.com/", "popupWindow", "width=600,height=600,scrollbars=yes,");
 
     stop_animation()
     $("form").submit(function (e) {
@@ -172,11 +173,11 @@ window.onload = function () {
             selector: '#tiny',
             language: 'fa',
             plugins: ["image", "emoticons"],
-            height: 500,
+            height: 200,
             menubar: false,
             remove_script_host: false,
             convert_urls: false,
-            toolbar: 'emoticons forecolor backcolor |undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | image | color',
+            toolbar: 'emoticons forecolor backcolor | image |undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent  | color',
 
             // without images_upload_url set, Upload tab won't show up
             // images_upload_url: 'upload.php',
@@ -184,7 +185,7 @@ window.onload = function () {
             // override default upload handler to simulate successful upload
             images_upload_handler: image_upload_handler_callback,
             setup: function (editor) {
-                editor.ui.registry.addIcon('image', 'آپلود تصویر');  // ایجاد آیکون سفارشی برای دکمه image
+                editor.ui.registry.addIcon('image', 'آپلود ');  // ایجاد آیکون سفارشی برای دکمه image
                 editor.ui.registry.addButton('image', {
                     icon: 'image',  // استفاده از آیکون ایجاد شده
                     onAction: function (_) {
@@ -216,7 +217,7 @@ window.onload = function () {
             selector: '#tiny_text',
             language: 'fa',
             plugins: ["image", "emoticons"],
-            height: 500,
+            height: 200,
             menubar: false,
             remove_script_host: false,
             convert_urls: false,
@@ -253,6 +254,156 @@ window.onload = function () {
 
         }, 1500);
     }
+    $('.fin_pay').on("click", function (e) {
+        let el = $(this)
+        el.closest("form").find('.should_pay').val(1)
+        $('.next_p').click()
+
+    });
+
+
+    function update_btn($step, el = null) {
+        console.log($step)
+        if (null) {
+            $('.next_p').slideDown(200)
+            $('.prev_p').slideUp(200)
+            $('.fin_pay').slideUp(200)
+        }else{
+            switch ($step) {
+                case 0:
+                    console.log(11)
+                    el.closest('form').find('.prev_p').slideUp(200)
+                    el.closest('form').find('.next_p').slideDown(200)
+                    el.closest('form').find('.next_p').text("بعدی")
+                    // $('.fin_pay').slideUp(200)
+                    el.closest('form').find('.fin_pay').slideUp(200)
+
+                    break;
+                case 1:
+                    console.log(21)
+                    el.closest('form').find('.prev_p').slideDown(200)
+                    el.closest('form').find('.next_p').slideDown(200)
+                    el.closest('form').find('.fin_pay').slideUp(200)
+                    el.closest('form').find('.next_p').text("بعدی")
+                    break;
+                case 2:
+                    console.log(31)
+                    el.closest('form').find('.prev_p').slideDown(200)
+                    $('.next_p').text("ذخیره")
+                    el.closest('form').find('.fin_pay').slideDown(200)
+                    break;
+
+            }
+        }
+
+        // setTimeout(() => {
+        //     el.closest('form').find('.next_p').text("ذخیره")
+        // }, 200);
+
+    }
+
+
+
+    // $(".tal").unbind("click").click(function () {
+    //     let el = $(this)
+    //     $('.tab-pane').slideUp(100)
+    //     $('.tal a').removeClass("active")
+
+    //     setTimeout(() => {
+    //         $('.tab-pane').eq(el.index()).slideDown(400)
+    //         el.find("a").addClass("active")
+    //     }, 200);
+
+        let index = 0
+
+        $(".next_p").unbind("click").click(function () {
+
+
+            let el = $(this)
+            let url = el.closest('form').attr("action")
+            console.log(index)
+            var form_data = new FormData(el.closest('form')[0]);
+            form_data.append("step", index + 1)
+            load_animation()
+            $.ajax(url, {
+                headers: {
+                    'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+                    // 'Content-Type':'application/json,charset=utf-8'
+                },
+                type: 'post',
+                data: form_data,
+                contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+                processData: false,
+                datatype: 'json',
+                success: function (data) {
+                    stop_animation()
+                    console.log(data);
+                    if (data.status == 'ok') {
+                        index++
+                        update_btn(index, el)
+                        el.closest('form').find('.step').slideUp(100)
+                        setTimeout(() => {
+                            el.closest('form').find('.step').eq(index).slideDown(400)
+                            el.closest('form').find('.taby').eq(index).addClass("current")
+                        }, 200);
+                        if (index == 3) {
+                            el.closest('form').submit()
+                        }
+                    } else {
+                        for (const item in data) {
+                            console.log(item);
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: "top-end",
+                                showConfirmButton: false,
+                                timer: 3000,
+                                position: "center",
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.onmouseenter = Swal.stopTimer;
+                                    toast.onmouseleave = Swal.resumeTimer;
+                                }
+                            });
+                            Toast.fire({
+                                icon: "error",
+                                title: data[item]
+                            });
+                            let els = $('[name="' + item + '"]')
+                            $([document.documentElement, document.body]).animate({
+                                scrollTop: els.offset().top - 200
+                            }, 500);
+                            els.addClass("redd")
+
+                            setTimeout(() => {
+                                els.removeClass("redd")
+                            }, 2000);
+                            break;
+                        }
+                    }
+
+                },
+                error: function (request, status, error) {
+                    stop_animation()
+                    console.log(request)
+                }
+            })
+
+
+
+            $(".prev_p").unbind("click").click(function () {
+                let el = $(this)
+                console.log(index)
+                el.closest('form').find('.step').slideUp(100)
+                setTimeout(() => {
+                    index--
+                    update_btn(index, el)
+                    el.closest('form').find('.step').eq(index).slideDown(400)
+                    // $('.taby').eq(index + 1).removeClass("current")
+                    el.closest('form').find('.taby').eq(index + 1).removeClass("current")
+                }, 200);
+            })
+
+        })
 
     $('#send_pay').on("click", function (e) {
         $(this).closest("form").submit()
@@ -367,31 +518,36 @@ window.onload = function () {
         console.log($('#hamsan').is(":checked"))
         if ($('#hamsan').is(":checked")) {
             $('#float_app').prop('checked', false);
-            $('#float_app').attr('checked',false)
-            ;
+            $('#float_app').attr('checked', false)
+                ;
         }
     })
 
     $('.submit_form').on("change", function (e) {
         let el = $(this);
         el.closest("form").submit()
-       })
+    })
     $('#float_app').on("change", function (e) {
         let el = $(this);
         let val = (el.val());
         console.log($('#float_app').is(":checked"))
         if ($('#float_app').is(":checked")) {
             $('#hamsan').prop('checked', false);
-            $('#hamsan').attr('checked',false)
-            ;
+            $('#hamsan').attr('checked', false)
+                ;
         }
     })
+    function removeExtraSpaces(inputString) {
+        // استفاده از عبارت منظم برای جایگزینی بیش از دو فضای خالی با یک فضای خالی
+        return inputString.replace(/\s{2,}/g, ' ');
+    }
     $('.copy_c').on("click", function (e) {
         let el = $(this);
-       let txt= el.closest(".content").find(".txt").text()
-       console.log(txt)
+        let txt = $(".content_ms").text()
+        console.log(txt)
 
-
+         txt = removeExtraSpaces(txt);
+         console.log(txt)
         navigator.clipboard.writeText(txt).then(
             function () {
                 Swal.fire({
@@ -448,7 +604,7 @@ window.onload = function () {
     })
     $('#price_suggestion').on("change keyup", function (e) {
         let el = $(this);
-        let val=   Number( $('#click_count').val()) * Number(el.val())
+        let val = Number($('#click_count').val()) * Number(el.val())
         console.log(val)
         let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
         $('.totoal_price').text(num)
@@ -467,12 +623,12 @@ window.onload = function () {
 
 
 
-      })
+    })
     $('.order_count').on("change keyup", function (e) {
         let el = $(this);
-        $('#order_count').val(el.val())
+        el.closest("form").find(".order_count").val(el.val())
         let price = Number(el.data("price"));
-        if($('#pay_chanal').length){
+        if ($('#pay_chanal').length) {
             price = $('#price_suggestion').val();
         }
         let val = Number(el.val());
@@ -502,7 +658,6 @@ window.onload = function () {
     $('.remove_faq').on("click", function (e) {
         let el = $(this);
         let id = (el.data("id"));
-
         $.ajax('/admin/faq/' + id, {
             headers: {
                 'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
@@ -566,7 +721,29 @@ window.onload = function () {
         `)
 
     })
+    $('#call_to_action_video').on("keyup change", function (e) {
+        console.log(12)
+        let val=$(this).val()
+        $('#s_call_to_action').text(val)
+
+    })
+
+    $('#landing_title1_video').on("keyup change", function (e) {
+        console.log(12)
+        let val=$(this).val()
+        $('#video_sorenad_btn_par').html(`
+
+        <a target="blank" class="sorenad_btn" href="">
+        ${val}
+    </a>
+        `)
+
+    })
+
+
+
     $('#title').on("keyup change", function (e) {
+        console.log(12)
         $('#sorenad_title').text($(this).val())
         $('#title_p').text($(this).val())
     })

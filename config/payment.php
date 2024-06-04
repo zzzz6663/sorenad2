@@ -214,7 +214,7 @@ return [
             'apiGetToken' => 'https://sep.shaparak.ir/onlinepg/onlinepg',
             'apiPaymentUrl' => 'https://sep.shaparak.ir/OnlinePG/OnlinePG',
             'apiVerificationUrl' => 'https://sep.shaparak.ir/verifyTxnRandomSessionkey/ipg/VerifyTransaction',
-            'terminalId' => '',
+            'terminalId' => '14219880',
             'callbackUrl' => '',
             'description' => 'Saman Electronic Payment for Saderat & Keshavarzi',
         ],

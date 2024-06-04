@@ -257,7 +257,7 @@
                             {{ number_format($advertise->display) }}
                         </span>
                     </div>
-                    @role('customer')
+                    {{--  @role('customer')
                     <div class="col-lg-12 text-align-right mb-2 mt-2">
                         @if(!$advertise->payed)
                         <form action="{{ route("advertiser.new.ad.".$advertise->type,$advertise->id) }}" method="post">
@@ -282,7 +282,7 @@
                         </div>
                         @endif
                     </div>
-                    @endrole
+                    @endrole  --}}
                 </div>
             </div>
             <div class="modal-footer bg-light">

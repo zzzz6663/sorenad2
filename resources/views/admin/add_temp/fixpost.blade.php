@@ -13,7 +13,7 @@
 
         </div>
         <br>
-        <h5 style="text-align: center" id="s_call_to_action">
+        <h5 style="text-align: center" id="s_call_to_action_fix">
             {{ $advertise->call_to_action }}
 
         </h5>

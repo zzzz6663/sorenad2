@@ -6,7 +6,7 @@
     }
     @endphp
 
-  <div class="col-lg-6">
+  <div class="col-lg-4">
         <label class="form-label" for="groups">   کانال دسته بندی
 
             <span class="text text-danger">

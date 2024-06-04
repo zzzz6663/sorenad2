@@ -12,8 +12,9 @@
     <form action="{{ route("advertiser.chanal.script") }}" method="get">
         @csrf
         @method('get')
-        <div class="card">
-            <div class="card-inner">
+        <div class="card  position-sticky">
+            <div class="card-inner
+            position-sticky ">
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <div class="form-group">
@@ -89,10 +90,62 @@
         </div>
         @foreach ( $advertises as $ads )
 
-        <div class="col-lg-4">
+        <div class="col-lg-4 mb-4">
             <div class="card">
+
                 <div class="card-inner">
                     <div class="content">
+                        <div class="row">
+                            <div class="col-lg-12  mb-2">
+                                <p class=" alert alert-primary  p-1">
+                                    <span class="  ">
+                                        تعداد کلیک مورد نیاز:
+                                        <span class="text text-success">
+                                            {{ number_format($ads->click_count) }}
+                                        </span>
+                                    کلیک
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-lg-12  mb-3">
+                                <p class=" alert alert-success  p-1">
+                                    <span class=" ">
+                                        مناسب برای:
+                                        {{ implode(' - ',$ads->groups()->pluck("name")->toArray()) }}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                                <div class="col-lg-6 mb-1">
+                                    <div class="alert alert-info   text-center p-1 ">
+                                            <div class=" ">
+                                                درآمد 100 کلیک
+                                            </div>
+                                            <div class=" ">
+                                                {{ number_format($ads->unit_click * 100) }}
+                                                تومان
+                                            </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6  mb-1">
+                                    <div class="alert alert-primary  p-1 text text-center">
+                                            <div class=" ">
+                                                درآمد 1000 کلیک
+                                            </div>
+                                            <div class=" ">
+                                                {{ number_format($ads->unit_click * 1000) }}
+                                                تومان
+                                            </div>
+                                    </div>
+                                </div>
+
+
+                        </div>
+                        <div class="content_ms">
+
                         <h4>
                             {{ $ads->title }}
                         </h4>
@@ -103,81 +156,44 @@
                             <source src="{{  $ads->attach() }}" type="video/mp4">
                         </video>
                         @endif
-                       <div class="txt">
-                        <p>
-                            {!! $ads->info !!}
-                        </p>
-                        <h6>
-                            <span>
-                                {{ $ads->landing_title1 }}
-                            </span>
-                            <br>
-                            <br>
-                            {{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["owner"=>auth()->user()->id,'advertis_id' =>  $ads->id,"link_number"=>1]) }}
-                        </h6>
-                        @if($ads->landing_title2)
-                        <h6>
-                            <span>
-                                {{ $ads->landing_title2 }}
-                            </span>
-                            <br>
-                            <br>
-                            {{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["owner"=>auth()->user()->id,'advertis_id' =>  $ads->id,"link_number"=>2]) }}
-                        </h6>
-                        @endif
-                       </div>
-
-                        <div class="box  text text-white ">
-                            <div class="row">
-                                <div class="col-lg-12  mb-1">
-                                    <p class=" bg bg-success  p-1">
-                                        <span class="text text-white ">
-                                            مناسب برای:
-                                            {{ implode(' - ',$ads->groups()->pluck("name")->toArray()) }}
-                                        </span>
-                                    </p>
-                                </div>
-                                <div class="col-lg-12 mb-1">
-                                    <div class="bg bg-info  p-1 ">
-                                    <div class="row ">
-                                        <div class="col-lg-6">
-                                                درآمد 100 کلیک
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ number_format($ads->unit_click * 100) }}
-                                            تومان
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12  mb-1">
-                                    <div class="bg bg-primary  p-1 ">
-                                    <div class="row ">
-                                        <div class="col-lg-6">
-                                                درآمد 1000 کلیک
-                                        </div>
-                                        <div class="col-lg-6">
-                                            {{ number_format($ads->unit_click * 1000) }}
-                                            تومان
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12">
-                                    <div class="d-flex justify-content-around">
-                                        <a class="btn btn-success no_link" href="{{ route("download",['path'=> $ads->download() ]) }}">
-                                            دانلود تصویر
-                                        </a>
-                                        <span class="btn btn-secondary copy_c">
-                                            کپی متن
-                                        </span>
-                                    </div>
+                        <div class="txt">
+                            <p>
+                                {!! $ads->info !!}
+                            </p>
+                            <h6 class="mb-4">
+                                <span>
+                                    {{ $ads->landing_title1 }}
+                                </span>
+                                <br>
+                                <br>
+                                {{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["owner"=>auth()->user()->id,'advertis_id' =>  $ads->id,"link_number"=>1]) }}
+                            </h6>
+                            @if($ads->landing_title2)
+                            <h6 class="mb-4">
+                                <span>
+                                    {{ $ads->landing_title2 }}
+                                </span>
+                                <br>
+                                <br>
+                                {{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["owner"=>auth()->user()->id,'advertis_id' =>  $ads->id,"link_number"=>2]) }}
+                            </h6>
+                            @endif
+                        </div>
+                    </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="d-flex justify-content-around">
+                                    <a class="btn btn-success no_link" href="{{ route("download",['path'=> $ads->download() ]) }}">
+                                        دانلود تصویر
+                                    </a>
+                                    <span class="btn btn-secondary copy_c">
+                                        کپی متن
+                                    </span>
                                 </div>
                             </div>
-
                         </div>
+
+
 
                     </div>
                 </div>

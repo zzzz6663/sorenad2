@@ -10,7 +10,7 @@
 </div>
 <div class="nk-wizard-content">
     <div class="row gy-3">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label class="form-label" for="title">عنوان</label>
                 <div class="form-control-wrap">
@@ -20,7 +20,22 @@
         </div>
         <br>
         @include('advertiser.group_temp')
-        <di class="col-lg-12">
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label for="site_category">شبکه اجتماعی</label>
+                <div class="form-control-wrap">
+                    <select name="socials[]" id="social" required multiple class="form-control  select2">
+                        <option value="">همه </option>
+                        <option {{ in_array("telegram",request("socials",[]))?"selected":"" }} value="telegram"> تلگرام </option>
+                        <option {{  in_array("ita",request("socials",[]))?"selected":"" }} value="ita"> ایتا </option>
+                        <option {{  in_array("rubika",request("socials",[]))?"selected":"" }} value="rubika"> روبیکا </option>
+                        <option {{  in_array("instagram",request("socials",[]))?"selected":"" }} value="instagram"> اینستاگرام </option>
+                        <option {{ in_array("bale",request("socials",[]))?"selected":"" }} value="bale"> بله </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        {{--  <di class="col-lg-4">
             <h6 class="title mb-3 mt-4">مناسب برای کانال های </h6>
             <ul class="custom-control-group">
                 <li>
@@ -55,7 +70,7 @@
                     </div>
                 </li>
             </ul>
-        </di>
+        </di>  --}}
     </div>
 </div>
 
@@ -75,7 +90,7 @@
                 <div class="form-control-wrap focused">
                     <input type="text" name="landing_link1" required class="form-control  landing_title  form-control-outlined" value="{{ old("landing_link1" ,$advertise->landing_link1) }}" id="landing_link1">
                     <label class="form-label-outlined" for="landing_link1">
-                        لینک دانلود  1
+                        لینک   1
                     </label>
                 </div>
             </div>
@@ -84,7 +99,7 @@
                 <div class="form-control-wrap focused">
                     <input type="text" name="landing_title1" required class="form-control landing_title  form-control-outlined" value="{{ old("landing_title1" ,$advertise->landing_title1) }}" id="landing_title1">
                     <label class="form-label-outlined" for="landing_title1">
-                        متن لینک دانلود1
+                        متن لینک 1
                     </label>
                     <span class="info_txt">در حد دو کلمه (مانند : دانلود رایگان / دانلود بازار)</span>
                 </div>
@@ -95,7 +110,7 @@
                 <div class="form-control-wrap focused">
                     <input type="text" name="landing_link2" class="form-control  landing_title  form-control-outlined" value="{{ old("landing_link2" ,$advertise->landing_link2) }}" id="landing_link2">
                     <label class="form-label-outlined" for="landing_link2">
-                        لینک دانلود  2
+                        لینک   2
                     </label>
                 </div>
             </div>
@@ -103,7 +118,7 @@
                 <div class="form-control-wrap focused">
                     <input type="text" name="landing_title2" class="form-control landing_title  form-control-outlined" value="{{ old("landing_title2" ,$advertise->landing_title2) }}" id="landing_title2">
                     <label class="form-label-outlined" for="landing_title2">
-                        متن لینک دانلود2
+                        متن لینک 2
                     </label>
                     <span class="info_txt">در حد دو کلمه (مانند : دانلود رایگان / دانلود بازار)</span>
                 </div>

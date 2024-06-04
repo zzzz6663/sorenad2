@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Constraint\Count;
+use Illuminate\Support\Facades\Validator;
 
 class AdvertiserController extends Controller
 {
@@ -31,24 +32,520 @@ class AdvertiserController extends Controller
         $user = auth()->user();
 
         $faqs = Faq::query();
-        if($se=session()->get("advertiser")){
+        if ($se = session()->get("advertiser")) {
             $faqs->whereType("showman");
-
-        }else{
+        } else {
             $faqs->whereType("advertiser");
-
         }
-        $faqs=$faqs->get();
+        $faqs = $faqs->get();
         return view('advertiser.faqs', compact(["user", "faqs"]));
-
     }
 
     public function advertiser_list(Request $request)
     {
         $user = auth()->user();
-        $advertises = $user->advertises;
+        $advertises = $user->advertises()->latest()->get();
         return view('advertiser.advertiser_list', compact(["user", "advertises"]));
     }
+
+    public function advertise_pay(Request $request, Advertise $advertise)
+    {
+        $user = auth()->user();
+        if ($user->id != $advertise->user_id) {
+            alert()->warning("این آگهی مربوط به شما نیست ");
+            return back();
+        }
+        if ($advertise->status != "created") {
+            alert()->warning("این آگهی قبلا پرداخت شده ");
+            return back();
+        }
+        $type = $advertise->type;
+        $click = $user->click_price($type);
+        $view = $user->view_price($type);
+        $min_click = $user->setting_cache("chanal_advertiser_atlist_count");
+        $min_sugestion_price = $user->setting_cache("chanal_advertiser_atlist_price");
+        if($type=="chanal"){
+            $click=$advertise->price_suggestion;
+        }
+
+        return view('advertiser.advertise_pay', compact(["user", "advertise",
+         "type", "click"
+         , "view"
+         , "min_click"
+         , "min_sugestion_price"
+        ]));
+    }
+    public function new_advertise_site(Request $request, Advertise $advertise)
+    {
+
+        $user = auth()->user();
+        $route = null;
+        if ($request->isMethod("post")) {
+            $type = $request->type;
+            $step = $request->input('step');
+            $rules = [];
+            switch ($type) {
+                case "app":
+                    switch ($step) {
+                        case '1':
+                            $rules += [
+                                'title' => "required|max:256",
+                                'info' => "required|max:1500",
+                                'landing_link1' => "required|url",
+                                'landing_title1' => "required",
+                                'landing_link2' => "nullable|url",
+                                'landing_title2' => "nullable",
+                                'landing_link3' => "nullable|url",
+                                'landing_title3' => "nullable",
+                                'icon' => "nullable|mimes:jpg,png,jpeg,gif|max:200",
+                            ];
+                            break;
+                        case '2':
+                            $rules += [
+                                'cats' => "nullable",
+                            ];
+                            break;
+                        case '3':
+                            $rules += [
+                                'count_type' => "required",
+                                'limit_daily_click' => "nullable",
+                                'order_count' => "required_if:count_type,view",
+                                'limit_daily_view' => "nullable",
+                                'pay_type' => "required_if:pay,1",
+                            ];
+                            break;
+                    }
+                    break;
+                case "popup":
+                    switch ($step) {
+                        case '1':
+                            $rules += [
+                                'title' => "required",
+                                'landing_link1' => "required|url",
+                            ];
+                            break;
+                        case '2':
+                            $rules += [
+                                'device' => "required",
+                            ];
+                            break;
+                        case '3':
+                            $rules += [
+                                'order_count' => "required|integer|min:1000",
+                                'pay_type' => "required",
+                            ];
+                            break;
+                    }
+                    break;
+                case "banner":
+                    switch ($step) {
+                        case '1':
+                            $rules += [
+                                'title' => "required|max:256",
+                                'landing_link1' => "required|url",
+                                'banner1' => "required",
+                                'banner2' => "nullable",
+                            ];
+                            break;
+                        case '2':
+                            $rules += [
+                                'device' => "required",
+                                'cats' => "nullable",
+                            ];
+                            break;
+                        case '3':
+                            $rules += [
+                                'count_type' => "required",
+                                'limit_daily_click' => "nullable",
+                                'order_count' => "required_if:count_type,view",
+                                'limit_daily_view' => "nullable",
+                                'pay_type' => "required_if:pay,1",
+                            ];
+                            break;
+                    }
+                    break;
+                case "fixpost":
+                    switch ($step) {
+                        case '1':
+                            $rules += [
+                                'title' => "required|max:256",
+                                'info' => "nullable|max:1500",
+                                'landing_link1' => "required|url",
+                                'landing_title1' => "required",
+                                'call_to_action' => "required",
+                                'bg_color' => "required",
+                            ];
+                            break;
+                        case '2':
+                            $rules += [
+                                'cats' => "nullable",
+                                'device' => "required",
+                            ];
+                            break;
+                        case '3':
+                            $rules += [
+                                'count_type' => "required",
+                                'limit_daily_click' => "nullable",
+                                'order_count' => "required_if:count_type,view",
+                                'limit_daily_view' => "nullable",
+                                'pay_type' => "required_if:pay,1",
+                            ];
+                            break;
+                    }
+                    break;
+                case "video":
+                    switch ($step) {
+                        case '1':
+                            $rules += [
+                                'title' => "required|max:256",
+                                'landing_link1' => "required|url",
+                                'landing_title1' => "required|max:40",
+                                'call_to_action' => "required|max:100",
+                                'video1' => "required|mimes:mp4| max:2048",
+                            ];
+                            break;
+                        case '2':
+                            $rules += [
+                                'device' => "required",
+                                'cats' => "nullable",
+                            ];
+                            break;
+                        case '3':
+                            $rules += [
+                                'count_type' => "required",
+                                'limit_daily_click' => "nullable",
+                                'order_count' => "required_if:count_type,view",
+                                'limit_daily_view' => "nullable",
+                                'pay_type' => "required_if:pay,1",
+                            ];
+                            break;
+                    }
+                    break;
+                case "text":
+                    switch ($step) {
+                        case '1':
+                            $rules += [
+                                'title' => "required|max:256",
+                                'text' => 'required|max:100',
+                                'landing_link1' => "required|url",
+                            ];
+                            break;
+                        case '2':
+                            $rules += [
+                                'device' => "required",
+                                'cats' => "nullable",
+                            ];
+                            break;
+                        case '3':
+                            $rules += [
+                                'count_type' => "required",
+                                'limit_daily_click' => "nullable",
+                                'order_count' => "required_if:count_type,view",
+                                'limit_daily_view' => "nullable",
+                                'pay_type' => "required_if:pay,1",
+                            ];
+                            break;
+                    }
+                    break;
+
+            }
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json($validator->errors());
+            }
+            if ($request->ajax()) {
+                $data = $validator->safe()->all();
+            } else {
+                $data = $request->all();
+            }
+
+
+            $data["type"] = $type;
+            $data["status"] = "created";
+            $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
+            $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
+            $data["unit_vip_click"] = $user->setting_cache($type . "_user_vip_click");
+            $data["unit_vip_show"] = $user->setting_cache($type . "_user_vip_show");
+            $data["unit_normal_click"] = $user->setting_cache($type . "_user_normal_click");
+            $data["unit_normal_show"] = $user->setting_cache($type . "_user_normal_show");
+            $data['limit_daily'] = $request->limit_daily_view;
+            if ($request->limit_daily_click) {
+                $data['limit_daily'] = $request->limit_daily_click;
+            }
+            if (!$request->ajax()) {
+                $data['advertise_id'] =  $advertise->id;
+                $advertise = $user->advertises()->create($data);
+                if ($request->hasFile('icon')) {
+                    $icon = $request->file('icon');
+                    $name_img = 'icon_' . $advertise->id . '.' . $icon->getClientOriginalExtension();
+                    $icon->move(public_path('/media/advertises/'), $name_img);
+                    $data['icon'] = $name_img;
+                }
+                if ($request->hasFile('banner1')) {
+                    $banner1 = $request->file('banner1');
+                    $name_img = 'banner1_' . $advertise->id . '.' . $banner1->getClientOriginalExtension();
+                    $banner1->move(public_path('/media/advertises/'), $name_img);
+                    $data['banner1'] = $name_img;
+                }
+                if ($request->hasFile('banner2')) {
+                    $banner2 = $request->file('banner2');
+                    $name_img = 'banner2_' . $advertise->id . '.' . $banner2->getClientOriginalExtension();
+                    $banner2->move(public_path('/media/advertises/'), $name_img);
+                    $data['banner2'] = $name_img;
+                }
+                if ($request->hasFile('video1')) {
+                    $video1 = $request->file('video1');
+                    $name_img = 'video1_' . $advertise->id . '.' . $video1->getClientOriginalExtension();
+                    $video1->move(public_path('/media/advertises/'), $name_img);
+                    $data['video1'] = $name_img;
+                }
+                $advertise->update($data);
+                if ($request->cats) {
+                    $advertise->cats()->attach($data['cats']);
+                } else {
+                    $advertise->cats()->attach(Cat::whereActive(1)->pluck("id")->toArray());
+                }
+
+                if (!$request->ajax()) {
+                    if ($request->pay) {
+                        return redirect()->route("send.pay", [$advertise->id, "pay_type" => $request->pay_type]);
+                    } else {
+                        return redirect()->route("advertiser.list");
+                    }
+                }
+            }
+
+
+
+
+            return response()->json([
+                'status' => "ok",
+                'rules' =>  $rules,
+                'all' => $request->all()
+            ]);
+        }
+
+
+
+
+
+
+
+        return view('advertiser.new_advertise_site', compact(["user", "advertise"]));
+    }
+
+
+
+    public function new_advertise_chanal(Request $request, Advertise $advertise)
+    {
+
+        $user = auth()->user();
+        $route = null;
+        $chanal_setting1 = Setting::whereName("chanal_setting1")->first()->val;
+        $chanal_setting2 = Setting::whereName("chanal_setting2")->first()->val;
+        $chanal_setting3 = Setting::whereName("chanal_setting3")->first()->val;
+        $min_click = $user->setting_cache("chanal_advertiser_atlist_count");
+        $min_sugestion_price = $user->setting_cache("chanal_advertiser_atlist_price");
+
+        // $chanal_advertiser_atlist_count = Setting::whereName("chanal_advertiser_atlist_count")->first()->val;
+        // $chanal_advertiser_atlist_price = Setting::whereName("chanal_advertiser_atlist_price")->first()->val;
+        if ($request->isMethod("post")) {
+            $type = $request->type;
+            $step = $request->input('step');
+            $rules = [];
+            switch ($type) {
+                case "chanal":
+                    switch ($step) {
+                        case '1':
+                            $rules += [
+                                'title' => "required|max:256",
+                                'attach' => "required",
+                                'landing_link1' => "required|url",
+                                'landing_title1' => "required",
+                                'landing_link2' => "nullable|url",
+                                'landing_title2' => "nullable",
+                                'info' => "nullable",
+                            ];
+                            break;
+                        case '2':
+                            $rules += [
+                                'groups' => "nullable",
+                                'telegram' => "nullable",
+                                'ita' => "nullable",
+                                'rubika' => "nullable",
+                                'bale' => "nullable",
+                                'instagram' => "nullable",
+                                'socials' => "required",
+                            ];
+                            break;
+                        case '3':
+                            $rules += [
+                                'price_suggestion' => "required|integer|min:" . $min_sugestion_price,
+                                'order_count' => "required|integer|min:" . $min_click,
+                                'pay_type' => "required",
+                                'pay_type' => "required",
+                            ];
+                            break;
+                    }
+                    break;
+                case "hamsan":
+                    switch ($step) {
+                        case '1':
+                            $rules += [
+                                'title' => "required|max:25",
+                                'info' => "required|max:70",
+                                'bt_color' => "required|max:10",
+                                'landing_link1' => "required|url",
+                                'landing_title1' => "required",
+                            ];
+                            break;
+                        case '2':
+                            $rules += [
+                                'cats' => "nullable",
+                            ];
+                            break;
+                        case '3':
+                            $rules += [
+                                'count_type' => "required",
+                                'limit_daily_click' => "nullable",
+                                'order_count' => "required_if:count_type,view",
+                                'limit_daily_view' => "nullable",
+                                'pay_type' => "required",
+                            ];
+                            break;
+                    }
+                    break;
+
+                    switch ($step) {
+                        case '1':
+                            $rules += [
+                                'title' => "required|max:256",
+                                'text' => 'required|max:100',
+                                'landing_link1' => "required|url",
+                            ];
+                            break;
+                        case '2':
+                            $rules += [
+                                'device' => "required",
+                                'cats' => "nullable",
+                            ];
+                            break;
+                        case '3':
+                            $rules += [
+                                'count_type' => "required",
+                                'limit_daily_click' => "nullable",
+                                'order_count' => "required_if:count_type,view",
+                                'limit_daily_view' => "nullable",
+                                'pay_type' => "required_if:pay,1",
+                            ];
+                            break;
+                    }
+                    break;
+
+            }
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json($validator->errors());
+            }
+            if ($request->ajax()) {
+                $data = $validator->safe()->all();
+            } else {
+                $data = $request->all();
+            }
+
+            $data["type"] = $type;
+            $data["status"] = "created";
+            $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
+            $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
+            $data["unit_vip_click"] = $user->setting_cache($type . "_user_vip_click");
+            $data["unit_vip_show"] = $user->setting_cache($type . "_user_vip_show");
+            $data["unit_normal_click"] = $user->setting_cache($type . "_user_normal_click");
+            $data["unit_normal_show"] = $user->setting_cache($type . "_user_normal_show");
+            $data['limit_daily'] = $request->limit_daily_view;
+            if($type=="chanal"){
+                $data['unit_click'] = $request->price_suggestion;
+            }
+            if ($request->limit_daily_click) {
+                $data['limit_daily'] = $request->limit_daily_click;
+            }
+            if (!$request->ajax()) {
+                $data['advertise_id'] =  $advertise->id;
+                $advertise = $user->advertises()->create($data);
+                if ($request->hasFile('icon')) {
+                    $icon = $request->file('icon');
+                    $name_img = 'icon_' . $advertise->id . '.' . $icon->getClientOriginalExtension();
+                    $icon->move(public_path('/media/advertises/'), $name_img);
+                    $data['icon'] = $name_img;
+                }
+                if ($request->hasFile('banner1')) {
+                    $banner1 = $request->file('banner1');
+                    $name_img = 'banner1_' . $advertise->id . '.' . $banner1->getClientOriginalExtension();
+                    $banner1->move(public_path('/media/advertises/'), $name_img);
+                    $data['banner1'] = $name_img;
+                }
+                if ($request->hasFile('banner2')) {
+                    $banner2 = $request->file('banner2');
+                    $name_img = 'banner2_' . $advertise->id . '.' . $banner2->getClientOriginalExtension();
+                    $banner2->move(public_path('/media/advertises/'), $name_img);
+                    $data['banner2'] = $name_img;
+                }
+                   if ($request->hasFile('attach')) {
+                    $attach = $request->file('attach');
+                    $name_img = 'attach_' . $advertise->id . '.' . $attach->getClientOriginalExtension();
+                    $attach->move(public_path('/media/advertises/'), $name_img);
+                    $data['attach'] = $name_img;
+                }
+                $advertise->update($data);
+                if ($request->cats) {
+                    $advertise->cats()->attach($data['cats']);
+                } else {
+                    $advertise->cats()->attach(Cat::whereActive(1)->pluck("id")->toArray());
+                }
+
+                if ($request->groups) {
+                    $advertise->groups()->attach($data['groups']);
+                } else {
+                    $advertise->groups()->attach(Cat::whereActive(1)->pluck("id")->toArray());
+                }
+
+                if (!$request->ajax()) {
+                    if ($request->pay) {
+                        return redirect()->route("send.pay", [$advertise->id, "pay_type" => $request->pay_type]);
+                    } else {
+                        return redirect()->route("advertiser.list");
+                    }
+                }
+            }
+
+            return response()->json([
+                'status' => "ok",
+                'rules' =>  $rules,
+                'all' => $request->all()
+            ]);
+        }
+
+
+
+
+
+
+
+        return view('advertiser.new_advertise_chanal', compact(["user",
+        "advertise",
+        "chanal_setting1",
+        "chanal_setting2",
+        "chanal_setting3",
+        "min_click",
+        // "chanal_advertiser_atlist_count",
+        // "chanal_advertiser_atlist_price",
+        "min_sugestion_price",
+        "advertise",
+    ]));
+    }
+
+
 
     public function advertiser_new_ad_popup(Request $request, Advertise $advertise)
     {
@@ -75,8 +572,8 @@ class AdvertiserController extends Controller
                     'pay_type' => "required",
                 ]);
                 $data["type"] = "popup";
-                $data["status"] = "created";
                 $data["count_type"] = "view";
+                $data["status"] = "created";
                 $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
                 $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
                 $data["unit_vip_click"] = $user->setting_cache($type . "_user_vip_click");
@@ -95,7 +592,7 @@ class AdvertiserController extends Controller
             return redirect()->route("send.pay", ['type' => "popup", "data" => $data]);
         }
 
-        return view('advertiser.advertiser_new_ad_popup', compact(["user", "price", "type","advertise"]));
+        return view('advertiser.advertiser_new_ad_popup', compact(["user", "price", "type", "advertise"]));
     }
     public function add_tiny_image(Request $request)
     {
@@ -132,8 +629,8 @@ class AdvertiserController extends Controller
                 $data['icon'] =  $advertise->icon;
                 $data['count_type'] =  $advertise->count_type;
                 $data['banner1'] =  $advertise->banner1;
-                 $data['order_count'] =  $advertise->order_count;
-                 $data['order_count'] =  $advertise->order_count;
+                $data['order_count'] =  $advertise->order_count;
+                $data['order_count'] =  $advertise->order_count;
                 $data['limit_daily_click'] =  $advertise->limit_daily_click;
                 $data['pay_type'] =  $request->pay_type;
                 $data["type"] = "app";
@@ -148,19 +645,12 @@ class AdvertiserController extends Controller
                     'landing_title2' => "nullable",
                     'landing_link3' => "nullable|url",
                     'landing_title3' => "nullable",
-                    // 'icon' => "required",
-                    // 'banner1' => "required",
                     'count_type' => "required",
-
-
                     'limit_daily_click' => "nullable",
                     'order_count' => "required_if:count_type,view",
                     'limit_daily_view' => "nullable",
                     'pay_type' => "required",
-                    // 'icon' => "required|mimes:jpg,png,jpeg,gif|max:200|dimensions:width=32,height=32",
-                    // 'banner1' => "required|mimes:jpg,png,jpeg,gif|max:200|dimensions:width=554,height=276",
                     'icon' => "nullable|mimes:jpg,png,jpeg,gif|max:200",
-                    // 'banner1' => "nullable|mimes:jpg,png,jpeg,gif|max:200",
                     'cats' => "nullable",
                 ]);
                 $data["type"] = "app";
@@ -202,8 +692,9 @@ class AdvertiserController extends Controller
 
             return redirect()->route("send.pay", ['type' => "app", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_app', compact(["user", "click", "view", "type","advertise"]));
-    }    public function advertiser_new_ad_hamsan(Request $request, Advertise $advertise)
+        return view('advertiser.advertiser_new_ad_app', compact(["user", "click", "view", "type", "advertise"]));
+    }
+    public function advertiser_new_ad_hamsan(Request $request, Advertise $advertise)
     {
         $user = auth()->user();
         $click = $user->click_price('hamsan');
@@ -225,8 +716,8 @@ class AdvertiserController extends Controller
                 $data['icon'] =  $advertise->icon;
                 $data['count_type'] =  $advertise->count_type;
                 $data['banner1'] =  $advertise->banner1;
-                 $data['order_count'] =  $advertise->order_count;
-                 $data['order_count'] =  $advertise->order_count;
+                $data['order_count'] =  $advertise->order_count;
+                $data['order_count'] =  $advertise->order_count;
                 $data['limit_daily_click'] =  $advertise->limit_daily_click;
                 $data['pay_type'] =  $request->pay_type;
                 $data["type"] = "hamsan";
@@ -278,7 +769,7 @@ class AdvertiserController extends Controller
 
             return redirect()->route("send.pay", ['type' => "hamsan", "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_hamsan', compact(["user", "click", "view", "type","advertise"]));
+        return view('advertiser.advertiser_new_ad_hamsan', compact(["user", "click", "view", "type", "advertise"]));
     }
     public function advertiser_new_ad_banner(Request $request, Advertise $advertise)
     {
@@ -363,7 +854,7 @@ class AdvertiserController extends Controller
 
             return redirect()->route("send.pay", ['type' =>    $type, "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_banner', compact(["user", "click", "view", "type","advertise"]));
+        return view('advertiser.advertiser_new_ad_banner', compact(["user", "click", "view", "type", "advertise"]));
     }
     public function advertiser_new_ad_fixpost(Request $request, Advertise $advertise)
     {
@@ -444,7 +935,7 @@ class AdvertiserController extends Controller
             $data['advertise_id'] =  $advertise->id;
             return redirect()->route("send.pay", ['type' =>    $type, "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_fixpost', compact(["user", "click", "view", "type","advertise"]));
+        return view('advertiser.advertiser_new_ad_fixpost', compact(["user", "click", "view", "type", "advertise"]));
     }
     public function advertiser_new_ad_text(Request $request, Advertise $advertise)
     {
@@ -462,7 +953,7 @@ class AdvertiserController extends Controller
                 $data['text'] =  $advertise->text;
                 $data['landing_link1'] =  $advertise->landing_link1;
                 $data['order_count'] =  $advertise->order_count;
-                 $data['order_count'] =  $advertise->order_count;
+                $data['order_count'] =  $advertise->order_count;
                 $data['limit_daily'] =  $advertise->limit_daily;
                 $data['device'] =  $advertise->device;
                 $data['pay_type'] =  $request->pay_type;
@@ -471,12 +962,9 @@ class AdvertiserController extends Controller
                 // dd($request->all());
                 $data = $request->validate([
                     'title' => "required|max:256",
-                    // 'text' => "required|max:256",
                     'text' => 'required|max:100',
-                    // 'info' => "required|max:1500",
                     'landing_link1' => "required|url",
                     'count_type' => "required",
-
                     'limit_daily_click' => "nullable",
                     'order_count' => "required_if:count_type,view",
                     'limit_daily_view' => "nullable",
@@ -520,7 +1008,7 @@ class AdvertiserController extends Controller
             $data['advertise_id'] =  $advertise->id;
             return redirect()->route("send.pay", ['type' =>     $type, "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_text', compact(["user", "click", "view", "type","advertise"]));
+        return view('advertiser.advertiser_new_ad_text', compact(["user", "click", "view", "type", "advertise"]));
     }
     public function advertiser_new_ad_video(Request $request, Advertise $advertise)
     {
@@ -537,7 +1025,7 @@ class AdvertiserController extends Controller
                 $data['title'] =  $advertise->title;
                 $data['landing_link1'] =  $advertise->landing_link1;
                 $data['order_count'] =  $advertise->order_count;
-                 $data['order_count'] =  $advertise->order_count;
+                $data['order_count'] =  $advertise->order_count;
                 $data['limit_daily'] =  $advertise->limit_daily;
                 $data['count_type'] =  $advertise->count_type;
                 $data['landing_title1'] =  $advertise->landing_title1;
@@ -553,7 +1041,6 @@ class AdvertiserController extends Controller
                     'landing_title1' => "required|max:40",
                     'call_to_action' => "required|max:100",
                     'count_type' => "required",
-
                     'limit_daily_click' => "nullable",
                     'order_count' => "required_if:count_type,view",
                     'limit_daily_view' => "nullable",
@@ -593,7 +1080,7 @@ class AdvertiserController extends Controller
             $data['advertise_id'] =  $advertise->id;
             return redirect()->route("send.pay", ['type' =>     $type, "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_video', compact(["user", "click", "view", "type","advertise"]));
+        return view('advertiser.advertiser_new_ad_video', compact(["user", "click", "view", "type", "advertise"]));
     }
 
 
@@ -601,13 +1088,13 @@ class AdvertiserController extends Controller
     {
         $user = auth()->user();
 
-        $chanal_advertiser_atlist_count=Setting::whereName("chanal_advertiser_atlist_count")->first()->val;
-        $chanal_advertiser_atlist_price=Setting::whereName("chanal_advertiser_atlist_price")->first()->val;
-        $min_sugestion_price=$user->setting_cache("chanal_advertiser_atlist_price");
-        $min_click=$user->setting_cache("chanal_advertiser_atlist_count");
-        $chanal_setting1=Setting::whereName("chanal_setting1")->first()->val;
-        $chanal_setting2=Setting::whereName("chanal_setting2")->first()->val;
-        $chanal_setting3=Setting::whereName("chanal_setting3")->first()->val;
+        $chanal_advertiser_atlist_count = Setting::whereName("chanal_advertiser_atlist_count")->first()->val;
+        $chanal_advertiser_atlist_price = Setting::whereName("chanal_advertiser_atlist_price")->first()->val;
+        $min_sugestion_price = $user->setting_cache("chanal_advertiser_atlist_price");
+        $min_click = $user->setting_cache("chanal_advertiser_atlist_count");
+        $chanal_setting1 = Setting::whereName("chanal_setting1")->first()->val;
+        $chanal_setting2 = Setting::whereName("chanal_setting2")->first()->val;
+        $chanal_setting3 = Setting::whereName("chanal_setting3")->first()->val;
 
 
         $type = "chanal";
@@ -638,13 +1125,14 @@ class AdvertiserController extends Controller
                     'bale' => "nullable",
                     'instagram' => "nullable",
                     'info' => "required",
+                    'socials' => "required",
                     'landing_link1' => "required|url",
                     'landing_title1' => "required",
                     'landing_link2' => "nullable|url",
                     'landing_title2' => "nullable",
 
-                    'price_suggestion' => "required|integer|min:".$min_sugestion_price,
-                    'order_count' => "required|integer|min:".$min_click,
+                    'price_suggestion' => "required|integer|min:" . $min_sugestion_price,
+                    'order_count' => "required|integer|min:" . $min_click,
                     'pay_type' => "required",
                     'pay_type' => "required",
                     'groups' => "nullable",
@@ -652,6 +1140,11 @@ class AdvertiserController extends Controller
                 $data["type"] = "chanal";
                 $data["status"] = "created";
                 $data["count_type"] = "click";
+                $data['telegram'] =   in_array("telegram", $data['socials']) ? "on" : null;
+                $data['ita'] =   in_array("ita", $data['socials']) ? "on" : null;
+                $data['rubika'] =   in_array("rubika", $data['socials']) ? "on" : null;
+                $data['bale'] =   in_array("bale", $data['socials']) ? "on" : null;
+                $data['instagram'] =   in_array("instagram", $data['socials']) ? "on" : null;
                 $data["unit_click"] = $data['price_suggestion'];
                 // $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
                 // $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
@@ -678,7 +1171,7 @@ class AdvertiserController extends Controller
             $data['advertise_id'] =  $advertise->id;
             return redirect()->route("send.pay", ['type' =>     $type, "data" => $data]);
         }
-        return view('advertiser.advertiser_new_ad_chanal', compact(['chanal_setting1','chanal_setting2',"min_click","min_sugestion_price","user", "chanal_advertiser_atlist_count", "chanal_advertiser_atlist_price", "type","advertise"]));
+        return view('advertiser.advertiser_new_ad_chanal', compact(['chanal_setting1', 'chanal_setting2', "min_click", "min_sugestion_price", "user", "chanal_advertiser_atlist_count", "chanal_advertiser_atlist_price", "type", "advertise"]));
     }
 
 
@@ -705,7 +1198,7 @@ class AdvertiserController extends Controller
             ]);
 
             toast()->success("درخواست شما با موفقیت ثبت شد  ");
-            $user->send_pattern( $user->mobile, "k4qdf4se66hu8ch", ['name' => $user->name()]);
+            $user->send_pattern($user->mobile, "k4qdf4se66hu8ch", ['name' => $user->name()]);
 
             return redirect()->route("advertiser.withdrawal.request");
         }
@@ -797,7 +1290,7 @@ class AdvertiserController extends Controller
     public function chanal_script(Request $request)
     {
         $user = auth()->user();
-        $chanal_setting3=Setting::whereName("chanal_setting3")->first();
+        $chanal_setting3 = Setting::whereName("chanal_setting3")->first();
         if ($request->isMethod("post")) {
             $data = $request->validate([
                 'back_popup' => "nullable",
@@ -809,44 +1302,42 @@ class AdvertiserController extends Controller
             toast()->success("اطلاعات باموفقیت ذخیره شد ");
             return redirect()->route("advertiser.site.script");
         }
-        $advertises =Advertise::query();
-        $advertises ->whereType("chanal")->whereStatus("ready_to_show");
-        if($request->time){
+        $advertises = Advertise::query();
+        $advertises->whereType("chanal")->whereStatus("ready_to_show");
+        if ($request->time) {
             $advertises->orderBy('id', $request->time);
         }
 
-        if($request->benefit){
+        if ($request->benefit) {
             $advertises->orderBy('unit_click', $request->benefit);
         }
-        if($request->group_id){
-            $advertises->whereHas('groups',function($qu) use($request){
+        if ($request->group_id) {
+            $advertises->whereHas('groups', function ($qu) use ($request) {
                 $qu->where('group_id', $request->group_id);
-
             });
         }
-        if($request->socials){
-            $socials=$request->socials;
-            if( in_array("instagram",request("socials",[]))){
+        if ($request->socials) {
+            $socials = $request->socials;
+            if (in_array("instagram", request("socials", []))) {
                 $advertises->whereRaw('instagram = "" ');
-
             }
-            if( in_array("ita",request("socials",[]))){
+            if (in_array("ita", request("socials", []))) {
                 $advertises->whereRaw('ita = "" ');
             }
-            if( in_array("rubika",request("socials",[]))){
+            if (in_array("rubika", request("socials", []))) {
 
                 $advertises->whereRaw('rubika = "" ');
             }
-            if( in_array("bale",request("socials",[]))){
+            if (in_array("bale", request("socials", []))) {
                 $advertises->whereRaw('bale = "" ');
             }
-            if( in_array("telegram",request("socials",[]))){
+            if (in_array("telegram", request("socials", []))) {
                 $advertises->whereRaw('telegram = "" ');
             }
         }
         // dd($request->all());
-        $advertises=$advertises ->get();
-        return view('advertiser.chanal_script', compact(["user","chanal_setting3","advertises"]));
+        $advertises = $advertises->get();
+        return view('advertiser.chanal_script', compact(["user", "chanal_setting3", "advertises"]));
     }
     public function sites(Request $request)
     {
@@ -1043,7 +1534,7 @@ class AdvertiserController extends Controller
         ];
         $income = [];
         for ($i = 12; $i >= 1; $i--) {
-              $log=  clone   $action_log;
+            $log =  clone   $action_log;
 
             $year = jdate(date('Y-m-d'))->getYear();
             $month = $i;

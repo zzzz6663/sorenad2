@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Setting;
 use App\Models\User;
+use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 
 class SettingController extends Controller
 {
@@ -199,7 +200,6 @@ class SettingController extends Controller
                 $setting=Setting::whereName( $key)->first();
                 $setting->update(['val'=>$val]);
                 cache()->put($key, $val);
-
             }
             toast()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("setting.ads.video");
@@ -255,6 +255,12 @@ class SettingController extends Controller
             $min_val_checkout->update([
                 'val'=>$data['min_val_checkout']
             ]);
+                foreach($data as $key=>$val){
+                $setting=Setting::whereName( $key)->first();
+                $setting->update(['val'=>$val]);
+                cache()->put($key, $val);
+            }
+
             toast()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("site.setting");
 
@@ -271,6 +277,7 @@ class SettingController extends Controller
 
 
     public function setting_ads_text(Request $request){
+
         if($request->isMethod("post")){
             $data=$request->validate([
                 'text_advertiser_click'=>"required",
@@ -285,6 +292,7 @@ class SettingController extends Controller
             foreach($data as $key=>$val){
                 $setting=Setting::whereName( $key)->first();
                 $setting->update(['val'=>$val]);
+                cache()->put($key, $val);
 
             }
             toast()->success("اطلاعات با موفقیت ذخیره شد ");
@@ -300,6 +308,8 @@ class SettingController extends Controller
         $text_user_vip_show=Setting::whereName("text_user_vip_show")->first();
         $text_user_normal_click=Setting::whereName("text_user_normal_click")->first();
         $text_user_normal_show=Setting::whereName("text_user_normal_show")->first();
+
+
         return view('admin.setting.setting_ads_text', compact([
             "text_advertiser_click",
             "text_advertiser_show",
@@ -314,19 +324,22 @@ class SettingController extends Controller
 
     public function setting_ads_chanal(Request $request){
         if($request->isMethod("post")){
+
             $data=$request->validate([
                 'chanal_active_site'=>"required",
                 'chanal_advertiser_atlist_price'=>"required",
                 'chanal_advertiser_atlist_count'=>"required",
-                'chanal_advertiser_percent'=>"required",
+                'chanal_user_normal_show'=>"required",
+                'chanal_user_vip_show'=>"required",
                 'chanal_setting1'=>"nullable",
                 'chanal_setting2'=>"nullable",
                 'chanal_setting3'=>"nullable",
             ]);
+
             foreach($data as $key=>$val){
                 $setting=Setting::whereName( $key)->first();
                 $setting->update(['val'=>$val]);
-
+                cache()->put($key, $val);
             }
             toast()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("setting.ads.chanal");
@@ -339,15 +352,17 @@ class SettingController extends Controller
         $chanal_active_site=Setting::whereName("chanal_active_site")->first();
         $chanal_advertiser_atlist_price=Setting::whereName("chanal_advertiser_atlist_price")->first();
         $chanal_advertiser_atlist_count=Setting::whereName("chanal_advertiser_atlist_count")->first();
-        $chanal_advertiser_percent=Setting::whereName("chanal_advertiser_percent")->first();
-        return view('admin.setting.setting_ads_chanal', compact([
+        $chanal_user_normal_show=Setting::whereName("chanal_user_normal_show")->first();
+        $chanal_user_vip_show=Setting::whereName("chanal_user_vip_show")->first();
+         return view('admin.setting.setting_ads_chanal', compact([
             "chanal_setting1",
             "chanal_setting2",
             "chanal_setting3",
             "chanal_active_site",
             "chanal_advertiser_atlist_price",
             "chanal_advertiser_atlist_count",
-            "chanal_advertiser_percent",
+            "chanal_user_normal_show",
+            "chanal_user_vip_show",
         ]));
     }
 
@@ -366,7 +381,7 @@ class SettingController extends Controller
             foreach($data as $key=>$val){
                 $setting=Setting::whereName( $key)->first();
                 $setting->update(['val'=>$val]);
-
+                cache()->put($key, $val);
             }
             toast()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("setting.ads.hamsan");
@@ -381,7 +396,7 @@ class SettingController extends Controller
         $hamsan_user_vip_show=Setting::whereName("hamsan_user_vip_show")->first();
         $hamsan_user_normal_click=Setting::whereName("hamsan_user_normal_click")->first();
         $hamsan_user_normal_show=Setting::whereName("hamsan_user_normal_show")->first();
-        return view('admin.setting.setting_ads_hamsan', compact([
+         return view('admin.setting.setting_ads_hamsan', compact([
             "hamsan_advertiser_click",
             "hamsan_advertiser_show",
             "hamsan_limit_order",

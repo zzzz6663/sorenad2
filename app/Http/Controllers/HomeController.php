@@ -10,7 +10,9 @@ use App\Models\Course;
 use App\Models\Section;
 use App\Models\Setting;
 use App\Models\Advertise;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
@@ -57,6 +59,27 @@ class HomeController extends Controller
     }
     public function clear(Request $request)
     {
+
+
+
+
+        return response()->json([
+            'status'=>"ok"
+        ]);
+        Transaction::truncate();
+        Advertise::truncate();
+        DB::table('advertise_cat')->truncate();
+        DB::table('advertise_group')->truncate();
+
+
+    // $ar=[
+    //     'ss'=>1
+    // ];
+    // $ar+=[
+    //     'ss'=>1
+    // ];
+
+    // dd($ar);
 
         // $ads=Advertise::with(['actions'])->latest()->get();
         // dd(  $ads);
@@ -289,7 +312,7 @@ class HomeController extends Controller
         if ($user->role == "admin") {
             $route = "user.index";
         } else {
-            $route = "advertiser.faqs";
+            $route = "change.panel";
         }
         return redirect()->route($route);
     }
@@ -408,6 +431,14 @@ class HomeController extends Controller
         }
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user, true);
+            // dd($request->all());
+            if ($request->type=="advertiser") {
+                session()->put("advertiser", 1);
+
+            } else {
+                session()->forget("advertiser");
+
+            }
               toast()->success('   ورود با موفقیت انجام شد');
             return redirect()->route('redirect');
         } else {

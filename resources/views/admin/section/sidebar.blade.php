@@ -264,19 +264,19 @@
                                                     </a></li>
 
 
-                                                    <li class="nk-menu-item {{ Route::currentRouteName()=="setting.ads.chanal"?"active":"" }}">
-                                                        <a class="nk-menu-link" href="{{ route("setting.ads.chanal") }}">
-                                                            <span class="nk-menu-chanal">
-                                                                تبلیغات کانال
-                                                            </span>
-                                                        </a></li>
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="setting.ads.chanal"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("setting.ads.chanal") }}">
+                                                        <span class="nk-menu-chanal">
+                                                            تبلیغات کانال
+                                                        </span>
+                                                    </a></li>
 
-                                                    <li class="nk-menu-item {{ Route::currentRouteName()=="setting.ads.hamsan"?"active":"" }}">
-                                                        <a class="nk-menu-link" href="{{ route("setting.ads.hamsan") }}">
-                                                            <span class="nk-menu-hamsan">
-                                                                تبلیغات همسان
-                                                            </span>
-                                                        </a></li>
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="setting.ads.hamsan"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("setting.ads.hamsan") }}">
+                                                        <span class="nk-menu-hamsan">
+                                                            تبلیغات همسان
+                                                        </span>
+                                                    </a></li>
 
 
 
@@ -425,18 +425,34 @@
                                         </li>
 
                                         @if(session()->get("advertiser"))
-                                        <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.sites"?"active":"" }}">
-                                            <a href="{{ route("advertiser.sites") }}" class="nk-menu-link  ">
-                                                <span class="nk-menu-icon"><i class="fas fa-globe"></i></span>
-                                                <span class="nk-menu-text">دامنه های من </span>
+
+                                        <li class="nk-menu-item has-sub {{in_array(Route::currentRouteName(),[
+                                            'advertiser.sites',
+                                            'advertiser.chanals',
+                                            ])?"active":""}} ">
+                                            <a href="#" class="nk-menu-link nk-menu-toggle no_link ">
+                                                <span class="nk-menu-icon">
+
+                                                    <i class="fas fa-cog"></i>
+                                                </span>
+                                                <span class="nk-menu-text">ثبت رسانه</span>
                                             </a>
+                                            <ul class="nk-menu-sub">
+                                                <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.sites"?"active":"" }}">
+                                                    <a href="{{ route("advertiser.sites") }}" class="nk-menu-link  ">
+                                                        <span class="nk-menu-icon"><i class="fas fa-globe"></i></span>
+                                                        <span class="nk-menu-text">دامنه های من </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.chanals"?"active":"" }}">
+                                                    <a href="{{ route("advertiser.chanals") }}" class="nk-menu-link  ">
+                                                        <span class="nk-menu-icon"><i class="fas fa-chart-line"></i></span>
+                                                        <span class="nk-menu-text"> کانال های من </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </li>
-                                        <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.chanals"?"active":"" }}">
-                                            <a href="{{ route("advertiser.chanals") }}" class="nk-menu-link  ">
-                                                <span class="nk-menu-icon"><i class="fas fa-chart-line"></i></span>
-                                                <span class="nk-menu-text"> کانال های من  </span>
-                                            </a>
-                                        </li>
+
                                         <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.log"?"active":"" }}">
                                             <a href="{{ route("advertiser.log") }}" class="nk-menu-link  ">
                                                 <span class="nk-menu-icon"><i class="fas fa-chart-line"></i></span>
@@ -449,25 +465,45 @@
                                                 <span class="nk-menu-text">تسویه </span>
                                             </a>
                                         </li>
-                                        <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.site.script"?"active":"" }}">
-                                            <a href="{{ route("advertiser.site.script") }}" class="nk-menu-link  ">
+
+                                        <li class="nk-menu-item has-sub {{in_array(Route::currentRouteName(),[
+                                            'advertiser.chanal.script',
+                                            'advertiser.site.script',
+                                            ])?"active":""}} ">
+                                            <a href="#" class="nk-menu-link nk-menu-toggle no_link ">
                                                 <span class="nk-menu-icon">
-                                                    <i class="fas fa-code"></i>
+
+                                                    <i class="fas fa-cog"></i>
                                                 </span>
-                                                <span class="nk-menu-text">دریافت کد تبلیغ </span>
+                                                <span class="nk-menu-text">دریافت تبلیغ</span>
                                             </a>
+                                            <ul class="nk-menu-sub">
+                                                <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.site.script"?"active":"" }}">
+                                                    <a href="{{ route("advertiser.site.script") }}" class="nk-menu-link  ">
+                                                        <span class="nk-menu-icon">
+                                                            <i class="fas fa-code"></i>
+                                                        </span>
+                                                        <span class="nk-menu-text">
+                                                            دریافت کد تبلیغ
+                                                            سایت
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.chanal.script"?"active":"" }}">
+                                                    <a href="{{ route("advertiser.chanal.script") }}" class="nk-menu-link  ">
+                                                        <span class="nk-menu-icon">
+                                                            <i class="fas fa-code"></i>
+                                                        </span>
+                                                        <span class="nk-menu-text">دریافت تبلیغ
+                                                            برای کانال
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </li>
 
-                                        <li class="nk-menu-item   {{ Route::currentRouteName()=="advertiser.chanal.script"?"active":"" }}">
-                                            <a href="{{ route("advertiser.chanal.script") }}" class="nk-menu-link  ">
-                                                <span class="nk-menu-icon">
-                                                    <i class="fas fa-code"></i>
-                                                </span>
-                                                <span class="nk-menu-text">دریافت  تبلیغ
-برای کانال
-                                                </span>
-                                            </a>
-                                        </li>
+
                                         @else
 
 
@@ -488,31 +524,39 @@
                                                 <span class="nk-menu-text">لیست تبلیغات</span>
                                             </a>
                                             <ul class="nk-menu-sub">
-                                                {{-- --}}
-
                                                 <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.list"?"active":"" }}">
                                                     <a class="nk-menu-link" href="{{ route("advertiser.list") }}">
                                                         <span class="nk-menu-text">
                                                             لیست تبلیغات
                                                         </span>
-
+                                                    </a>
+                                                </li>
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.adertise.site"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.adertise.site") }}">
+                                                        <span class="nk-menu-text">
+                                                            تبلیغات در سایت
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.adertise.chanal"?"active":"" }}">
+                                                    <a class="nk-menu-link" href="{{ route("advertiser.new.adertise.chanal") }}">
+                                                        <span class="nk-menu-text">
+                                                            تبلیغات در کانال
+                                                        </span>
                                                     </a>
                                                 </li>
 
+{{--
                                                 @if( $app_active_site=App\Models\Setting::whereName("popup_active_site")->first()->val)
-
                                                 <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.popup"?"active":"" }}">
                                                     <a class="nk-menu-link" href="{{ route("advertiser.new.ad.popup") }}">
                                                         <span class="nk-menu-text">
                                                             تبلیغات پاپ آپ
                                                         </span>
-
                                                     </a>
                                                 </li>
                                                 @endif
-
                                                 @if( $app_active_site=App\Models\Setting::whereName("app_active_site")->first()->val)
-
                                                 <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.app"?"active":"" }}">
                                                     <a class="nk-menu-link" href="{{ route("advertiser.new.ad.app") }}">
                                                         <span class="nk-menu-text">
@@ -574,11 +618,11 @@
                                                 <li class="nk-menu-item {{ Route::currentRouteName()=="advertiser.new.ad.hamsan"?"active":"" }}">
                                                     <a class="nk-menu-link" href="{{ route("advertiser.new.ad.hamsan") }}">
                                                         <span class="nk-menu-text">
-                                                            تبلیغات   همسان
+                                                            تبلیغات همسان
                                                         </span>
                                                     </a>
                                                 </li>
-                                                @endif
+                                                @endif  --}}
 
 
                                             </ul>

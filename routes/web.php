@@ -93,6 +93,19 @@ Route::prefix('advertiser')->middleware(['auth',"check_active"])->namespace('adv
     Route::any('/chanal_script', 'AdvertiserController@chanal_script')->name('advertiser.chanal.script');
     Route::any('/update_site/{site}', 'AdvertiserController@update_site')->name('advertiser.update.site');
     Route::any('/withdrawal_request', 'AdvertiserController@withdrawal_request')->name('advertiser.withdrawal.request');
+
+
+
+
+
+    Route::any('/new_advertise_site/{advertise?}', 'AdvertiserController@new_advertise_site')->name('advertiser.new.adertise.site');
+    Route::any('/new_advertise_chanal/{advertise?}', 'AdvertiserController@new_advertise_chanal')->name('advertiser.new.adertise.chanal');
+    Route::any('/advertise_pay/{advertise}', 'AdvertiserController@advertise_pay')->name('advertiser.advertise.pay');
+
+
+
+
+
     Route::any('/advertiser_new_ad_popup/{advertise?}', 'AdvertiserController@advertiser_new_ad_popup')->name('advertiser.new.ad.popup');
     Route::any('/advertiser_new_ad_app/{advertise?}', 'AdvertiserController@advertiser_new_ad_app')->name('advertiser.new.ad.app');
     Route::any('/advertiser_new_ad_banner/{advertise?}', 'AdvertiserController@advertiser_new_ad_banner')->name('advertiser.new.ad.banner');
@@ -101,6 +114,9 @@ Route::prefix('advertiser')->middleware(['auth',"check_active"])->namespace('adv
     Route::any('/advertiser_new_ad_video/{advertise?}', 'AdvertiserController@advertiser_new_ad_video')->name('advertiser.new.ad.video');
     Route::any('/advertiser_new_ad_chanal/{advertise?}', 'AdvertiserController@advertiser_new_ad_chanal')->name('advertiser.new.ad.chanal');
     Route::any('/advertiser_new_ad_hamsan/{advertise?}', 'AdvertiserController@advertiser_new_ad_hamsan')->name('advertiser.new.ad.hamsan');
+
+
+
     Route::get('/advertiser_list', 'AdvertiserController@advertiser_list')->name('advertiser.list');
     Route::get('/advertiser_log', 'AdvertiserController@advertiser_log')->name('advertiser.log');
     Route::post('/advertise_reject/{advertise}', 'AdvertiserController@advertise_reject')->name('advertise.reject');
@@ -122,7 +138,7 @@ Route::prefix('advertiser')->middleware(['auth',"check_active"])->namespace('adv
 // پرداخت ها
 Route::get('/result_pay/{transaction}', 'PayController@result_pay')->name('result.pay');
 Route::get('/bill_verify', 'PayController@bill_verify')->name('pay.verify');
-Route::any('/send_pay', 'PayController@send_pay')->name('send.pay');
+Route::any('/send_pay/{advertise?}', 'PayController@send_pay')->name('send.pay');
 
 // Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function () {
 //     Route::get('/active_region/{region}', 'RegionController@active_region')->name('active.region')->withTrashed();;

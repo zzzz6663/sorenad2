@@ -25,7 +25,7 @@ class GroupController extends Controller
         // }
 
         $groups = $groups
-        ->latest()->paginate(10);
+        ->latest()->paginate(50);
         return view('admin.group.all', compact(['groups']));
     }
 

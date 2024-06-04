@@ -17,9 +17,14 @@
                         <img class="" src="{{ $advertise->banner1() }}">
                     </div>
                 </div>
+               <div>
                 <h3 class="sorenad_title" id="sorenad_title">
                     {{ $advertise->title }}
                 </h3>
+                <p class="sorenad_info" id="sorenad_info">
+                        {{ $advertise->info }}
+                </p>
+               </div>
                 <div class=" sorenad_btn_par" id="sorenad_btn_par">
                     <a target="blank" class="btn_full " style="background: {{ $advertise->bt_color }}" href="{{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["site_id"=>$site->id,"ip"=>$ip,'advertis_id' =>  $advertise->id,"link_number"=>1]) }}">
                         {{ $advertise->landing_title1 }}

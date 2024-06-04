@@ -25,7 +25,7 @@ class CatController extends Controller
         // }
 
         $cats = $cats
-        ->latest()->paginate(10);
+        ->latest()->paginate(50);
         return view('admin.cat.all', compact(['cats']));
     }
 

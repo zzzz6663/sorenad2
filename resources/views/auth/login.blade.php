@@ -44,6 +44,26 @@ $sidebar=true;
                             <input type="password" class="form-control form-control-lg"  name="password" id="password" placeholder="رمز عبور خود را وارد کنید">
                         </div>
                     </div>
+                    <ul class="custom-control-group mb-2">
+                        <li>
+                            <div class="custom-control custom-checkbox custom-control-pro no-control">
+                                <input type="radio" class="custom-control-input" value="advertiser" name="type" id="btnIconCheckNc1" checked>
+                                <label class="custom-control-label" for="btnIconCheckNc1">
+
+
+                                    <span>نمایش دهنده</span></label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="custom-control custom-checkbox custom-control-pro no-control checked">
+                                <input type="radio" class="custom-control-input" value="shower" name="type" id="btnIconCheckNc2">
+                                <label class="custom-control-label" for="btnIconCheckNc2">
+
+
+                                    <span>تبلیغ دهنده</span></label>
+                            </div>
+                        </li>
+                    </ul>
                     <div class="form-group">
                         <button class="btn btn-lg btn-primary btn-block">ورود</button>
                     </div>

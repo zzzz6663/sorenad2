@@ -7,8 +7,8 @@
             <div class="nk-menu-trigger d-xl-none ms-n1">
                 <a href="#" class="nk-nav-toggle nk-quick-nav-icon no_link" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
             </div>
-            <div class="nk-header-brand d-xl-none">
-                <a href="html/index.html" class="logo-link no_link">
+            <div class="nk-header-brand d-xsm-none">
+                <a href="{{ route("login") }}" class="logo-link no_link">
                     {{--  <img class="logo-light logo-img" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="لوگو">
                     <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="لوگوی تاریک">  --}}
                     <img class=" logo-small logo-img logo_side"  src="/site/images/plogo.png">
@@ -58,7 +58,7 @@
                         </div>
                     </li>  --}}
                     <!-- .dropdown -->
-                    <li class="dropdown chats-dropdown hide-mb-xs">
+                    <li class="dropdown chats-dropdown hide-mb-xs d-xsm-none">
                         <a href="{{ route("customer.money.charge") }}" class="no_link dropdown-toggle nk-quick-nav-icon" >
                             <div class="icon-status icon-status-na">
                                 <i class="far fa-usd-square"></i>
@@ -68,6 +68,12 @@
                         {{ number_format(auth()->user()->balance()) }}
                         تومان
 
+
+                        </a>
+                    </li>
+                    <li class="dropdown  d-mobile">
+                        <a href="{{ route("customer.money.charge") }}" class="no_link dropdown-toggle nk-quick-nav-icon" >
+                            <i class="fas fa-wallet"></i>
 
                         </a>
                     </li>

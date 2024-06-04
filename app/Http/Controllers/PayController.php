@@ -15,22 +15,55 @@ use Shetabit\Multipay\Exceptions\InvalidPaymentException;
 
 class PayController extends Controller
 {
-    public function  send_pay(Request  $request)
+    public function  send_pay(Request  $request,Advertise $advertise)
     {
         $user = auth()->user();
-        $via = 'zarinpal';
+        $via = 'sep';
         $type = $request->type;
         $amount = $request->amount;
         $pay_type = $request->pay_type;
+        // dd( $pay_type);
         $data = $request->data;
         $advertise_id = null;
+        if( $advertise->id){
+            if($request->agin){
+                $info= $request->validate([
+                    'count_type' => "required",
+                    'limit_daily_click' => "nullable",
+                    'order_count' => "required",
+                    'limit_daily_view' => "nullable",
+                    'pay_type' => "required",
+                ]);
+            }
+            $type = $advertise->type;
+            $info['limit_daily'] = $request->limit_daily_view;
+            if ($request->limit_daily_click) {
+                $info['limit_daily'] = $request->limit_daily_click;
+            }
+            $advertise->update( $info);
+            $data['limit_daily'] = $request->limit_daily_view;
+            if ($request->limit_daily_click) {
+                $data['limit_daily'] = $request->limit_daily_click;
+            }
+            $data["unit_show"] = $user->setting_cache($type . "_advertiser_show");
+            $data["unit_click"] = $user->setting_cache($type . "_advertiser_click");
+            $data["unit_vip_click"] = $user->setting_cache($type . "_user_vip_click");
+            $data["unit_vip_show"] = $user->setting_cache($type . "_user_vip_show");
+            $data["unit_normal_click"] = $user->setting_cache($type . "_user_normal_click");
+            $data["unit_normal_show"] = $user->setting_cache($type . "_user_normal_show");
+            $data['order_count'] =  $advertise->order_count;
+            $data['pay_type'] =  $request->pay_type;
+            $advertise_id = $advertise->id;
+            $data['advertise_id'] = $advertise->id;
+        }
         // dd($request->all());
 
         $min_val_charge = Setting::whereName("min_val_charge")->first();
         switch ($type) {
             case "charge":
+                $min=number_format( $min_val_charge->val);
                 if ($amount < $min_val_charge->val) {
-                    toast()->warning(' حداقل مبلغ صد هزار  تومان میباشد  ');
+                    toast()->warning("حداقل مبلغ $min  تومان میباشد  ");
                     return back();
                 }
                 if ($amount % 100000 != 0) {
@@ -41,7 +74,6 @@ class PayController extends Controller
             case "popup":
                 $price = $user->view_price($type) * $data['order_count'];
                 $amount = floor($price + (($price * $user->tax_percent()) / 100));
-
                 $pay_type = $data["pay_type"];
                 // $data['status'] = "created";
                 // $data['price'] = $amount;
@@ -59,7 +91,6 @@ class PayController extends Controller
                             'pay_type' => $pay_type,
                             'advertise_id' => $advertise_id,
                             'status' => "payed",
-
                         ]);
                         $advertise->update(['payed' => 1, "status" => "ready_to_confirm",     'active' => "1",]);
                         toast()->success("پرداخت با موفیت از کیف پول انجام شد  ");
@@ -76,6 +107,7 @@ class PayController extends Controller
             case "text":
             case "video":
             case "hamsan":
+
                 $advertise = Advertise::find($data['advertise_id']);
                 if ($advertise->count_type == "click") {
                     $price = $user->click_price($type) * $data['order_count'];
@@ -92,6 +124,7 @@ class PayController extends Controller
                 // $data['remian'] = $amount;
                 // $data['payed'] = 0;
                 $advertise_id = $advertise->id;
+
                 $advertise->update(['price' => $amount, 'active' => 1]);
                 if ($data['pay_type'] == "acc_money") {
                     if ($user->balance() > $amount) {
@@ -113,7 +146,9 @@ class PayController extends Controller
                 break;
             case "chanal":
                 $advertise = Advertise::find($data['advertise_id']);
+                $data['unit_click']=$advertise->price_suggestion;
                 $price = $data['unit_click']* $data['order_count'];
+                // dd( $data);
                 $amount = floor($price + (($price * $user->tax_percent()) / 100));
                 $pay_type = $data["pay_type"];
                 $advertise_id = $advertise->id;
@@ -139,8 +174,8 @@ class PayController extends Controller
                 break;
         }
         $invoice = (new Invoice);
-
-        $invoice->amount($amount);
+        // $invoice->amount($amount);
+        $invoice->amount(1000);
         return   Payment::via($via)->callbackUrl(route('pay.verify'))->purchase(
             $invoice,
             function ($driver, $transactionId) use ($user, $type, $invoice, $amount, $pay_type, $advertise_id) {
@@ -184,7 +219,7 @@ class PayController extends Controller
         }
 
         try {
-
+$amount=1000;
             $receipt = Payment::amount(abs((int)$amount))->transactionId($request->Authority)->verify();
             if ($request->Status == 'OK') {
                 if ($transaction->pay_type == "acc_money") {

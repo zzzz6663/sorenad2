@@ -29,10 +29,8 @@
             </div>
 
 
-            @include('advertiser.ad_temp.video')
-            @include('advertiser.cat_temp')
-            @include('advertiser.device_temp')
-            <div class="col-lg-4">
+
+            {{--  <div class="col-lg-4">
                 <div class="form-group">
                     <label class="form-label" for="default-06">آپلود فایل  ویدئو</label>
                     <div class="form-control-wrap">
@@ -42,8 +40,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
+            </div>  --}}
+            @include('advertiser.ad_temp.video')
+            @include('advertiser.cat_temp')
+            @include('advertiser.device_temp')
             <br>
             @include('advertiser.price_temp')
 

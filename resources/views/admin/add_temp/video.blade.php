@@ -1,8 +1,7 @@
 <div class="sorenad_video sorenad   sorenad_par">
     <div class="rotate-border">
         <div class="video_container" >
-            <div class="smb-10 " >
-
+            <div class="smb-10 " id="per_ch_video">
                 <video autoplay muted controls>
                     <source src="{{ $advertise->video1() }}" type="video/mp4">
                   </video>
@@ -16,7 +15,6 @@
                     {{ $advertise->landing_title1 }}
                 </a>
                 @endif
-
             </div>
         </div>
     </div>

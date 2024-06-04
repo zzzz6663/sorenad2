@@ -211,14 +211,15 @@ video::-webkit-media-controls-enclosure {
     flex-direction: row-reverse;
     justify-content: space-between;
     background-color: #ffff;
-    padding: 30px 10px;
+    padding: 20px 10px;
     border-radius: 15px;
     opacity: 1;
+    align-items: center;
 }
 
 
 .sorenad_ham_body img{
-    height: 40px;
+    height: 75px;
 }
 .sorenad_ham_body .sorenad_title{
     vertical-align: middle;
@@ -227,7 +228,7 @@ video::-webkit-media-controls-enclosure {
 .sorenad_ham_body .btn_full {
     border-radius: 10px;
     display: inline-block;
-    padding: 15px 30px;
+    padding: 10px 18px;
     text-decoration: none;
 }
 .sorenad_ham_body h3{
@@ -244,7 +245,7 @@ height: 0!important;
 .d-flexj{
     display: flex;
     justify-content: space-between;
-    
+
 }
 .sorenad_text {
     max-width: 100%;

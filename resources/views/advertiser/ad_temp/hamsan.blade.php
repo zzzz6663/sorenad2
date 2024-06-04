@@ -41,7 +41,6 @@
                     </label>
                 </div>
             </div>
-
             <div class="col-lg-6 mb-4">
                 <div class="form-control-wrap">
                     <input type="text" name="landing_title1" data-m="30" class="form-control landing_title countable  form-control-outlined" value="{{ old("landing_title1",$advertise->landing_title1) }}" id="landing_title1">

@@ -188,7 +188,7 @@
                 </div>
                 <!-- .card-inner -->
                 <div class="card-inner">
-                    {{--  {{ $cat->appends(Request::all())->links('admin.section.pagination') }}  --}}
+                    {{ $cats->appends(Request::all())->links('admin.section.pagination') }}
                 </div>
             {{--  <div class="card-inner">
                 <ul class="pagination justify-content-center justify-content-md-start">

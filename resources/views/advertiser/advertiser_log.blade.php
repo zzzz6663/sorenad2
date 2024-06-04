@@ -10,8 +10,7 @@
     <div class="card-inner-group">
         <div class="card-inner position-relative card-tools-toggle">
             <div class="row">
-                <div class="col-lg-6">
-
+                <div class="col-lg-6 mb-4">
                     <div class="card bg-danger">
                         <div class="nk-ecwg nk-ecwg6">
                             <div class="card-inner">
@@ -42,8 +41,7 @@
                         <!-- .nk-ecwg -->
                     </div>
                 </div>
-                <div class="col-lg-6">
-
+                <div class="col-lg-6 mb-4">
                     <div class="card bg-primary">
                         <div class="nk-ecwg nk-ecwg6">
                             <div class="card-inner">
@@ -87,7 +85,7 @@
                     @csrf
                     @method('get')
                     <div class="row">
-                        <div class="col-lg-6 mb-3">
+                        <div class="col-lg-5 mb-3">
                             <ul class="custom-control-group">
                                 <li>
                                     <div class="custom-control custom-control-sm custom-radio custom-control-pro checked">
@@ -122,7 +120,7 @@
                             </ul>
                         </div>
 
-                        <div class="col-lg-4 mb-3">
+                        <div class="col-lg-3 mb-3">
                             <div class="form-wrap  ml-2">
                                 <label for="site" class="d-inline-block">سایت من</label>
                                 <select name="site_id" id="" class="form-control w-150px d-inline-block">
@@ -135,7 +133,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-4 mb-3">
+                        <div class="col-lg-2 mb-3">
                             <div class="d-flex justify-content-start">
                                 <div class="form-wrap w-150px ml-2 d-flex">
                                     <label for="from">از</label>
@@ -166,7 +164,7 @@
     <div class="card-inner-group">
         <div class="card-inner position-relative card-tools-toggle">
             <div class="row">
-                <div class="col-lg-2 col-sm-6">
+                <div class="col-lg-2 col-sm-6 mb-4">
                     <div class="card bg-primary-dim">
                         <div class="nk-ecwg nk-ecwg6">
                             <div class="card-inner">
@@ -193,7 +191,7 @@
                     </div>
                     <!-- .card -->
                 </div>
-                <div class="col-lg-2 col-sm-6">
+                <div class="col-lg-2 col-sm-6 mb-4">
                     <div class="card bg-success-dim">
                         <div class="nk-ecwg nk-ecwg6">
                             <div class="card-inner">
@@ -221,7 +219,7 @@
                     <!-- .card -->
                 </div>
 
-                <div class="col-lg-2 col-sm-6">
+                <div class="col-lg-2 col-sm-6 mb-4">
                     <div class="card bg-danger-dim  ">
                         <div class="nk-ecwg nk-ecwg6">
                             <div class="card-inner">
@@ -251,9 +249,6 @@
             </div>
         </div>
     </div>
-    <br>
-    <br>
-    <br>
     <div class="card-inner-group">
         <div class="card-inner position-relative card-tools-toggle">
             <script src="/js/libs/apexcharts.min.js"></script>
@@ -297,9 +292,6 @@
             </script>
         </div>
     </div>
-    <br>
-    <br>
-    <br>
     <div class="card-inner-group">
         <div class="card-inner position-relative card-tools-toggle">
             <h3>

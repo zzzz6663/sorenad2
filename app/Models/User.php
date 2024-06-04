@@ -140,7 +140,12 @@ class User extends Authenticatable
         return $tax_percent_page_ad->val;
     }
     public function setting_cache($name){
+
         $setting=Cache::get($name, function() use($name) {
+            $ex=Setting::whereName($name)->first();
+            if(!$ex){
+                return "";
+            }
             return Setting::whereName($name)->first()->val;
         });
         return $setting;

@@ -1,12 +1,11 @@
 @extends('main.manager')
 @section('content')
-
+@include('main.error')
 <form action="{{ route("setting.ads.chanal") }}" method="post">
     @csrf
     @method('post')
     <div class="components-preview wide-md mx-auto">
         <br>
-
         <h2 class="nk-block-title fw-normal">    {{ __("setting.chanal_title") }}   </h2>
         <br>
         <div class="card">
@@ -47,10 +46,21 @@
                         <div class="form-group">
                             <label for="chanal_advertiser_aercent">
                                 درصد سورن
-
+                                کاربران عادی
                             </label>
                             <div class="form-control-wrap">
-                                <input type="text" id="chanal_advertiser_percent" name="chanal_advertiser_percent" class="number_format form-control" value="{{ old("chanal_advertiser_percent",$chanal_advertiser_percent->val) }}">
+                                <input type="text" id="chanal_user_normal_show" name="chanal_user_normal_show" class="number_format form-control" value="{{ old("chanal_user_normal_show",$chanal_user_normal_show->val) }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="chanal_advertiser_aercent">
+                                درصد سورن
+                                کاربران Vip
+                            </label>
+                            <div class="form-control-wrap">
+                                <input type="text" id="chanal_user_vip_show" name="chanal_user_vip_show" class="number_format form-control" value="{{ old("chanal_user_vip_show",$chanal_user_vip_show->val) }}">
                             </div>
                         </div>
                     </div>
