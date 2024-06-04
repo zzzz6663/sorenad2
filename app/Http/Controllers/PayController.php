@@ -18,10 +18,11 @@ class PayController extends Controller
     public function  send_pay(Request  $request,Advertise $advertise)
     {
         $user = auth()->user();
-        $via = 'saman';
+        $via = 'sep';
         $type = $request->type;
         $amount = $request->amount;
         $pay_type = $request->pay_type;
+        // dd( $pay_type);
         // dd( $pay_type);
         $data = $request->data;
         $advertise_id = null;
@@ -281,6 +282,8 @@ class PayController extends Controller
                     'status' => 'payed',
                     'payed' => '1',
                 ]);
+            }else{
+                dd(33);
             }
         } catch (InvalidPaymentException $exception) {
             /**
