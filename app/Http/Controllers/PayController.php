@@ -18,7 +18,7 @@ class PayController extends Controller
     public function  send_pay(Request  $request,Advertise $advertise)
     {
         $user = auth()->user();
-        $via = 'zarinpal';
+        $via = 'saman';
         $type = $request->type;
         $amount = $request->amount;
         $pay_type = $request->pay_type;
@@ -175,7 +175,7 @@ class PayController extends Controller
                 break;
         }
         $invoice = (new Invoice);
-        // $amount=10000;
+        $amount=10000;
         $invoice->amount($amount);
         // $invoice->amount(10000);
         return   Payment::via($via)->callbackUrl(route('pay.verify'))->purchase(
@@ -217,6 +217,7 @@ class PayController extends Controller
         // $amount= 10000;
         // $amount= 10000;
         // $amount= 10000;
+        $amount=10000;
         if (!$transaction) {
             toast()->error('پرداخت با مشکل مواجه شد');
             return redirect()->route('client', ['route' => route("serial.result")]);
