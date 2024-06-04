@@ -137,7 +137,7 @@ Route::prefix('advertiser')->middleware(['auth',"check_active"])->namespace('adv
 
 // پرداخت ها
 Route::get('/result_pay/{transaction}', 'PayController@result_pay')->name('result.pay');
-Route::get('/bill_verify', 'PayController@bill_verify')->name('pay.verify');
+Route::any('/bill_verify', 'PayController@bill_verify')->name('pay.verify');
 Route::any('/send_pay/{advertise?}', 'PayController@send_pay')->name('send.pay');
 
 // Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function () {

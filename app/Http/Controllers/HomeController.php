@@ -63,13 +63,13 @@ class HomeController extends Controller
 
 
 
-        return response()->json([
-            'status'=>"ok"
-        ]);
-        Transaction::truncate();
-        Advertise::truncate();
-        DB::table('advertise_cat')->truncate();
-        DB::table('advertise_group')->truncate();
+        // return response()->json([
+        //     'status'=>"ok"
+        // ]);
+        // Transaction::truncate();
+        // Advertise::truncate();
+        // DB::table('advertise_cat')->truncate();
+        // DB::table('advertise_group')->truncate();
 
 
     // $ar=[
@@ -126,10 +126,10 @@ class HomeController extends Controller
 
         // $now = Carbon::now()->format("H:i:s");
         // // dd($now);
-        $invitedUser = new User;
+        // $invitedUser = new User;
         // ($invitedUser->send_pattern("09373699317", "svr5y3c1ophdnuo",['code'=>123]));
         // ($invitedUser->send_sms("09373699317", "تست"));
-        $invitedUser->send_pattern( '09373699317', "4lm4k11nj3mgv8h", ['name' => "sss",'title' => "ddd"]);
+        // $invitedUser->send_pattern( '09373699317', "4lm4k11nj3mgv8h", ['name' => "sss",'title' => "ddd"]);
 
         // Auth::loginUsingId(1, 'true');
         Artisan::call('cache:clear');
