@@ -206,7 +206,7 @@ return [
             'apiPurchaseUrl' => 'https://sep.shaparak.ir/Payments/InitPayment.asmx?WSDL',
             'apiPaymentUrl' => 'https://sep.shaparak.ir/payment.aspx',
             'apiVerificationUrl' => 'https://sep.shaparak.ir/payments/referencepayment.asmx?WSDL',
-            'merchantId' => '',
+            'merchantId' => '14219880',
             'callbackUrl' => '',
             'description' => 'payment using saman',
         ],
