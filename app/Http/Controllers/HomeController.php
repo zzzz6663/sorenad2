@@ -147,7 +147,7 @@ class HomeController extends Controller
         // return redirect()->route('redirect');
         // return redirect()->route('redirect');
 
-        return 12;
+        return 12222;
     }
 
 
@@ -325,7 +325,7 @@ class HomeController extends Controller
         Artisan::call('view:clear');
         Artisan::call('optimize:clear');
         Artisan::call('config:clear');
-        // 
+        //
         return redirect()->route("login");
         return view('site.index', compact(['']));
     }
