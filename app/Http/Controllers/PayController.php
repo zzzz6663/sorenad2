@@ -216,6 +216,7 @@ class PayController extends Controller
         $amount = (int)$transaction->amount;
         // $amount= 10000;
         // $amount= 10000;
+        // $amount= 10000;
         if (!$transaction) {
             toast()->error('پرداخت با مشکل مواجه شد');
             return redirect()->route('client', ['route' => route("serial.result")]);
