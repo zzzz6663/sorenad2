@@ -174,8 +174,9 @@ class PayController extends Controller
                 break;
         }
         $invoice = (new Invoice);
-        // $invoice->amount($amount);
-        $invoice->amount(1000);
+        $amount=10000;
+        $invoice->amount($amount);
+        // $invoice->amount(10000);
         return   Payment::via($via)->callbackUrl(route('pay.verify'))->purchase(
             $invoice,
             function ($driver, $transactionId) use ($user, $type, $invoice, $amount, $pay_type, $advertise_id) {
@@ -212,14 +213,14 @@ class PayController extends Controller
         $user = $transaction->user;
 
         $amount = (int)$transaction->amount;
-        // $amount = 10000;
+        $amount = 10000;
         if (!$transaction) {
             toast()->error('پرداخت با مشکل مواجه شد');
             return redirect()->route('client', ['route' => route("serial.result")]);
         }
 
         try {
-$amount=1000;
+// $amount=1000;
             $receipt = Payment::amount(abs((int)$amount))->transactionId($request->Authority)->verify();
             if ($request->Status == 'OK') {
                 if ($transaction->pay_type == "acc_money") {
@@ -287,6 +288,7 @@ $amount=1000;
                 We can catch the exception to handle invalid payments.
                 getMessage method, returns a suitable message that can be used in user interface.
              **/
+            dd($exception->getMessage());
             toast()->warning('پرداخت با مشکل موجه شد ');
             return redirect()->route("result.pay", $transaction->id);
             // echo $exception->getMessage();

@@ -17,7 +17,8 @@ Route::prefix('ads')->group(function () {
 
 });
 Route::get('/css_add', 'HomeController@css_add')->name('css_add');
-Route::get('/clear', 'HomeController@clear')->name('clear');
+Route::get('/clear', 'HomeController@clear
+')->name('clear');
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/redirect_google','HomeController@redirect_google')->name('user.redirect.google');
 Route::get('/gcallback','HomeController@gcallback') ->name('google.call.back');
