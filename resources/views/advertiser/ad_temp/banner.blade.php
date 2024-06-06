@@ -11,7 +11,7 @@
     </div>
     <div class="col-lg-4">
         <div class="form-control-wrap">
-            <input type="text" name="title" class="form-control  form-control-outlined" value="{{ old("title",$advertise->title) }}" id="title">
+            <input type="text" name="title" class="form-control titl_f form-control-outlined" value="{{ old("title",$advertise->title) }}" id="title">
             <label class="form-label-outlined" for="title">عنوان </label>
             {{--  <span class="info_txt">در حد سه کلمه (مثال : نصب اپ اسنپ)</span>  --}}
         </div>
@@ -50,7 +50,11 @@
                 <div class="form-file">
                     <input type="file" id="banner1" name="banner1" class="form-file-input" accept="image/png, image/jpeg">
                     <label class="form-file-label" for="customFile"></label>
-                    <span class="info_txt">ابعاد بنر برنامه 554 در 276 پیکسل باشد.</span>
+                    <span class="info_txt">
+                        سایز متناسب ستون کناری سایت ها
+                        عرض :۳۰۰
+                        ارتفاع: ۱۶۰ و بیشتر حتی
+                    </span>
                 </div>
             </div>
         </div>
@@ -62,7 +66,13 @@
                 <div class="form-file">
                     <input type="file" id="banner2" name="banner2" class="form-file-input" accept="image/png, image/jpeg">
                     <label class="form-file-label" for="customFile"></label>
-                    <span class="info_txt">ابعاد بنر برنامه 554 در 276 پیکسل باشد.</span>
+                    <span class="info_txt">
+                        سایز متناسب قبل یا بعد از نمایش مطالب
+
+
+                        عرض : ۸۰۰
+                        ارتفاع : ۱۳۱
+                    </span>
                 </div>
             </div>
         </div>

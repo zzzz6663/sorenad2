@@ -67,7 +67,7 @@
                     </div>
 
                        <div class="mony_bid  mt-5">
-                    <span>مبالغ پیشنهادی</span> <i data-price="5000000" class="per_price alert alert-primary">5 میلیون تومان</i> <i data-price="10000000" class="per_price alert alert-secondary">10 میلیون تومان</i> <i data-price="15000000" class="per_price alert alert-dark">15 میلیون تومان</i>
+                    <span>مبالغ پیشنهادی</span> <i data-price="5000000" class="per_price pointer alert alert-primary">5 میلیون تومان</i> <i data-price="10000000" class="per_price pointer alert alert-secondary">10 میلیون تومان</i> <i data-price="15000000" class="per_price pointer alert alert-dark">15 میلیون تومان</i>
                 </div>
                 </div>
 
@@ -195,7 +195,7 @@
             <form class="money_req_form">
                 <input type="number" id="amount" name="amount" class="form-control number_format" placeholder="تومان">
                 <div class="mony_bid">
-                    <span>مبالغ پیشنهادی</span> <i data-price="5000000" class="per_price">5 میلیون تومان</i> <i data-price="10000000" class="per_price">10 میلیون تومان</i> <i data-price="15000000" class="per_price">15 میلیون تومان</i>
+                    <span>مبالغ پیشنهادی</span> <i data-price="5000000" class="per_price pointer">5 میلیون تومان</i> <i data-price="10000000" class="per_price pointer">10 میلیون تومان</i> <i data-price="15000000" class="per_price pointer">15 میلیون تومان</i>
                 </div>
                 <div class="mony_pay_info flex">
                     <p>مبلغ قابل پرداخت</p>

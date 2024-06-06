@@ -742,12 +742,14 @@ window.onload = function () {
 
 
 
-    $('#title').on("keyup change", function (e) {
-        console.log(12)
+    $('.titl_f').on("keyup change", function (e) {
+        console.log(12222)
         $('#sorenad_title').text($(this).val())
         $('#title_p').text($(this).val())
+
+
     })
-    $('#info').on("keyup change", function (e) {
+    $('[name="info"]') .on("keyup change", function (e) {
         $('#sorenad_title').text($(this).val())
         $('#sorenad_info').text($(this).val())
 
@@ -782,6 +784,7 @@ window.onload = function () {
     //     $('#landing_title1_p').css("background",$(this).val())
 
     //  })
+    //
 
     $('#bt_color').on("keyup change click", function (e) {
 
@@ -792,10 +795,12 @@ window.onload = function () {
 
 
 
-    $('#landing_title1').on("keyup change", function (e) {
+    $('[name="landing_title1"]').on("keyup change", function (e) {
+        let le=$(this)
         $('#video_sorenad_btn_par').empty()
         $('#fix_sorenad_btn_par').empty()
-        let val1 = $('#landing_title1').val()
+        let val1 =le.val()
+        console.log(val1)
         console.log(val1)
         if (val1) {
             $('#fix_sorenad_btn_par').append(`
@@ -818,9 +823,11 @@ window.onload = function () {
 
     })
 
-    $('#call_to_action').on("keyup change", function (e) {
+    $('[name="call_to_action"]').on("keyup change", function (e) {
         console.log(32323)
-        $('#s_call_to_action').text($('#call_to_action').val())
+        let el=$(this)
+        $('#s_call_to_action').text(el.val())
+        $('#s_call_to_action_fix').text(el.val())
     })
 
 
@@ -833,7 +840,8 @@ window.onload = function () {
 
 
     $('.landing_title').on("keyup change", function (e) {
-        let val1 = $('#landing_title1').val()
+        let val1 = $(this).val()
+        console.log(val1)
         $('#sorenad_btn_par').empty()
         if (val1) {
             $('#sorenad_btn_par').append(`
@@ -851,6 +859,7 @@ window.onload = function () {
             `)
 
 
+
         }
 
         let val3 = $('#landing_title3').val()
@@ -861,6 +870,10 @@ window.onload = function () {
               </a>
             `)
         }
+
+        $('#landing_title1_p').html(`
+        ${val1}
+        `)
 
 
 

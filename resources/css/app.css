@@ -68,6 +68,10 @@
 .form_close {
     cursor: pointer;
 }
+.pointer {
+    cursor: pointer!important;
+    /*  */
+}
 
 .nk-chat-body.profile-shown {
     padding: 0;

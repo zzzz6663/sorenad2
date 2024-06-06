@@ -16,7 +16,7 @@ Route::prefix('ads')->group(function () {
     Route::get('/redirect_add', 'HomeController@redirect_add')->middleware('signed')->name('redirect.add');
 
 });
-// 
+//
 Route::get('/css_add', 'HomeController@css_add')->name('css_add');
 Route::get('/clear', 'HomeController@clear')->name('clear');
 Route::get('/', 'HomeController@index')->name('home');
@@ -29,6 +29,7 @@ Route::get('/login', 'HomeController@login')->name('login');
 Route::get('/logout', 'HomeController@logout')->name('logout');
 // Route::get('/clear', 'HomeController@clear')->name('clear');
 Route::get('/redirect', 'HomeController@redirect')->name('redirect');
+Route::get('/chanal_track', 'HomeController@chanal_track')->name('chanal.track');
 
 Route::post('/check_login', 'HomeController@check_login')->name('check.login');
 

@@ -13,11 +13,13 @@ use App\Models\Advertise;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Constraint\Count;
 use Laravel\Socialite\Facades\Socialite;
+use Mpdf\Tag\P;
 
 class HomeController extends Controller
 {
@@ -153,6 +155,21 @@ class HomeController extends Controller
 
 
 
+    public function chanal_track(Request  $request)
+    {
+        $id=$request->check;
+        $ad=Advertise::find($id);
+        if(!$ad){
+            return abort(404);
+        }
+        if($ad->type!="chanal"||$ad->status!="ready_to_show"){
+            return abort(404);
+        }
+        return redirect(URL::signedRoute('redirect.add', ["owner"=>auth()->user()->id,'advertis_id' =>  $ad->id,"link_number"=> $request->ln]));
+
+
+    }
+
     public function redirect_add(Request  $request)
     {
         $user = new User();
@@ -207,8 +224,17 @@ class HomeController extends Controller
                 }
             }
         }else{
+
            if( $advertise->type=="chanal"){
-            $data['chanal_advertiser_percent']=Setting::whereName("chanal_advertiser_percent")->first()->val;
+            $chanal_owner=User::find( $request->owner);
+            if ($chanal_owner->vip) {
+                $data['chanal_advertiser_percent']=Setting::whereName("chanal_user_normal_show")->first()->val;
+
+            }else{
+
+                $data['chanal_advertiser_percent']=Setting::whereName("chanal_user_vip_show")->first()->val;
+            }
+
             $action['ip'] = $user->get_ip();
 
             $action['count_type'] = $advertise->count_type;
@@ -223,9 +249,9 @@ class HomeController extends Controller
             $action['adveriser_share'] =  $action['unit_click'] * -1;
 
 
-            $chanal_owner=User::find( $request->owner);
             $action['site_id']=  $chanal_owner->id;
             $exist = Action::where('ip', $action['ip'])->where('site_id', $action['site_id'])->where('advertise_id', $action['advertise_id'])->first();
+
             if (!$exist) {
                 $action["main"] = 1;
                 Action::create($action);
@@ -319,18 +345,13 @@ class HomeController extends Controller
     }
     public function index()
     {
-        Artisan::call('cache:clear');
-        Artisan::call('route:cache');
-        Artisan::call('config:cache');
-        Artisan::call('view:clear');
-        Artisan::call('optimize:clear');
-        Artisan::call('config:clear');
-        //
+
         return redirect()->route("login");
         return view('site.index', compact(['']));
     }
     public function login()
     {
+
         $user = auth()->user();
         if ($user) {
             // ddddd

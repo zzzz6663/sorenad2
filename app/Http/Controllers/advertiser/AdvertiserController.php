@@ -143,8 +143,10 @@ class AdvertiserController extends Controller
                             $rules += [
                                 'title' => "required|max:256",
                                 'landing_link1' => "required|url",
-                                'banner1' => "required",
-                                'banner2' => "nullable",
+                                'banner1' => "required|dimensions:width=300,min_height=160|max:1024",
+                                'banner2' => "nullable|dimensions:width=800,min_height=131|max:1024",
+
+
                             ];
                             break;
                         case '2':
@@ -247,6 +249,61 @@ class AdvertiserController extends Controller
                             break;
                     }
                     break;
+
+                    case "hamsan":
+                        switch ($step) {
+                            case '1':
+                                $rules += [
+                                    'title' => "required|max:25",
+                                    'info' => "required|max:70",
+                                    'bt_color' => "required|max:10",
+                                    'landing_link1' => "required|url",
+                                    'landing_title1' => "required",
+                                ];
+                                break;
+                            case '2':
+                                $rules += [
+                                    'cats' => "nullable",
+                                ];
+                                break;
+                            case '3':
+                                $rules += [
+                                    'count_type' => "required",
+                                    'limit_daily_click' => "nullable",
+                                    'order_count' => "required_if:count_type,view",
+                                    'limit_daily_view' => "nullable",
+                                    'pay_type' => "required",
+                                ];
+                                break;
+                        }
+                        break;
+
+                        // switch ($step) {
+                        //     case '1':
+                        //         $rules += [
+                        //             'title' => "required|max:256",
+                        //             'text' => 'required|max:100',
+                        //             'landing_link1' => "required|url",
+                        //         ];
+                        //         break;
+                        //     case '2':
+                        //         $rules += [
+                        //             'device' => "required",
+                        //             'cats' => "nullable",
+                        //         ];
+                        //         break;
+                        //     case '3':
+                        //         $rules += [
+                        //             'count_type' => "required",
+                        //             'limit_daily_click' => "nullable",
+                        //             'order_count' => "required_if:count_type,view",
+                        //             'limit_daily_view' => "nullable",
+                        //             'pay_type' => "required_if:pay,1",
+                        //         ];
+                        //         break;
+                        // }
+                        break;
+
 
             }
 
@@ -385,59 +442,6 @@ class AdvertiserController extends Controller
                                 'order_count' => "required|integer|min:" . $min_click,
                                 'pay_type' => "required",
                                 'pay_type' => "required",
-                            ];
-                            break;
-                    }
-                    break;
-                case "hamsan":
-                    switch ($step) {
-                        case '1':
-                            $rules += [
-                                'title' => "required|max:25",
-                                'info' => "required|max:70",
-                                'bt_color' => "required|max:10",
-                                'landing_link1' => "required|url",
-                                'landing_title1' => "required",
-                            ];
-                            break;
-                        case '2':
-                            $rules += [
-                                'cats' => "nullable",
-                            ];
-                            break;
-                        case '3':
-                            $rules += [
-                                'count_type' => "required",
-                                'limit_daily_click' => "nullable",
-                                'order_count' => "required_if:count_type,view",
-                                'limit_daily_view' => "nullable",
-                                'pay_type' => "required",
-                            ];
-                            break;
-                    }
-                    break;
-
-                    switch ($step) {
-                        case '1':
-                            $rules += [
-                                'title' => "required|max:256",
-                                'text' => 'required|max:100',
-                                'landing_link1' => "required|url",
-                            ];
-                            break;
-                        case '2':
-                            $rules += [
-                                'device' => "required",
-                                'cats' => "nullable",
-                            ];
-                            break;
-                        case '3':
-                            $rules += [
-                                'count_type' => "required",
-                                'limit_daily_click' => "nullable",
-                                'order_count' => "required_if:count_type,view",
-                                'limit_daily_view' => "nullable",
-                                'pay_type' => "required_if:pay,1",
                             ];
                             break;
                     }
@@ -1236,6 +1240,7 @@ class AdvertiserController extends Controller
     public function logs(Request $request)
     {
         $user = auth()->user();
+
         $logs = $user->logs()->latest()->get();
         return view('advertiser.logs', compact(["user", "logs"]));
     }

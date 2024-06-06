@@ -166,7 +166,9 @@
                                 </span>
                                 <br>
                                 <br>
-                                {{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["owner"=>auth()->user()->id,'advertis_id' =>  $ads->id,"link_number"=>1]) }}
+                                {{ route("chanal.track",['check'=>$ads->id,'ln'=>1]) }}
+                                {{--  {{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["owner"=>auth()->user()->id,'advertis_id' =>  $ads->id,"link_number"=>1]) }}  --}}
+                                {{--  {{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["owner"=>auth()->user()->id,'advertis_id' =>  $ads->id,"link_number"=>1]) }}  --}}
                             </h6>
                             @if($ads->landing_title2)
                             <h6 class="mb-4">
@@ -175,7 +177,9 @@
                                 </span>
                                 <br>
                                 <br>
-                                {{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["owner"=>auth()->user()->id,'advertis_id' =>  $ads->id,"link_number"=>2]) }}
+                                {{ route("chanal.track",['check'=>$ads->id,'ln'=>2]) }}
+
+                                {{--  {{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["owner"=>auth()->user()->id,'advertis_id' =>  $ads->id,"link_number"=>2]) }}  --}}
                             </h6>
                             @endif
                         </div>

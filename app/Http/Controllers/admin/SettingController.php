@@ -257,8 +257,11 @@ class SettingController extends Controller
             ]);
                 foreach($data as $key=>$val){
                 $setting=Setting::whereName( $key)->first();
-                $setting->update(['val'=>$val]);
-                cache()->put($key, $val);
+                if( $setting){
+                    $setting->update(['val'=>$val]);
+                    cache()->put($key, $val);
+                }
+
             }
 
             toast()->success("اطلاعات با موفقیت ذخیره شد ");

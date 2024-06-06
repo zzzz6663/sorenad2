@@ -9,7 +9,7 @@
     </div>
     <div class="col-lg-4">
         <div class="form-control-wrap">
-            <input type="text" name="title" class="form-control  form-control-outlined" value="{{ old("title",$advertise->title) }}" id="title">
+            <input type="text" name="title" class="form-control titl_f  form-control-outlined" value="{{ old("title",$advertise->title) }}" id="title">
             <label class="form-label-outlined" for="title">عنوان برنامه</label>
             <span class="info_txt">در حد سه کلمه (مثال : نصب اپ اسنپ)</span>
         </div>

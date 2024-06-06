@@ -28,7 +28,7 @@ class ApiController extends Controller
 
 
 
-    public function test(Request $request)
+    public function ads(Request $request)
     {
 
 
@@ -47,12 +47,14 @@ class ApiController extends Controller
         $advertise = null;
         $fixpost = null;
         $banner = null;
+        $banner2 = null;
         $video = null;
         $hamsan = null;
         $text = null;
         $popup = null;
         $fixpost_req = $request->fixpost;
         $banner_req = $request->banner;
+        $banner2_req = $request->banner2;
         $video_req = $request->video;
         $hamsan_req = $request->hamsan;
         $text_req = $request->text;
@@ -109,6 +111,12 @@ class ApiController extends Controller
                 $banner = view($banner_temp, compact(['advertise', "site", "ip"]))->render();
             }
         }
+        if ($banner2_req) {
+            $advertise = $this->query($site, $request, "banner", $ip);
+            if ($advertise) {
+                $banner2= view($banner_temp, compact(['advertise', "site", "ip"]))->render();
+            }
+        }
         if ($video_req) {
             $advertise = $this->query($site, $request, "video", $ip);
             if ($advertise) {
@@ -145,6 +153,7 @@ class ApiController extends Controller
             'app' => $app,
             'fixpost' => $fixpost,
             'banner' => $banner,
+            'banner2' => $banner2,
             'video' => $video,
             'hamsan' => $hamsan,
             'text' => $text,

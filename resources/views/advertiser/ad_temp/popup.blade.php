@@ -11,7 +11,7 @@
     </div>
     <div class="col-lg-6">
         <div class="form-control-wrap">
-            <input type="text" name="title" class="form-control  form-control-outlined"  value="{{ old("title",$advertise->title) }}" id="title">
+            <input type="text" name="title" class="form-control  form-control-outlined titl_f"  value="{{ old("title",$advertise->title) }}" id="title">
             <label class="form-label-outlined" for="title">عنوان تبلیغ</label>
         </div>
     </div>

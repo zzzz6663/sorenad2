@@ -9,16 +9,17 @@ let domin = window.location.hostname
 let device = touchDevice ? "mobile" : "desktop"
 var fixpost = document.getElementById("sorenad_fixpost");
 var banner = document.getElementById("sorenad_banner");
+var banner2 = document.getElementById("sorenad_banner2");
 var video = document.getElementById("sorenad_video");
 var hamsan = document.getElementById("sorenad_hamsan");
 var text = document.getElementById("sorenad_text");
 
 
 function loadDoc2(data) {
-    let  url ="https://sorenad.runflare.run/api/test"
+    let  url ="https://sorenad.runflare.run/api/ads"
     if(window.location.hostname=="127.0.0.1"){
 
-        url ="http://127.0.0.1:8000/api/test"
+        url ="http://127.0.0.1:8000/api/ads"
     }
     console.log(url)
     // let url ="http://127.0.0.1:8000/api/test"
@@ -28,6 +29,7 @@ function loadDoc2(data) {
         ip: 1,
         fixpost: document.querySelectorAll("#sorenad_fixpost").length,
         banner: document.querySelectorAll("#sorenad_banner").length,
+        banner2: document.querySelectorAll("#sorenad_banner2").length,
         video: document.querySelectorAll("#sorenad_video").length,
         hamsan: document.querySelectorAll("#sorenad_hamsan").length,
         text: document.querySelectorAll("#sorenad_text").length,
@@ -125,6 +127,13 @@ window.scrollTo({ top: scrollDiv, behavior: 'smooth'});
             console.log("banner")
             setTimeout(() => {
                 document.getElementById("sorenad_banner").innerHTML = res.banner;
+
+            }, 200);
+        }
+        if( res.banner2){
+            console.log("banner2")
+            setTimeout(() => {
+                document.getElementById("sorenad_banner2").innerHTML = res.banner2;
 
             }, 200);
         }

@@ -13,7 +13,7 @@
                 (خالی==همه)
             </span>
         </label>
-        <select  name="cats[]" class="custom-control select2" id="cats" multiple>
+        <select  name="cats[]" class="custom-control select2"  multiple>
             <option value=""></option>
             @foreach (App\Models\Cat::whereActive(1)->get() as $cat )
             <option {{ in_array($cat->id,old("cats",$cats))?"selected":"" }} value="{{ $cat->id }}">{{ $cat->name }}</option>

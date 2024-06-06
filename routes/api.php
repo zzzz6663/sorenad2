@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::any('/test', 'ApiController@test')->name('test');
+Route::any('/ads', 'ApiController@ads')->name('ads');
 
 
 // Route::post('/test', function (Request $request) {
