@@ -14,7 +14,15 @@
                                 </h3>
                             </div><!-- /.portlet-title -->
                             <div class="buttons-box position-relative">
+                                @if($advertise->type!="text")
+
                                 @includeIf("admin.add_temp.$advertise->type",['site'=>App\Models\Site::find(18),'ip'=>1])
+                                @else
+                                <a href="{{ $advertise->landing_link1 }}">
+                                    {{$advertise->text}}
+                                </a>
+                                @endif
+
                             </div><!-- /.buttons-box -->
                         </div><!-- /.portlet-heading -->
                     </div><!-- /.portlet-body -->

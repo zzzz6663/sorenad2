@@ -263,6 +263,7 @@ margin: 0;
 .sorenad_text ul li{
     padding: 10px 30px;
     text-align: right;
+    border-bottom: 3px solid #fff;
 
 }
 .sorenad_text ul li:nth-child(odd){

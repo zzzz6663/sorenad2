@@ -13,11 +13,12 @@
                 <div>
                     <img class="" src="{{ asset("/site/images/mono.png") }}">
                 </div>
-                <div >
-                    از سرتاسر وب
-                </div>
+
             </div>
-            <ul>
+            <ul class="">
+            <li style="background: #e1e1e1; text-align: center">
+                از سرتاسر وب
+            </li>
                 @foreach ($advertise as $adver )
                 <li>
                    <a href="{{Illuminate\Support\Facades\URL::signedRoute('redirect.add', ["site_id"=>$site->id,"ip"=>$ip,'advertis_id' =>  $adver->id]) }}" >

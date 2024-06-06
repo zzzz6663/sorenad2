@@ -16,7 +16,7 @@ $final= (old("click_count",$advertise->click_count)* old("price_suggestion",$adv
     {{-- chanal_advertiser_atlist_count
 
     chanal_advertiser_atlist_price  --}}
-    <div class="col-lg-4">
+    <div class="col-lg-4 mb-2">
         <div class="form-control-wrap {{  $type=="chanal"?"focused":""}} ">
             <input type="number" name="click_count" id="click_count" min="{{ $min_click }}" required class="form-control click_inp order_count  form-control-outlined cal_p" value="{{ old("click_count",$advertise->click_count) }}" data-price="{{ $min_sugestion_price }}" id="click_count">
             <input type="text" name="count_type" value="click" hidden>
@@ -30,7 +30,7 @@ $final= (old("click_count",$advertise->click_count)* old("price_suggestion",$adv
         </div>
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-lg-4 mb-2">
         <div class="form-control-wrap {{  $type=="chanal"?"focused":""}} ">
             <input type="number" name="price_suggestion" id="price_suggestion" min="{{ $min_sugestion_price }}" class="form-control click_inp  form-control-outlined cal_p" value="{{ old("price_suggestion",$advertise->price_suggestion) }}" data-price="{{ $min_sugestion_price }}" id="price_suggestion">
             <label class="form-label-outlined" for="price_suggestion">
@@ -50,7 +50,7 @@ $final= (old("click_count",$advertise->click_count)* old("price_suggestion",$adv
             مدل قیمت گذاری
         </h5>
         <div class="row mb-5">
-            <div class="col-lg-4">
+            <div class="col-lg-4 mb-3">
                 <div class="custom-control custom-checkbox custom-control-pro no-control">
                     <input type="radio" id="cpc_paymethod{{ $type }}" class="custom-control-input" name="count_type" {{ old("count_type",$advertise->count_type)=="click"?"checked":"" }} value="click">
                     <label class="custom-control-label " for="cpc_paymethod{{ $type }}">
@@ -67,7 +67,7 @@ $final= (old("click_count",$advertise->click_count)* old("price_suggestion",$adv
                     </label>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 mb-3">
                 <div class="form-control-wrap {{  $type=="chanal"?"focused":""}} ">
                     <input type="number" name="click_count" id="click_count" class="form-control click_inp order_count form-control-outlined cal_p" {{ old("click_count",$advertise->click_count)?"":"disabled" }} value="{{ old("click_count",$advertise->click_count) }}" data-price="{{ $click }}" id="click_count">
                     <label class="form-label-outlined" for="click_count">
@@ -79,7 +79,7 @@ $final= (old("click_count",$advertise->click_count)* old("price_suggestion",$adv
                     </span>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 mb-3">
                 <div class="form-control-wrap ">
                     <input type="number" name="limit_daily_click" id="limit_daily_click" class="form-control click_inp  form-control-outlined cal_p" {{ old("click_count",$advertise->click_count)?"":"disabled" }} value="{{ old("limit_daily_click",$advertise->limit_daily_click) }}" id="limit_daily_click">
                     <label class="form-label-outlined" for="limit_daily_click">
@@ -95,7 +95,7 @@ $final= (old("click_count",$advertise->click_count)* old("price_suggestion",$adv
             </div>
         </div>
         <div class="row mb-5">
-            <div class="col-lg-4">
+            <div class="col-lg-4 mb-3">
                 <div class="custom-control custom-checkbox custom-control-pro no-control">
                     <input type="radio" id="cpv_paymethod{{ $type }}" class="custom-control-input" name="count_type" {{ old("count_type",$advertise->count_type)=="view"?"checked":"" }} value="view">
                     <label class="custom-control-label " for="cpv_paymethod{{ $type }}">
@@ -113,7 +113,7 @@ $final= (old("click_count",$advertise->click_count)* old("price_suggestion",$adv
                 </div>
 
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 mb-3">
                 <div class="form-control-wrap">
                     <input type="number" name="view_count" id="view_count" class="form-control order_count view_inp form-control-outlined cal_p" {{ old("view_count",$advertise->view_count)?"":"disabled" }} value="{{ old("view_count",$advertise->view_count) }}" data-price="{{ $view }}" id="view_count">
                     <label class="form-label-outlined" for="view_count">
@@ -125,7 +125,7 @@ $final= (old("click_count",$advertise->click_count)* old("price_suggestion",$adv
                     </span>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 mb-3">
                 <div class="form-control-wrap">
                     <input type="number" name="limit_daily_view" id="limit_daily_view" class="form-control view_inp form-control-outlined cal_p" {{ old("limit_daily_view",$advertise->limit_daily_view)?"":"disabled" }} value="{{ old("limit_daily_view",$advertise->limit_daily_view) }}" id="limit_daily_view">
                     <label class="form-label-outlined" for="limit_daily_view">

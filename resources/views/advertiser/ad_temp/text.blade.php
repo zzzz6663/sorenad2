@@ -9,7 +9,7 @@
             این نوع تبلیغ فقط در موبایل نمایش داده میشود و برای افزایش نصب اپلیکیشن اندروید مناسب است.
         </p>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-4  mb-4">
         <div class="form-control-wrap">
             <input type="text" name="title" class="form-control titl_f form-control-outlined" value="{{ old("title",$advertise->title) }}" id="title">
             <label class="form-label-outlined" for="title">عنوان </label>
