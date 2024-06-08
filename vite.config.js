@@ -11,8 +11,8 @@ export default defineConfig({
         }),
     ],
     build: {
-        outDir: 'public/panel/build', // مsسیر خروجی
+        outDir: 'public/panel/build', // مsسیر خروجsی
         manifest: true,
       }
-      
+
 });
