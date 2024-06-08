@@ -16,4 +16,5 @@ export default defineConfig({
     build: {
         outDir: 'public/panel', // مسیر جدید برای خروجی
       },
+    //   ssss
 });
