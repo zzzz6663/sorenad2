@@ -6,8 +6,14 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
-            publicDirectory: 'public/panel', // تغییر مسیر خروجی به public_html
+            publicDirectory: 'public/panel',
+            build: {
+                outDir: 'public/panel', // مسیر جدید برای خروجی
+              },// تغییر مسیر خروجی به public_html
 
         }),
     ],
+    build: {
+        outDir: 'public/panel', // مسیر جدید برای خروجی
+      },
 });
