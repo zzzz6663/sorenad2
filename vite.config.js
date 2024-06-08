@@ -7,14 +7,11 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
             publicDirectory: 'public/panel',
-            build: {
-                outDir: 'public/panel', // مسیر جدید برای خروجی
-              },// تغییر مسیر خروجی به public_html
 
         }),
     ],
     build: {
-        outDir: 'public/panel', // مسیر جدید برای خروجی
-      },
-    //   ssss
+        outDir: 'public/panel/build', // مسیر خروجی
+        manifest: true,
+      }
 });
