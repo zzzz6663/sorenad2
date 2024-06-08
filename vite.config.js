@@ -6,6 +6,8 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
+            publicDirectory: 'public/panel', // تغییر مسیر خروجی به public_html
+
         }),
     ],
 });
