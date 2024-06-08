@@ -2,6 +2,6 @@
 
 return [
 
-    'manifest_path' => 'public/panel/build/manifest.json',
+    'manifest_path' => public_path('/panel/build/manifest.json'),
 
 ];
