@@ -14,4 +14,5 @@ export default defineConfig({
         outDir: 'public/panel/build', // مsسیر خروجی
         manifest: true,
       }
+      
 });
