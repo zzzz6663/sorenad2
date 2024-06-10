@@ -130,7 +130,7 @@ if (! function_exists('app_path')) {
      */
     function app_path($path = '')
     {
-        return app()->path($path);
+        return app()->path("panel".$path);
     }
 }
 
@@ -145,7 +145,7 @@ if (! function_exists('asset')) {
      */
     function asset($path, $secure = null)
     {
-        return app('url')->asset("panel".$path, $secure);
+        return app('url')->asset($path, $secure);
     }
 }
 
