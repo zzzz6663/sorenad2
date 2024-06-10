@@ -13,7 +13,7 @@ $sidebar=true;
             <div class="nk-content">
                 <div class="nk-block nk-block-middle wide-xs mx-auto">
                     <div class="nk-block-content nk-error-ld text-center">
-                        <h1 class="nk-error-head">4044</h1>
+                        <h1 class="nk-error-head">40424</h1>
                         {{ Request::url() }}
                     {!! Request::url() !!}
                         <h3 class="nk-error-title">اوه! چرا اینجا هستید؟</h3>
