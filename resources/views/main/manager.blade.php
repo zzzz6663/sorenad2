@@ -3,7 +3,10 @@
     data-assets-path="/admin/assets/" data-template="vertical-menu-template-no-customizer">
 
 <head>
-    <title>@yield('title')</title>
+    <title>
+        {{--  @yield('title')  --}}
+        12501506
+    </title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
