@@ -404,6 +404,7 @@ class HomeController extends Controller
                 'password' => 'required|confirmed|min:6',
             ]);
             $data['role'] = "customer";
+            $data['active'] =1;
             $data['password'] = bcrypt($data['password']);
             $user = User::create($data);
             $user->assignRole("customer");
