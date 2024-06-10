@@ -30,7 +30,7 @@
                             این کد را در هدر یا فوتر سایت خود قرار دهید.
                         </p>
                     </div>
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-4 col-sm-6">
                         <div class="preview-block">
                             <span class="preview-title overline-title">توضیحات
                             </span>
@@ -42,7 +42,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-4 col-sm-6">
                         <div class="preview-block">
                             <span class="preview-title overline-title">توضیحات
                             </span>
@@ -54,7 +54,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-4 col-sm-6">
                         <div class="preview-block">
                             <span class="preview-title overline-title">
                                 توضیحات
@@ -68,7 +68,7 @@
                     </div>
 
 
-                    <div class="col-md-3 col-sm-6">
+                    {{--  <div class="col-md-3 col-sm-6">
                         <div class="form-group">
                             <label class="form-label" for="default-06">دفعات نمایش پاپ آپ برای هر ip در 24 ساعت</label>
                             <div class="form-control-wrap">
@@ -84,7 +84,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>  --}}
                     <div class="col-lg-12 mb-4">
                         <p class="alert alert-warning mt-4">
 

@@ -43,6 +43,8 @@ function loadDoc2(data) {
                     resolve(JSON.parse(this.responseText));
                 } else {
                     // reject(new Error(this.status));
+                    console.log(this)
+                    console.log(this.responseText)
                     reject(new Error(this.responseText));
                 }
             }

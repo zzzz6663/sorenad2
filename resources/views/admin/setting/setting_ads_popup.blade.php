@@ -21,7 +21,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    {{--  <div class="col-md-6 mb-3">
                         <div class="form-group">
                             <label for="popup_advertiser_click">
                                                             {{ __("setting.popup_advertiser_click") }}
@@ -30,7 +30,7 @@
                                 <input type="text" id="popup_advertiser_click" name="popup_advertiser_click" class="number_format form-control" value="{{ old("popup_advertiser_click",$popup_advertiser_click->val) }}">
                             </div>
                         </div>
-                    </div>
+                    </div>  --}}
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
                             <label for="popup_advertiser_show">
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    {{--  <div class="col-md-6 mb-3">
                         <div class="form-group">
                             <label for="popup_user_vip_click">
                                                             {{ __("setting.popup_user_vip_click") }}
@@ -60,7 +60,7 @@
                                 <input type="text" id="popup_user_vip_click" name="popup_user_vip_click" class="number_format form-control" value="{{ old("popup_user_vip_click",$popup_user_vip_click->val) }}">
                             </div>
                         </div>
-                    </div>
+                    </div>  --}}
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
                             <label for="popup_user_vip_show">

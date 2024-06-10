@@ -164,10 +164,9 @@ class SiteController extends Controller
                 ]);
                 $user= $site->user;
                 $user->send_pattern( $user->mobile, "0h00xubbbf6lobl", ['name' => $user->name()]);
-
             }
             toast()->success('اطلاعات با موفقیت ثبت شد  ');
-            Cache::put('sites', Site::whereStatus("confirmed"));
+            Cache::put('sites', Site::whereStatus("confirmed")->get());
             return redirect()->route('site.index');
         }
 
