@@ -137,6 +137,7 @@ if (! function_exists('app_path')) {
 if (! function_exists('asset')) {
     /**
      * Generate an asset path for the application.
+     * Generate an asset path for the application.
      *
      * @param  string  $path
      * @param  bool|null  $secure
