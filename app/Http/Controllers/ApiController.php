@@ -43,6 +43,9 @@ class ApiController extends Controller
         $css = asset('/css/css_add.css');
         $domin = $request->domin;
         $device = $request->device;
+        if($device=='desktop'){
+            $device="computer";
+        }
 
         $advertise = null;
         $fixpost = null;
@@ -167,11 +170,21 @@ class ApiController extends Controller
     {
         $site_owner = $site->user;
         $site_id = $site->id;
+        $device = $request->device;
+        if($device=='desktop'){
+            $device="computer";
+        }
         $advertise = Advertise::where('active', 1)->whereType($type)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
 
-        // $advertise->whereHas('cats', function ($query) use ($site) {
-        //     $query->where('id', $site->cat_id);
-        // });
+        $advertise->whereHas('cats', function ($query) use ($site) {
+            $query->where('id', $site->cat_id);
+        });
+        if(  $device=="mobile"){
+            $advertise->whereIn("device",['mobile',"mobile_computer"]);
+        }
+        if(  $device=="computer"){
+            $advertise->whereIn("device",['computer',"mobile_computer"]);
+        }
         $advertise
             ->where(function ($qu) use ($type, $ip,$site_id) {
                 if ($type == "popup") {

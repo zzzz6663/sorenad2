@@ -3,6 +3,7 @@
 @if($price)
 <div class="row mb-3">
     <div class="col-lg-6">
+        <input type="text" name="count_type" value="view" hidden>
         <input type="text"   id="price" value="{{ $price }}" hidden>
         <div class="form-control-wrap">
             <input type="number" name="view_count" class="form-control order_count  form-control-outlined" id="view_count" data-price="{{ $price }}"  value="{{ old("view_count",$advertise->view_count) }}" placeholder="">

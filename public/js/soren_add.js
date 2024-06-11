@@ -2,11 +2,11 @@ window.onload = function(){
     fetchData();
 
  };
-//  
+//
 
 var touchDevice = ('ontouchstart' in document.documentElement);
 let domin = window.location.hostname
-let device = touchDevice ? "mobile" : "desktop"
+let device = touchDevice ? "mobile" : "computer";
 var fixpost = document.getElementById("sorenad_fixpost");
 var banner = document.getElementById("sorenad_banner");
 var banner2 = document.getElementById("sorenad_banner2");
