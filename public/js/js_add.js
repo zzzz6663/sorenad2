@@ -23,6 +23,7 @@ function loadDoc2(data) {
     }
     console.log(url)
     // let url ="http://127.0.0.1:8000/api/test"
+    // let url ="http://127.0.0.1:8000/api/test"
     let info = {
         domin: domin,
         device: device,
