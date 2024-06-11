@@ -2,7 +2,7 @@ window.onload = function(){
     fetchData();
 
  };
-
+//  
 
 var touchDevice = ('ontouchstart' in document.documentElement);
 let domin = window.location.hostname
