@@ -289,7 +289,7 @@ class AdvertiseController extends Controller
         if ($advertise->status == "ready_to_confirm") {
             $advertise->update(['status' => "ready_to_show", "confirm" => Carbon::now()]);
               toast()->success("تبلیغ با موفقیت تایید شد ");
-            $advertise->user->send_pattern($advertise->user->mobile, "k4qdf4se66hu8ch", ['name' => $advertise->user->name()]);
+            $advertise->user->send_pattern($advertise->user->mobile, "3ii278gte7r1cz5", ['name' => $advertise->user->name()]);
             // $advertise->user->send_pattern(  $advertise->user->mobile, "dvykkxdfbv9gj8x", ['name' => $advertise->user->name()]);
             // Cache::put('advertise', Advertise::where('active', 1)->where("confirm", "!=", "null")->whereStatus("ready_to_show"));
         } else {
