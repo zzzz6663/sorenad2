@@ -44,13 +44,22 @@
                         <div class="form-group">
                             <label for="site_category">شبکه اجتماعی</label>
                             <div class="form-control-wrap">
-                                <select name="socials[]" id="social" multiple class="form-control submit_form select2">
+                                <select name="socials" id="social"  class="form-control submit_form select2">
                                     <option value="">همه </option>
-                                    <option {{ in_array("telegram",request("socials",[]))?"selected":"" }} value="telegram"> تلگرام </option>
+
+                                    <option {{ request("socials") =="telegram"?"selected":"" }} value="telegram"> تلگرام </option>
+                                    <option {{  request("socials") =="ita"?"selected":"" }} value="ita"> ایتا </option>
+                                    <option {{  request("socials") =="rubika"?"selected":"" }} value="rubika"> روبیکا </option>
+                                    <option {{  request("socials") =="instagram"?"selected":"" }} value="instagram"> اینستاگرام </option>
+                                    <option {{ request("socials") =="bale"?"selected":"" }} value="bale"> بله </option>
+
+
+
+                                    {{--  <option {{ in_array("telegram",request("socials",[]))?"selected":"" }} value="telegram"> تلگرام </option>
                                     <option {{  in_array("ita",request("socials",[]))?"selected":"" }} value="ita"> ایتا </option>
                                     <option {{  in_array("rubika",request("socials",[]))?"selected":"" }} value="rubika"> روبیکا </option>
                                     <option {{  in_array("instagram",request("socials",[]))?"selected":"" }} value="instagram"> اینستاگرام </option>
-                                    <option {{ in_array("bale",request("socials",[]))?"selected":"" }} value="bale"> بله </option>
+                                    <option {{ in_array("bale",request("socials",[]))?"selected":"" }} value="bale"> بله </option>  --}}
                                 </select>
                             </div>
                         </div>
@@ -115,6 +124,7 @@
                                     </span>
                                 </p>
                             </div>
+
                         </div>
                         <div class="row">
 

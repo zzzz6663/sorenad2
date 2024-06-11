@@ -543,7 +543,7 @@ window.onload = function () {
     }
     $('.copy_c').on("click", function (e) {
         let el = $(this);
-        let txt = $(".content_ms").text()
+        let txt = el.closest('.content').find(".content_ms").text()
         console.log(txt)
 
          txt = removeExtraSpaces(txt);

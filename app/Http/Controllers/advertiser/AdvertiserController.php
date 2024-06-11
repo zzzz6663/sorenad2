@@ -1323,22 +1323,23 @@ class AdvertiserController extends Controller
         }
         if ($request->socials) {
             $socials = $request->socials;
-            if (in_array("instagram", request("socials", []))) {
-                $advertises->whereRaw('instagram = "" ');
-            }
-            if (in_array("ita", request("socials", []))) {
-                $advertises->whereRaw('ita = "" ');
-            }
-            if (in_array("rubika", request("socials", []))) {
+            $advertises->where($socials,"1");
+            // if (in_array("instagram", request("socials", []))) {
+            //     $advertises->whereRaw('instagram = "" ');
+            // }
+            // if (in_array("ita", request("socials", []))) {
+            //     $advertises->whereRaw('ita = "" ');
+            // }
+            // if (in_array("rubika", request("socials", []))) {
 
-                $advertises->whereRaw('rubika = "" ');
-            }
-            if (in_array("bale", request("socials", []))) {
-                $advertises->whereRaw('bale = "" ');
-            }
-            if (in_array("telegram", request("socials", []))) {
-                $advertises->whereRaw('telegram = "" ');
-            }
+            //     $advertises->whereRaw('rubika = "" ');
+            // }
+            // if (in_array("bale", request("socials", []))) {
+            //     $advertises->whereRaw('bale = "" ');
+            // }
+            // if (in_array("telegram", request("socials", []))) {
+            //     $advertises->whereRaw('telegram = "" ');
+            // }
         }
         // dd($request->all());
         $advertises = $advertises->get();
