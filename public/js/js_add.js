@@ -16,7 +16,7 @@ var text = document.getElementById("sorenad_text");
 
 
 function loadDoc2(data) {
-    let  url ="https://sorenad.runflare.run/api/ads"
+    let  url ="https://panel.sorenad.com//api/ads"
     if(window.location.hostname=="127.0.0.1"){
 
         url ="http://127.0.0.1:8000/api/ads"
