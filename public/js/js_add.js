@@ -16,13 +16,12 @@ var text = document.getElementById("sorenad_text");
 
 
 function loadDoc2(data) {
-    let  url ="https://panel.sorenad.com//api/ads"
+    let  url ="https://panel.sorenad.com/api/ads"
     if(window.location.hostname=="127.0.0.1"){
 
         url ="http://127.0.0.1:8000/api/ads"
     }
     console.log(url)
-    // let url ="http://127.0.0.1:8000/api/test"
     // let url ="http://127.0.0.1:8000/api/test"
     let info = {
         domin: domin,
