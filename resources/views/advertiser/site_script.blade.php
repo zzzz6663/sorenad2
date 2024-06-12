@@ -22,8 +22,8 @@
                             کد اسکریپت
                         </span>
                         <div class="nk-reply-from">
-                            {{ route("home")."/js/js_add.js" }}
-                            <span data-url="{{ route("home")."/js/js_add.js" }}" class="btn btn-success copy">کپی </span>
+                            {{ route("home")."/js/soren_ad.js" }}
+                            <span data-url="{{ route("home")."/js/soren_ad.js" }}" class="btn btn-success copy">کپی </span>
                         </div>
                     </div>
                     <div class="col-lg-12 mb-4">
