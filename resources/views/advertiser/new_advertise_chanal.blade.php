@@ -19,7 +19,7 @@
             @if( $chanal_active_site=App\Models\Setting::whereName("chanal_active_site")->first()->val)
 
             <li class="nav-item tal">
-                <a class="nav-link   {{ request("type")=="chanal"?"active":"" }}" href="{{ route("advertiser.new.adertise.chanal",['type'=>"chanal"]) }}"><i class="fas fa-volume-down"></i></i><span>کانال</span></a>
+                <a class="nav-link   {{ request("type")=="chanal"?"active":"active" }}" href="{{ route("advertiser.new.adertise.chanal",['type'=>"chanal"]) }}"><i class="fas fa-volume-down"></i></i><span>کانال</span></a>
             </li>
 
             @endif
@@ -27,8 +27,7 @@
         </ul>
 
         <div class="tab-content">
-            @if(request("type")=="chanal")
-            <div class="tab-pane  {{ request("type")=="chanal"?"active":"" }}" id="tabItem5">
+            <div class="tab-pane  {{ request("type")=="chanal"?"active":"active" }}" id="tabItem5">
                 <form action="{{ route("advertiser.new.adertise.chanal") }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('post')
@@ -214,8 +213,7 @@
                     @include('advertiser.btns')
                 </form>
             </div>
-            @endif
-        
+
         </div>
 
     </div>

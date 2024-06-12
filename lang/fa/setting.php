@@ -38,15 +38,28 @@ return [
 
 
 
+    // 'popup_title' => ' تنظیمات تبلیغات پاپ آپ',
+    // 'popup_active_site' => ' فعال کردن تبلیغ در سایت',
+    // 'popup_advertiser_click' => ' تنظیم نرخ هر کلیک تبلیغ دهنده',
+    // 'popup_advertiser_show' => ' تنظیم نرخ هر نمایش تبلیغ دهنده',
+    // 'popup_limit_order' => ' حداقل تعداد سقارش پاپ آپ',
+    // 'popup_user_vip_click' => 'تنظیم نرخ هر کلیک کاربر vip ',
+    // 'popup_user_vip_show' => 'تنظیم نرخ هر نمایش کاربر vip ',
+    // 'popup_user_normal_click' => 'تنظیم نرخ هر کلیک کاربر معمولی ',
+    // 'popup_user_normal_show' => 'تنظیم نرخ هر نمایش کاربر معمولی ',
+
     'popup_title' => ' تنظیمات تبلیغات پاپ آپ',
     'popup_active_site' => ' فعال کردن تبلیغ در سایت',
     'popup_advertiser_click' => ' تنظیم نرخ هر کلیک تبلیغ دهنده',
-    'popup_advertiser_show' => ' تنظیم نرخ هر نمایش تبلیغ دهنده',
-    'popup_limit_order' => ' تنظیم محدودیت سفارش',
+    'popup_advertiser_show' => ' قیمت هر پاپ آپ برای تبلیغ کننده',
+    'popup_limit_order' => ' حداقل تعداد سقارش پاپ آپ',
     'popup_user_vip_click' => 'تنظیم نرخ هر کلیک کاربر vip ',
-    'popup_user_vip_show' => 'تنظیم نرخ هر نمایش کاربر vip ',
+    'popup_user_vip_show' => 'درآمد هر پاپ آپ برای نمایش دهنده vip ',
     'popup_user_normal_click' => 'تنظیم نرخ هر کلیک کاربر معمولی ',
-    'popup_user_normal_show' => 'تنظیم نرخ هر نمایش کاربر معمولی ',
+    'popup_user_normal_show' => 'درآمد هر پاپ آپ برای نمایش دهنده ',
+
+
+
 
 
     'video_title' => ' تنظیمات تبلیغات ویدئو',

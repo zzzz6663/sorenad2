@@ -9,7 +9,7 @@
             <input type="number" name="view_count" class="form-control order_count  form-control-outlined" id="view_count" data-price="{{ $price }}"  value="{{ old("view_count",$advertise->view_count) }}" placeholder="">
             <label class="form-label-outlined" for="view_count">
                 تعداد سفارش
-                ( حداقل سفارش 10000 عدد)
+                ( حداقل سفارش {{    $min_click }} عدد)
             </label>
             <span class="input-group-text totoal_price">
                 {{number_format( old("view_count",$advertise->view_count)*$price)." تومان" }}

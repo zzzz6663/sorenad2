@@ -27,13 +27,53 @@
                     </div>
                     <div class="col-lg-12 mb-4">
                         <p class="alert alert-warning">
-                            این کد را در هدر یا فوتر سایت خود قرار دهید.
+                          برای استفاده از سیستم همسان و پاپ آپ
+                          و سایر تبلیغات ابتدا باید اسکرپیت بالا را در قسمت
+                          head
+                          یا فوتر سایت قرار دهید
+                        </p>
+                    </div>
+                    <div class="col-lg-12 mb-4">
+                        <p class="alert alert-danger mt-4">
+                            از بین تبلیغات همسان و نصب اپلیکیشن تنها میتوانید یک مورد را فعال کنید .
+                            بعد از تغییر روی دکمه ذخیره اطلاعات کلیک کنید .
+                            <br>
                         </p>
                     </div>
                     <div class="col-md-4 col-sm-6">
                         <div class="preview-block">
-                            <span class="preview-title overline-title">توضیحات
-                            </span>
+                            {{--  <span class="preview-title overline-title">
+                                توضیحات
+                            </span>  --}}
+                            <div class="custom-control custom-switch checked">
+                                <input type="text" hidden name="float_app" value="0">
+                                <input type="checkbox" class="custom-control-input" name="float_app" {{ $user->float_app?"checked":"" }} id="float_app" value="1">
+                                <label class="custom-control-label" for="float_app">تبلیغات شناور نصب اپلیکیشن</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-6">
+                        <div class="preview-block">
+
+                            <div class="custom-control custom-switch checked">
+                                <input type="text" hidden name="hamsan" value="0">
+                                <input type="checkbox" class="custom-control-input" name="hamsan" {{ $user->hamsan?"checked":"" }} id="hamsan" value="1">
+                                <label class="custom-control-label" for="hamsan">همسان</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mb-4">
+                        <p class="alert alert-danger mt-4">
+                          درصورتی که قصد نمایش پاپ آپ را دارید،
+                          این دکمه را فعال کنید
+                          و سپس روی دکمه ذخیره اطلاعات کلیک کنید .
+                            <br>
+                        </p>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="preview-block">
+
                             <div class="custom-control custom-switch checked">
                                 <input type="text" hidden name="back_popup" value="0">
                                 <input type="checkbox" class="custom-control-input" name="back_popup" {{ $user->back_popup?"checked":"" }} id="customSwitch2" value="1">
@@ -42,30 +82,6 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4 col-sm-6">
-                        <div class="preview-block">
-                            <span class="preview-title overline-title">توضیحات
-                            </span>
-                            <div class="custom-control custom-switch checked">
-                                <input type="text" hidden name="hamsan" value="0">
-                                <input type="checkbox" class="custom-control-input" name="hamsan" {{ $user->hamsan?"checked":"" }} id="hamsan" value="1">
-                                <label class="custom-control-label" for="hamsan">همسان</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="preview-block">
-                            <span class="preview-title overline-title">
-                                توضیحات
-                            </span>
-                            <div class="custom-control custom-switch checked">
-                                <input type="text" hidden name="float_app" value="0">
-                                <input type="checkbox" class="custom-control-input" name="float_app" {{ $user->float_app?"checked":"" }} id="float_app" value="1">
-                                <label class="custom-control-label" for="float_app">تبلیغات شناور نصب اپلیکیشن</label>
-                            </div>
-                        </div>
-                    </div>
 
 
                     {{--  <div class="col-md-3 col-sm-6">
@@ -85,18 +101,7 @@
                             </div>
                         </div>
                     </div>  --}}
-                    <div class="col-lg-12 mb-4">
-                        <p class="alert alert-warning mt-4">
 
-                            در صورتیکه این تبلیغ را در سایت قرار میدهید، هیچ تبلیغ شناور دیگری نمیتوانید روی آن داشته باشید.
-                            <br>
-
-                            در صورت تخلف، حساب کاربری شما مسدود خواهد شد.
-                            <br>
-                            در واقع تبلیغات باید به درستی نمایش داده شوند و روی یکدیگر قرار نگیرند.
-
-                        </p>
-                    </div>
                     <div class="col-md-12 mt-4">
                         <div class="form-group">
                             <button type="submit" class="btn btn-lg btn-primary">ذخیره اطلاعات</button>
@@ -118,6 +123,13 @@
     <div class="card" id="scr">
         <div class="card-inner">
             <div class="row">
+                <div class="col-lg-12 mb-4">
+                    <p class="alert alert-warning mt-4">
+                 بعد از قرار دادن اسکریپت بالا در سایت خود ،
+                 باید کد <HTML>مربوط به هر جایگاه را در سایت خود در مکان مناسب قرار دهید .</HTML>
+                        <br>
+                    </p>
+                </div>
 {{--  dddss  --}}
                 <div class="col-lg-6 mb-5">
                     <span class="pl-4">
@@ -130,7 +142,8 @@
                 </div>
                 <div class="col-lg-6 mb-5">
                     <span class="pl-4">
-                        کد تبلیغات بنری سایز (275*180) مناسب ستون کناری
+                        کد تبلیغات بنری سایز (300*160) مناسب ستون کناری
+
                     </span>
                     <div class="nk-reply-from">
                         <code>
@@ -169,14 +182,16 @@
                             <span class="line_wrapper"></span></pre>
                         <span data-id="sorenad_text" class="btn btn-success copy_h">کپی </span>
                     </div>
-                </div>
+                </div>ّ
                 <div class="col-lg-6 mb-5">
                     <span class="pl-4">
-                        کد باکس تبلیغات متنی مناسب برای ابتدا یا انتهای مطالب یا ستون کناری
+                        کد تبلیغات بنری مناسب قبل یا بعد از نمایش مطلب عرض : ۸۰۰ ارتفاع : ۱۳۱
                     </span>
                     <div class="nk-reply-from">
-                        {{ route("home")."/js_add.js" }}
-                        <span data-url="{{ route("home")."/js_add.js" }}" class="btn btn-success copy">کپی </span>
+                        <code>
+                            <pre class="code_syntax" style="color:#000020;background:#f6f8ff;"><span class="line_wrapper"> <span style="color:#0057a6; ">&lt;</span><span style="color:#200080; font-weight:bold; ">div</span><span style="color:#474796; "> </span><span style="color:#074726; ">id</span><span style="color:#308080; ">=</span><span style="color:#1060b6; ">"sorenad_banner2"</span><span style="color:#0057a6; ">&gt;</span><span style="color:#0057a6; ">&lt;/</span><span style="color:#200080; font-weight:bold; ">div</span><span style="color:#0057a6; ">&gt;</span></span></pre>
+                        </code>
+                        <span data-id="sorenad_banner2" class="btn btn-success copy_h">کپی </span>
                     </div>
                 </div>
             </div>

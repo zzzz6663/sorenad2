@@ -4,6 +4,7 @@
 <form action="{{ route("setting.ads.popup") }}" method="post">
     @csrf
     @method('post')
+    @include('main.error')
     <div class="components-preview wide-md mx-auto">
         <br>
 
@@ -21,6 +22,7 @@
                             </div>
                         </div>
                     </div>
+                    {{--  ss  --}}
                     {{--  <div class="col-md-6 mb-3">
                         <div class="form-group">
                             <label for="popup_advertiser_click">
@@ -71,7 +73,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    {{--  <div class="col-md-6 mb-3">
                         <div class="form-group">
                             <label for="popup_user_normal_click">
                                                             {{ __("setting.popup_user_normal_click") }}
@@ -80,7 +82,7 @@
                                 <input type="text" id="popup_user_normal_click" name="popup_user_normal_click" class="number_format form-control" value="{{ old("popup_user_normal_click",$popup_user_normal_click->val) }}">
                             </div>
                         </div>
-                    </div>
+                    </div>  --}}
                     <div class="col-md-6 mb-3">
                         <div class="form-group">
                             <label for="popup_user_normal_show">

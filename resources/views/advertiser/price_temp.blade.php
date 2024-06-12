@@ -18,11 +18,12 @@ $final= (old("click_count",$advertise->click_count)* old("price_suggestion",$adv
     chanal_advertiser_atlist_price  --}}
     <div class="col-lg-4 mb-2">
         <div class="form-control-wrap {{  $type=="chanal"?"focused":""}} ">
-            <input type="number" name="click_count" id="click_count" min="{{ $min_click }}" required class="form-control click_inp order_count  form-control-outlined cal_p" value="{{ old("click_count",$advertise->click_count) }}" data-price="{{ $min_sugestion_price }}" id="click_count">
-            <input type="text" name="count_type" value="click" hidden>
-            <label class="form-label-outlined" for="click_count">
+            <label class="form-label" for="click_count">
                 تعداد کلیک
             </label>
+            <input type="number" name="click_count" id="click_count" min="{{ $min_click }}" required class="form-control click_inp order_count  form-control-outlined cal_p" value="{{ old("click_count",$advertise->click_count) }}" data-price="{{ $min_sugestion_price }}" id="click_count">
+            <input type="text" name="count_type" value="click" hidden>
+
             {{-- <span class="input-group-text  ">
                 {{ number_format(old("click_count") ) }}
 
@@ -32,10 +33,11 @@ $final= (old("click_count",$advertise->click_count)* old("price_suggestion",$adv
 
     <div class="col-lg-4 mb-2">
         <div class="form-control-wrap {{  $type=="chanal"?"focused":""}} ">
-            <input type="number" name="price_suggestion" id="price_suggestion" min="{{ $min_sugestion_price }}" class="form-control click_inp  form-control-outlined cal_p" value="{{ old("price_suggestion",$advertise->price_suggestion) }}" data-price="{{ $min_sugestion_price }}" id="price_suggestion">
-            <label class="form-label-outlined" for="price_suggestion">
+            <label class="form-label" for="price_suggestion">
                 قیمت پیشنهادی برای هر کلیک
             </label>
+            <input type="number" name="price_suggestion" id="price_suggestion" min="{{ $min_sugestion_price }}" class="form-control click_inp  form-control-outlined cal_p" value="{{ old("price_suggestion",$advertise->price_suggestion) }}" data-price="{{ $min_sugestion_price }}" id="price_suggestion">
+
             {{-- <span class="input-group-text  ">
                 {{ number_format(old("price_suggestion") ) }}
             تومان
@@ -69,10 +71,11 @@ $final= (old("click_count",$advertise->click_count)* old("price_suggestion",$adv
             </div>
             <div class="col-lg-4 mb-3">
                 <div class="form-control-wrap {{  $type=="chanal"?"focused":""}} ">
-                    <input type="number" name="click_count" id="click_count" class="form-control click_inp order_count form-control-outlined cal_p" {{ old("click_count",$advertise->click_count)?"":"disabled" }} value="{{ old("click_count",$advertise->click_count) }}" data-price="{{ $click }}" id="click_count">
-                    <label class="form-label-outlined" for="click_count">
+                    <label class="form-label" for="click_count">
                         تعداد کلیک
                     </label>
+                    <input type="number" name="click_count" id="click_count" class="form-control click_inp order_count form-control-outlined cal_p" {{ old("click_count",$advertise->click_count)?"":"disabled" }} value="{{ old("click_count",$advertise->click_count) }}" data-price="{{ $click }}" id="click_count">
+
                     <span class="input-group-text  ">
                         {{ number_format(old("click_count")*$click ) }}
                         تومان
@@ -81,10 +84,11 @@ $final= (old("click_count",$advertise->click_count)* old("price_suggestion",$adv
             </div>
             <div class="col-lg-4 mb-3">
                 <div class="form-control-wrap ">
-                    <input type="number" name="limit_daily_click" id="limit_daily_click" class="form-control click_inp  form-control-outlined cal_p" {{ old("click_count",$advertise->click_count)?"":"disabled" }} value="{{ old("limit_daily_click",$advertise->limit_daily_click) }}" id="limit_daily_click">
-                    <label class="form-label-outlined" for="limit_daily_click">
+                    <label class="form-label" for="limit_daily_click">
                         محدودیت تعداد کلیک این تبلیغ در روز
                     </label>
+                    <input type="number" name="limit_daily_click" id="limit_daily_click" class="form-control click_inp  form-control-outlined cal_p" {{ old("click_count",$advertise->click_count)?"":"disabled" }} value="{{ old("limit_daily_click",$advertise->limit_daily_click) }}" id="limit_daily_click">
+
                     <span class="input-group-text   ">
                         <span class="info_txt">
                             <span>برای بی نهایت خالی بگذارید </span>
@@ -115,10 +119,11 @@ $final= (old("click_count",$advertise->click_count)* old("price_suggestion",$adv
             </div>
             <div class="col-lg-4 mb-3">
                 <div class="form-control-wrap">
-                    <input type="number" name="view_count" id="view_count" class="form-control order_count view_inp form-control-outlined cal_p" {{ old("view_count",$advertise->view_count)?"":"disabled" }} value="{{ old("view_count",$advertise->view_count) }}" data-price="{{ $view }}" id="view_count">
-                    <label class="form-label-outlined" for="view_count">
+                    <label class="form-label" for="view_count">
                         تعداد نمایش
                     </label>
+                    <input type="number" name="view_count" id="view_count" class="form-control order_count view_inp form-control-outlined cal_p" {{ old("view_count",$advertise->view_count)?"":"disabled" }} value="{{ old("view_count",$advertise->view_count) }}" data-price="{{ $view }}" id="view_count">
+
                     <span class="input-group-text totoal_price_view ">
                         {{ number_format(old("view_count")*$view ) }}
                         تومان
@@ -127,11 +132,11 @@ $final= (old("click_count",$advertise->click_count)* old("price_suggestion",$adv
             </div>
             <div class="col-lg-4 mb-3">
                 <div class="form-control-wrap">
-                    <input type="number" name="limit_daily_view" id="limit_daily_view" class="form-control view_inp form-control-outlined cal_p" {{ old("limit_daily_view",$advertise->limit_daily_view)?"":"disabled" }} value="{{ old("limit_daily_view",$advertise->limit_daily_view) }}" id="limit_daily_view">
-                    <label class="form-label-outlined" for="limit_daily_view">
-
+                    <label class="form-label" for="limit_daily_view">
                         محدودیت تعداد نمایش این تبلیغ در روز
                     </label>
+                    <input type="number" name="limit_daily_view" id="limit_daily_view" class="form-control view_inp form-control-outlined cal_p" {{ old("limit_daily_view",$advertise->limit_daily_view)?"":"disabled" }} value="{{ old("limit_daily_view",$advertise->limit_daily_view) }}" id="limit_daily_view">
+
                     <span class="input-group-text   ">
                         <span class="info_txt">
                             <span>برای بی نهایت خالی بگذارید </span>

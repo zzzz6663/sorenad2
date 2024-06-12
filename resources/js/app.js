@@ -254,12 +254,7 @@ window.onload = function () {
 
         }, 1500);
     }
-    $('.fin_pay').on("click", function (e) {
-        let el = $(this)
-        el.closest("form").find('.should_pay').val(1)
-        $('.next_p').click()
 
-    });
 
 
     function update_btn($step, el = null) {
@@ -313,13 +308,24 @@ window.onload = function () {
     //         $('.tab-pane').eq(el.index()).slideDown(400)
     //         el.find("a").addClass("active")
     //     }, 200);
-
+    // $('.fin_pay').on("click", function (e) {
+        $(".fin_pay").unbind("click").click(function () {
+        let el = $(this)
+        console.log(12)
+        el.closest("form").find('.should_pay').val(1)
+        send_data(el)
+    });
         let index = 0
 
         $(".next_p").unbind("click").click(function () {
-
-
             let el = $(this)
+            send_data(el)
+
+
+
+        })
+
+        function send_data(el) {
             let url = el.closest('form').attr("action")
             console.log(index)
             var form_data = new FormData(el.closest('form')[0]);
@@ -387,9 +393,6 @@ window.onload = function () {
                     console.log(request)
                 }
             })
-
-
-
             $(".prev_p").unbind("click").click(function () {
                 let el = $(this)
                 console.log(index)
@@ -402,8 +405,7 @@ window.onload = function () {
                     el.closest('form').find('.taby').eq(index + 1).removeClass("current")
                 }, 200);
             })
-
-        })
+        }
 
     $('#send_pay').on("click", function (e) {
         $(this).closest("form").submit()

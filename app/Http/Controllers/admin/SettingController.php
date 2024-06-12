@@ -143,14 +143,15 @@ class SettingController extends Controller
 
     public function setting_ads_popup(Request $request){
         if($request->isMethod("post")){
+
             $data=$request->validate([
-                'popup_advertiser_click'=>"required",
+                // 'popup_advertiser_click'=>"required",
                 'popup_advertiser_show'=>"required",
                 'popup_limit_order'=>"required",
                 'popup_active_site'=>"required",
-                'popup_user_vip_click'=>"required",
+                // 'popup_user_vip_click'=>"required",
                 'popup_user_vip_show'=>"required",
-                'popup_user_normal_click'=>"required",
+                // 'popup_user_normal_click'=>"required",
                 'popup_user_normal_show'=>"required",
             ]);
             foreach($data as $key=>$val){

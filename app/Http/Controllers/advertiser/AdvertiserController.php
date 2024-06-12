@@ -80,6 +80,8 @@ class AdvertiserController extends Controller
 
         $user = auth()->user();
         $route = null;
+        $min_click = $user->setting_cache("popup_limit_order");
+
         if ($request->isMethod("post")) {
             $type = $request->type;
             $step = $request->input('step');
@@ -121,7 +123,7 @@ class AdvertiserController extends Controller
                         case '1':
                             $rules += [
                                 'title' => "required",
-                                'landing_link1' => "required|url",
+                                'landing_link1' => "required",
                             ];
                             break;
                         case '2':
@@ -131,7 +133,7 @@ class AdvertiserController extends Controller
                             break;
                         case '3':
                             $rules += [
-                                'order_count' => "required|integer|min:1000",
+                                'order_count' => "required|integer|min:$min_click",
                                 'pay_type' => "required",
                             ];
                             break;
@@ -264,6 +266,7 @@ class AdvertiserController extends Controller
                             case '2':
                                 $rules += [
                                     'cats' => "nullable",
+                                    'device' => "required",
                                 ];
                                 break;
                             case '3':
@@ -388,8 +391,7 @@ class AdvertiserController extends Controller
 
 
 
-
-        return view('advertiser.new_advertise_site', compact(["user", "advertise"]));
+        return view('advertiser.new_advertise_site', compact(["user", "advertise","min_click"]));
     }
 
 
@@ -403,6 +405,7 @@ class AdvertiserController extends Controller
         $chanal_setting2 = Setting::whereName("chanal_setting2")->first()->val;
         $chanal_setting3 = Setting::whereName("chanal_setting3")->first()->val;
         $min_click = $user->setting_cache("chanal_advertiser_atlist_count");
+
         $min_sugestion_price = $user->setting_cache("chanal_advertiser_atlist_price");
 
         // $chanal_advertiser_atlist_count = Setting::whereName("chanal_advertiser_atlist_count")->first()->val;

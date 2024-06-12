@@ -340,7 +340,7 @@
                         </div>
                         <div class="step" style="display:none;">
                             @include('advertiser.cat_temp')
-
+                            @include('advertiser.device_temp')
                         </div>
                         <div class="step" style="display:none;">
                             @include('advertiser.price_temp')

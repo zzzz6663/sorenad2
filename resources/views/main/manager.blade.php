@@ -5,8 +5,7 @@
 <head>
     <title>
         {{--  @yield('title')  --}}
-        {{--  @yield('title')  --}}
-        12501506
+        @yield('title')
     </title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
