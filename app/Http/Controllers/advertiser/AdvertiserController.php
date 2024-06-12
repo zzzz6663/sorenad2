@@ -147,6 +147,7 @@ class AdvertiserController extends Controller
                                 'landing_link1' => "required|url",
                                 // 'banner1' => "required|dimensions:width=300,min_height=160|max:1024",
                                 // 'banner2' => "nullable|dimensions:width=800,min_height=131|max:1024",
+                                // 'banner2' => "nullable|dimensions:width=800,min_height=131|max:1024",
                                 'banner1' => "nullable|max:1024",
                                 'banner2' => "nullable|max:1024",
 
