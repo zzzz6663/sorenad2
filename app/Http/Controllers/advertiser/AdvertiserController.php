@@ -504,6 +504,21 @@ class AdvertiserController extends Controller
                     $attach->move(public_path('/media/advertises/'), $name_img);
                     $data['attach'] = $name_img;
                 }
+                if(in_array("instagram",$data['socials'])){
+                    $data['instagram']=1;
+                }
+                if(in_array("telegram",$data['socials'])){
+                    $data['telegram']=1;
+                }
+                if(in_array("ita",$data['socials'])){
+                    $data['ita']=1;
+                }
+                if(in_array("rubika",$data['socials'])){
+                    $data['rubika']=1;
+                }
+                if(in_array("bale",$data['socials'])){
+                    $data['bale']=1;
+                }
                 $advertise->update($data);
                 if ($request->cats) {
                     $advertise->cats()->attach($data['cats']);
@@ -519,6 +534,7 @@ class AdvertiserController extends Controller
 
                 if (!$request->ajax()) {
                     if ($request->pay) {
+
                         return redirect()->route("send.pay", [$advertise->id, "pay_type" => $request->pay_type]);
                     } else {
                         return redirect()->route("advertiser.list");

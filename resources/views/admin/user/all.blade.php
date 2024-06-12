@@ -91,11 +91,14 @@
                                     </select>
                                 </div>
 
-                                <div class="form-wrap w-150px">
+                                <div class="form-wrap ">
                                     <span class="">
                                         <br>
                                         <button class="btn btn-dim btn-outline-light ">
                                             اعمال
+                                        </button>
+                                        <button name="excel" value="1" class="btn btn-dim btn-outline-success ">
+                                            Excel
                                         </button>
                                     </span>
                                     @if(request()->has("search"))

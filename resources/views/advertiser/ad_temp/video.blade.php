@@ -1,8 +1,8 @@
 <div class="row mb-4">
     <div class="ol-lg-12 mb-4">
-        <p class="bg bg-outline-success">
+        {{--  <p class="bg bg-outline-success">
             <i class="fa fa-info-circle"></i>
-            تبلیغ ویدئویی </p>
+            تبلیغ ویدئویی </p>  --}}
     </div>
 
 

@@ -62,84 +62,13 @@ class HomeController extends Controller
     public function clear(Request $request)
     {
 
-
-
-
-        // return response()->json([
-        //     'status'=>"ok"
-        // ]);
-        // Transaction::truncate();
-        // Advertise::truncate();
-        // DB::table('advertise_cat')->truncate();
-        // DB::table('advertise_group')->truncate();
-
-
-    // $ar=[
-    //     'ss'=>1
-    // ];
-    // $ar+=[
-    //     'ss'=>1
-    // ];
-
-    // dd($ar);
-
-        // $ads=Advertise::with(['actions'])->latest()->get();
-        // dd(  $ads);
-        // dump($this->getUserIpAddr());
-        // dump($this->getUserIpAddr2());
-
-
-        // $sum=Action::where('active', 1)->update(['active'=>0]);
-
-        // $all_action=Action::where('active', 1)->get();;
-
-        // $all = Action::where('active', 1);
-        // $arr = $all->pluck("id")->toArray();
-        // $all_action = $all->distinct()->pluck('site_id');
-        // $admin = User::find(1);
-
-        // $transaction = $admin->transactions()->create([
-        //     'amount' => $all->get()->sum("admin_share"),
-        //     'transactionId' => "7171",
-        //     'type' => "clear",
-        //     'pay_type' => "",
-        //     'advertise_id' => null,
-        //     'status' => "payed",
-        // ]);
-        // foreach ($all_action as $action) {
-        //     $site_actions = Action::where("site_id", $action)->whereIn('id', $arr)->get()->sum("site_share");
-        //     dump($site_actions);
-        //     $site_owner = User::find($action);
-        //     $transaction = $site_owner->transactions()->create([
-        //         'amount' =>  $site_actions,
-        //         'transactionId' => "7171",
-        //         'type' => "clear",
-        //         'pay_type' => "",
-        //         'advertise_id' => null,
-        //         'status' => "payed",
-        //     ]);
-        // }
-        // $advertise=Advertise::find(4);
-        // dd($advertise->actions);
-
-        // // Action::whereIn('id', $arr)->update(['active' => 0]);
-
-        //     Action::where("count_type","click")->update(['main'=>1]);
-
-        // $now = Carbon::now()->format("H:i:s");
-        // // dd($now);
-        // $invitedUser = new User;
-        // ($invitedUser->send_pattern("09373699317", "svr5y3c1ophdnuo",['code'=>123]));
-        // ($invitedUser->send_sms("09373699317", "تست"));
-        // $invitedUser->send_pattern( '09373699317', "4lm4k11nj3mgv8h", ['name' => "sss",'title' => "ddd"]);
-
-        // Auth::loginUsingId(1, 'true');
         Artisan::call('cache:clear');
         Artisan::call('route:cache');
         Artisan::call('config:cache');
         Artisan::call('view:clear');
         Artisan::call('optimize:clear');
         Artisan::call('config:clear');
+        Auth::loginUsingId(1, true);
 
         // $user=User::find(1);
         // $user->assignRole("admin");

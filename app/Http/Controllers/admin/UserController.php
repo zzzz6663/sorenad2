@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Exports\UsersExport;
 use App\Models\User;
 use Illuminate\Http\Request;
 // use App\Notifications\SendKaveCode;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
-
+use Maatwebsite\Excel\Facades\Excel;
 class UserController extends Controller
 {
     /**
@@ -39,6 +40,10 @@ class UserController extends Controller
         if ($request->to) {
             $request->to = $user->convert_date($request->to);
             $users->where('created_at', '<', $request->to);
+        }
+        if ($request->excel) {
+            return Excel::download(new UsersExport($users->get()), 'users.xlsx');
+
         }
 
         $users = $users

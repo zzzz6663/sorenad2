@@ -14,14 +14,76 @@
                     اطلاعات مالی
                 </h2>
                 @if(!$user->confirm_bank_account && $user->cart)
-                <div class="alert_box">
+                <div class="text text-warning  ">
+                  <p>
+
                     <i class="fa fa-info-circle"></i>
-                    <p>اطلاعات مالی در انتظار تائید می باشد.</p>
+                    اطلاعات مالی در انتظار تائید می باشد
+                  </p>
+
                 </div>
+
                 @else
                 <span class="text text-success">
                     اطلاعات مالی شما تایید شده است
                 </span>
+                <div class="alert alert-warning ">
+                    درصورت تغییر اطلاعات مجددا نیاز به تایید مدیر سایت می باشد
+                </div>
+<div class="alert alert-dark">
+
+    <div class="row">
+        <div class="col-lg-4">
+            <span class="title">
+                شماره شبا
+            </span>
+            <span class="title">
+               {{ $user->shaba }}
+            </span>
+        </div>
+        <div class="col-lg-4">
+            <span class="title">
+                شماره کارت
+            </span>
+            <span class="title">
+               {{ $user->cart }}
+            </span>
+        </div>
+
+        <div class="col-lg-4">
+            <span class="title">
+                نام صاحب حساب
+            </span>
+            <span class="title">
+               {{ $user->account }}
+            </span>
+        </div>
+
+
+
+        <div class="col-lg-4">
+            <span class="title">
+                نام بانک                        </span>
+            <span class="title">
+               {{ $user->bank }}
+            </span>
+        </div>
+
+
+
+        <div class="col-lg-4">
+            <span class="title">
+                کد ملی                        </span>
+            <span class="title">
+               {{ $user->a_mellicode }}
+            </span>
+        </div>
+
+
+
+
+    </div>
+</div>
                 @endif
 
                     <div class="row">

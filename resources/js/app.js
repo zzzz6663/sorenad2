@@ -884,7 +884,8 @@ window.onload = function () {
 
     })
 
-    $('#banner1').on("change", function (e) {
+    $('input[name="banner1"]').on("change", function (e) {
+
         var file = this.files[0];
         if (file) {
             var reader = new FileReader();
