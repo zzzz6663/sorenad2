@@ -1309,7 +1309,6 @@ class AdvertiserController extends Controller
                 'back_popup' => "nullable",
                 'float_app' => "nullable",
                 'hamsan' => "nullable",
-                'show_display_times' => "required",
             ]);
             $user->update($data);
             toast()->success("اطلاعات باموفقیت ذخیره شد ");
