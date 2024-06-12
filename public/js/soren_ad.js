@@ -3,6 +3,8 @@ window.onload = function(){
 
  };
 //
+//
+//
 
 var touchDevice = ('ontouchstart' in document.documentElement);
 let domin = window.location.hostname
