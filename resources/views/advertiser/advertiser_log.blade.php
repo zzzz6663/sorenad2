@@ -64,7 +64,7 @@
                                 </div>
 
                                 <div class="data">
-                                    <a class="btn btn-primary bg-white text-primary" href="{{ route("advertiser.withdrawal.request") }}">مشاهده درخواست های تسویه حساب  </a>
+                                    <a class="btn btn-primary bg-white text-primary" href="{{ route("advertiser.withdrawal.request") }}">مشاهده درخواست های تسویه حساب </a>
                                 </div>
                             </div>
                             <!-- .card-inner -->
@@ -85,7 +85,27 @@
                     @csrf
                     @method('get')
                     <div class="row">
-                        <div class="col-lg-5 mb-3">
+                        <div class="col-lg-12 mb-3">
+                            <div class="card bg-dark p-3  ">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <span class="text text-white">گزارش سرویس تبلیغاتی</span>
+                                    </div>
+                                    <div class="form-wrap  ">
+                                        <select name="site_id" id="" class="form-control w-150px d-inline-block">
+                                            <option value="">انتخاب سایت </option>
+                                            @foreach ($user->sites as $site )
+                                            <option {{ request('site_id')==$site->id?"selected":"" }} value="{{ $site->id }}">
+                                                {{ $site->site }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-7 mb-3">
                             <ul class="custom-control-group">
                                 <li>
                                     <div class="custom-control custom-control-sm custom-radio custom-control-pro checked">
@@ -119,21 +139,7 @@
 
                             </ul>
                         </div>
-
                         <div class="col-lg-3 mb-3">
-                            <div class="form-wrap  ">
-                                <label for="site" class="d-inline-block">سایت من</label>
-                                <select name="site_id" id="" class="form-control w-150px d-inline-block">
-                                    <option value="">همه</option>
-                                    @foreach ($user->sites as $site )
-                                    <option {{ request('site_id')==$site->id?"selected":"" }} value="{{ $site->id }}">
-                                        {{ $site->site }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 mb-3">
                             <div class="d-flex justify-content-start">
                                 <div class="form-wrap w-150px ml-2 d-flex">
                                     <label for="from">از</label>
@@ -144,15 +150,11 @@
                                     <input type="text" name="to" value="{{ request('to') }}" class="form-control date-picker">
                                 </div>
                             </div>
-
                         </div>
-
                         <div class="col-lg-2 mb-3">
                             <button class="btn btn-danger">
-                                گزراش گیری
-
+                                نتیجه
                             </button>
-
                         </div>
                     </div>
                 </form>
@@ -319,12 +321,12 @@
                         <td>{{ $site->actions()->where('main',1)->where("count_type","view")->count() }}</td>
                         <td>{{ $site->actions()->where('main',1)->where("count_type","click")->count() }}</td>
 
-                            <td>
-                                {{ floor(($site->actions()->where('main',1)->where("count_type","click")->count()*100)/
+                        <td>
+                            {{ floor(($site->actions()->where('main',1)->where("count_type","click")->count()*100)/
                                 ($site->display?$site->display:1)
                                  ) }}%
 
-                                </td>
+                        </td>
                     </tr>
                     @endforeach
 

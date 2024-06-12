@@ -15,7 +15,84 @@
                 <form action="{{ route("customer.log") }}" autocomplete="off" method="get">
                     @csrf
                     @method('get')
+
                     <div class="row">
+                        <div class="col-lg-12 mb-3">
+                            <div class="card bg-dark p-3  ">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <span class="text text-white">گزارش سرویس تبلیغاتی</span>
+                                    </div>
+                                    <div class="form-wrap  ">
+                                        <select name="advertise_id" id="advertise_id" class="form-control w-150px d-inline-block">
+                                            <option value="">تبلیغ  من</option>
+                                            @foreach ($user->advertises as $ad )
+                                            <option {{ request('advertise_id')==$ad->id?"selected":"" }} value="{{ $ad->id }}">
+                                                {{ $ad->title }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-7 mb-3">
+                            <ul class="custom-control-group">
+                                <li>
+                                    <div class="custom-control custom-control-sm custom-radio custom-control-pro checked">
+                                        <input {{ request("priod")=="0"?"checked":"" }} value="0" type="radio" class="custom-control-input" name="priod" id="btnRadio1">
+                                        <label class="custom-control-label" for="btnRadio1">امروز </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="custom-control custom-control-sm custom-radio custom-control-pro">
+                                        <input {{ request("priod")=="1"?"checked":"" }} value="1" type="radio" class="custom-control-input" name="priod" id="btnRadio2">
+                                        <label class="custom-control-label" for="btnRadio2">دیروز</label>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="custom-control custom-control-sm custom-radio custom-control-pro">
+                                        <input {{ request("priod")=="7"?"checked":"" }} value="7" type="radio" class="custom-control-input" name="priod" id="btnRadio3">
+                                        <label class="custom-control-label" for="btnRadio3">7 روز اخیر</label>
+                                    </div>
+                                </li>
+
+
+                                <li>
+                                    <div class="custom-control custom-control-sm custom-radio custom-control-pro">
+                                        <input {{ request("priod")=="30"?"checked":"" }} value="30" type="radio" class="custom-control-input" name="priod" id="btnRadio4">
+                                        <label class="custom-control-label" for="btnRadio4">30 روز اخیر</label>
+                                    </div>
+                                </li>
+
+
+
+                            </ul>
+                        </div>
+                        <div class="col-lg-3 mb-3">
+                            <div class="d-flex justify-content-start">
+                                <div class="form-wrap w-150px ml-2 d-flex">
+                                    <label for="from">از</label>
+                                    <input type="text" name="from" value="{{ request('from') }}" class="form-control date-picker">
+                                </div>
+                                <div class="form-wrap w-150px d-flex">
+                                    <label for="to">تا </label>
+                                    <input type="text" name="to" value="{{ request('to') }}" class="form-control date-picker">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 mb-3">
+                            <button class="btn btn-danger">
+                                نتیجه
+                            </button>
+                        </div>
+                    </div>
+
+
+
+                    {{--  <div class="row">
                         <div class="col-lg-5 mb-3">
                             <ul class="custom-control-group">
                                 <li>
@@ -53,9 +130,8 @@
 
                         <div class="col-lg-3 mb-3">
                             <div class="form-wrap  ml-2">
-                                <label for="advertise_id" class="d-inline-block">تبلیغ من</label>
                                 <select name="advertise_id" id="advertise_id" class="form-control w-150px d-inline-block">
-                                    <option value="">همه</option>
+                                    <option value="">تبلیغ  من</option>
                                     @foreach ($user->advertises as $ad )
                                     <option {{ request('advertise_id')==$ad->id?"selected":"" }} value="{{ $ad->id }}">
                                         {{ $ad->title }}
@@ -85,7 +161,7 @@
                             </button>
 
                         </div>
-                    </div>
+                    </div>  --}}
                 </form>
 
             </div>

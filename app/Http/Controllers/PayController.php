@@ -37,10 +37,16 @@ class PayController extends Controller
                 ]);
             }
             $type = $advertise->type;
-            $info['limit_daily'] = $request->limit_daily_view;
             if ($request->limit_daily_click) {
                 $info['limit_daily'] = $request->limit_daily_click;
             }
+            if ($request->limit_daily_view) {
+                $info['limit_daily'] = $request->limit_daily_view;
+            }
+            if(! $request->limit_daily_view){
+                $info['limit_daily'] = 900000000;
+            }
+
             $advertise->update( $info);
             $data['limit_daily'] = $request->limit_daily_view;
             if ($request->limit_daily_click) {
@@ -294,7 +300,7 @@ class PayController extends Controller
                 We can catch the exception to handle invalid payments.
                 getMessage method, returns a suitable message that can be used in user interface.
              **/
-            dd($exception->getMessage());
+            // dd($exception->getMessage());
             toast()->warning('پرداخت با مشکل موجه شد ');
             return redirect()->route("result.pay", $transaction->id);
             // echo $exception->getMessage();

@@ -64,11 +64,13 @@
     background: #854fff;
     width: 100%;
 }
-.custom-control-pro.custom-control-sm .custom-control-label::after{
+
+.custom-control-pro.custom-control-sm .custom-control-label::before, .custom-control-pro.custom-control-sm .custom-control-label::after{
     right:.012rem!important;
+
 }
 .custom-control-pro.custom-control-sm .custom-control-label{
-    padding: 1rem 1.8rem!important;
+    padding: .2rem 1.8rem!important;
 }
 .form_close {
     cursor: pointer;
