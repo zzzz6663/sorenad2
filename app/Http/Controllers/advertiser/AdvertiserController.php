@@ -336,6 +336,9 @@ class AdvertiserController extends Controller
             if ($request->limit_daily_click) {
                 $data['limit_daily'] = $request->limit_daily_click;
             }
+            if(!$data['limit_daily']){
+                $data['limit_daily'] = 90000000000000;
+            }
             if (!$request->ajax()) {
                 $data['advertise_id'] =  $advertise->id;
                 $advertise = $user->advertises()->create($data);

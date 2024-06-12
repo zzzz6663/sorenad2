@@ -16,7 +16,7 @@
                             <div class="buttons-box position-relative">
                                 @if($advertise->type!="text")
 
-                                @includeIf("admin.add_temp.$advertise->type",['site'=>App\Models\Site::find(18),'ip'=>1])
+                                @includeIf("admin.add_temp.$advertise->type",['site'=>App\Models\Site::find(1),'ip'=>1])
                                 @else
                                 <a href="{{ $advertise->landing_link1 }}">
                                     {{$advertise->text}}

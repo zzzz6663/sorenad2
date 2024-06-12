@@ -182,7 +182,7 @@
                             <span class="line_wrapper"></span></pre>
                         <span data-id="sorenad_text" class="btn btn-success copy_h">کپی </span>
                     </div>
-                </div>ّ
+                </div>
                 <div class="col-lg-6 mb-5">
                     <span class="pl-4">
                         کد تبلیغات بنری مناسب قبل یا بعد از نمایش مطلب عرض : ۸۰۰ ارتفاع : ۱۳۱
