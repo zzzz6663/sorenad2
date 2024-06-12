@@ -16,7 +16,7 @@
         <div class="card">
             <div class="card-inner">
                 <div class="row">
-
+{{--    --}}
                     <div class="col-lg-12 mb-2">
                         <span class="pl-4">
                             کد اسکریپت
