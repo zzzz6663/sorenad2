@@ -138,6 +138,7 @@ class ApiController extends Controller
                 $hamsan = view($hamsan_temp, compact(['advertise', "site", "ip"]))->render();
             }
         }
+        // sss
         return response()->json([
             'all' => $request->all(),
             'ip' =>  $ip,
