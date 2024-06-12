@@ -160,6 +160,7 @@ class ApiController extends Controller
             'video' => $video,
             'hamsan' => $hamsan,
             'text' => $text,
+            'device' => $device,
             'popup' => $popup,
             'site' => $site,
             'back_popup' =>   $site_owner->back_popup,
