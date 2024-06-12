@@ -47,6 +47,7 @@ return [
     // 'popup_user_vip_show' => 'تنظیم نرخ هر نمایش کاربر vip ',
     // 'popup_user_normal_click' => 'تنظیم نرخ هر کلیک کاربر معمولی ',
     // 'popup_user_normal_show' => 'تنظیم نرخ هر نمایش کاربر معمولی ',
+    // 'popup_user_normal_show' => 'تنظیم نرخ هر نمایش کاربر معمولی ',
 
     'popup_title' => ' تنظیمات تبلیغات پاپ آپ',
     'popup_active_site' => ' فعال کردن تبلیغ در سایت',
