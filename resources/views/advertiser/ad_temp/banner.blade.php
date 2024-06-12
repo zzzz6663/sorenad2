@@ -48,7 +48,7 @@
             <label class="form-label" for="default-06">آپلود فایل  بنر</label>
             <div class="form-control-wrap">
                 <div class="form-file">
-                    <input type="file" id="banner1" name="banner1" class="form-file-input" accept="image/png, image/jpeg">
+                    <input type="file" id="banner1" name="banner1" class="form-file-input" accept="image/gif,image/png, image/jpeg">
                     <label class="form-file-label" for="customFile"></label>
                     <span class="info_txt">
                         سایز متناسب ستون کناری سایت ها
@@ -64,7 +64,7 @@
             <label class="form-label" for="default-06">آپلود فایل  بنر</label>
             <div class="form-control-wrap">
                 <div class="form-file">
-                    <input type="file" id="banner2" name="banner2" class="form-file-input" accept="image/png, image/jpeg">
+                    <input type="file" id="banner2" name="banner2" class="form-file-input" accept="image/gif,image/png, image/jpeg">
                     <label class="form-file-label" for="customFile"></label>
                     <span class="info_txt">
                         سایز متناسب قبل یا بعد از نمایش مطالب
