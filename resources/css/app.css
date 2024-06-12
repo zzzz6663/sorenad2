@@ -64,13 +64,18 @@
     background: #854fff;
     width: 100%;
 }
-
+.custom-control-pro.custom-control-sm .custom-control-label::after{
+    right:.012rem!important;
+}
+.custom-control-pro.custom-control-sm .custom-control-label{
+    padding: 1rem 1.8rem!important;
+}
 .form_close {
     cursor: pointer;
 }
 .pointer {
     cursor: pointer!important;
-    
+
     /*  */
 }
 

@@ -128,7 +128,7 @@
                         </div>
                         <div class="row">
 
-                                <div class="col-lg-6 mb-1">
+                                <div class="col-lg-12 mb-1">
                                     <div class="alert alert-info   text-center p-1 ">
                                             <div class=" ">
                                                 درآمد 100 کلیک
@@ -140,7 +140,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6  mb-1">
+                                <div class="col-lg-12  mb-1">
                                     <div class="alert alert-primary  p-1 text text-center">
                                             <div class=" ">
                                                 درآمد 1000 کلیک

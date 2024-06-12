@@ -205,8 +205,8 @@ class ApiController extends Controller
         } else {
             $advertise = $advertise
             ->orderBy('order_count', 'ASC')
-                ->orderByRaw('RAND()')
-                // ->inRandomOrder()
+                // ->orderByRaw('RAND()')
+                ->inRandomOrder()
                 ->first();
         }
 

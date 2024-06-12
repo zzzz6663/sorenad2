@@ -9,6 +9,7 @@
 
     <h2 class="nk-block-title fw-normal">ثبت اطلاعات سایت</h2>
     <br>
+    @include('main.error')
     <form action="{{ route("advertiser.site.script") }}" method="post">
         @csrf
         @method('post')
