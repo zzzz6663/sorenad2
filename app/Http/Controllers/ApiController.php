@@ -206,7 +206,7 @@ class ApiController extends Controller
             $advertise = $advertise->take(10)->get();;
         } else {
             $advertise = $advertise
-            ->orderBy('order_count', 'ASC')
+            // ->orderBy('order_count', 'ASC')
                 // ->orderByRaw('RAND()')
                 ->inRandomOrder()
                 ->first();
