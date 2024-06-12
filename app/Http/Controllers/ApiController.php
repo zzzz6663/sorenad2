@@ -177,7 +177,7 @@ class ApiController extends Controller
             $device="computer";
         }
         $advertise = Advertise::where('active', 1)->whereType($type)->where("confirm", "!=", "null")->whereStatus("ready_to_show");
-
+        $advertise->orderByRaw('RAND()');
         $advertise->whereHas('cats', function ($query) use ($site) {
             $query->where('id', $site->cat_id);
         });
@@ -208,7 +208,7 @@ class ApiController extends Controller
             $advertise = $advertise
             // ->orderBy('order_count', 'ASC')
                 // ->orderByRaw('RAND()')
-                ->inRandomOrder()
+                // ->inRandomOrder()
                 ->first();
         }
 
