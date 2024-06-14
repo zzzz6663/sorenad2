@@ -24,14 +24,8 @@ use Laravel\Socialite\Facades\Socialite;
 class ApiController extends Controller
 {
 
-
-
-
-
     public function ads(Request $request)
     {
-
-
         // return response()->json([
         //     'site' =>  "not_ok",
         // ]);
@@ -39,14 +33,13 @@ class ApiController extends Controller
         $ip = $user->get_ip();
 
         $machin = $request->header('User-Agent');
-        $css = response()->make(asset('/css/css_add.css'));
+        $css = response()->make(asset('/css/css_add2.css'));
         $css = asset('/css/css_add.css');
         $domin = $request->domin;
         $device = $request->device;
         if($device=='desktop'){
             $device="computer";
         }
-
         $advertise = null;
         $fixpost = null;
         $banner = null;
