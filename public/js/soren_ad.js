@@ -86,7 +86,7 @@ function isElementInViewport(el) {
 
 
 
-
+let clicked =false
 async function fetchData() {
     try {
         // const data1 = await loadDoc1();
@@ -100,7 +100,15 @@ async function fetchData() {
         if(res.popup){
             console.log("popup")
             setTimeout(() => {
-                window.open(res.popup, "popupWindow", "width=600,height=600,scrollbars=yes,")
+                if (!clicked) {
+                    window.open(res.popup, '_blank', 'width=600,height=600,toolbar=1,scrollbars=1,location=1,statusbar=1,menubar=1,resizable=1')
+                    window.focus();
+                    console.log('این دکمه فقط یکبار کلیک می‌شود');
+                    clicked = true; // پس از اولین کلیک مقدار متغیر را تغییر می‌دهد
+                } else {
+                    console.log('این دکمه قبلاً کلیک شده است');
+                }
+                // window.open(res.popup, "popupWindow", "width=600,height=600,scrollbars=yes,")
             }, 200);
         }
         if(device=="mobile" && res.app){

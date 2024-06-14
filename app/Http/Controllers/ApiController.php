@@ -65,6 +65,7 @@ class ApiController extends Controller
         $app_temp = ("admin.add_temp.app");
         $fixpost_temp = ("admin.add_temp.fixpost");
         $banner_temp = ("admin.add_temp.banner");
+        $banner_temp2 = ("admin.add_temp.banner2");
         $video_temp = ("admin.add_temp.video");
         $hamsan_temp = ("admin.add_temp.hamsan");
         $text_temp = ("admin.add_temp.text");
@@ -117,7 +118,7 @@ class ApiController extends Controller
         if ($banner2_req) {
             $advertise = $this->query($site, $request, "banner", $ip);
             if ($advertise) {
-                $banner2= view($banner_temp, compact(['advertise', "site", "ip"]))->render();
+                $banner2= view($banner_temp2, compact(['advertise', "site", "ip"]))->render();
             }
         }
         if ($video_req) {
