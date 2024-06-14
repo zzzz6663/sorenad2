@@ -91,6 +91,7 @@ async function fetchData() {
     try {
         // const data1 = await loadDoc1();
         // console.log("First operation completed with data:", data1);
+        // console.log("First operation completed with data:", data1);
 
      let res= await loadDoc2();
      console.log(res)
